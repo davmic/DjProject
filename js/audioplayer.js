@@ -1,28 +1,42 @@
 ////////////////////////////// VARIABLE AUDIO //////////////////////////////
 var audio = document.getElementById('audioPlayer');
+var ctx;
+var decodedSound;
+var bufferSource;
 
+window.onload = function init() {
+  // To make it work even on browsers like Safari, that still
+  // do not recognize the non prefixed version of AudioContext
+var audioContext = window.AudioContext || window.webkitAudioContext;
+  // get the AudioContext
+ctx = new audioContext();
+};
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
 
     function play(idPlayer, control) {
       var player = document.querySelector('#' + idPlayer);
     
       if (player.paused) {
-          player.play();
+          //player.play();
+      playSound(decodedSound);
           pButton.className = "";
           pButton.className = "pause";
       } else {
-          player.pause(); 
+          //player.pause(); 
+      bufferSource.stop();
           pButton.className = "";
           pButton.className = "play";
       }
+    
   }
 
 ////////////////////////////// STOP //////////////////////////////
 
   function stop(idPlayer) {
       var player = document.querySelector('#' + idPlayer);
-      player.currentTime = 0;
-      player.pause();
+      //player.currentTime = 0;
+      //player.pause();
+    bufferSource.stop();
   }
 
 
@@ -152,7 +166,44 @@ $("#file").change(function(e){
 
     objectUrl = URL.createObjectURL(file);
     $("#audioPlayer").prop("src", objectUrl);
+  loadSoundUsingAjax(objectUrl);
 });
+
+function loadSoundUsingAjax(url) {
+  var request = new XMLHttpRequest();
+  
+  request.open('GET', url, true);
+  // Important: we're loading binary data
+  request.responseType = 'arraybuffer';
+
+  // Decode asynchronously
+  request.onload = function() {
+    console.log("Sound loaded");
+    
+    // Let's decode it. This is also asynchronous
+    ctx.decodeAudioData(request.response, function(buffer) {
+      console.log("Sound decoded");
+      decodedSound = buffer;
+      // we enable the button
+      playButton.disabled = false;
+    }, function(e) {
+      console.log("error");});
+    };
+  
+    // send the request. When the file will be loaded,
+    // the request.onload callback will be called (above)
+  request.send();
+}
+
+function playSound(buffer){
+    bufferSource = ctx.createBufferSource();
+    bufferSource.buffer = buffer;
+    bufferSource.connect(ctx.destination);
+    bufferSource.start();
+}
+
+//function pauseSound(buffer) {
+
 
 ///////////////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////////////
 

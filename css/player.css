@@ -1,0 +1,172 @@
+body {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+
+
+#imgDrake {
+	width: 200px;
+	box-shadow: 4px 4px 8px #aaa;
+}
+
+#imgDrake, #filename, #progressTime, #progressTime, #progressBarControl{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	display: block;
+}
+
+#filename {
+	padding: 1em;
+}
+
+#divPlayer {
+	width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #489FD6;;
+	border-radius: 2px;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	display: block;
+	background-color: white;
+}
+
+#bcqd {
+	background-color: #2B2B2B;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+h1 {
+	font-size: 17px;
+	line-height: 30px;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 25px;
+}
+
+#progressBarControl {
+	width: 300px;
+	height: 4px;
+	border: 1px solid #aaa;
+	border-radius: 2px;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#progressBar {
+	width: 0px;
+	background: #489FD6;
+	height: 4px;
+	line-height: 15px;
+	font-size: 9px;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+#progressTime {
+	font-size: 15px;
+	padding: .5em;
+	color: #666;
+	text-align: center;
+}
+
+
+
+/* volume bar */
+ .volume {
+ 	display: inline-block;
+ 	text-align: center;
+    position:relative;
+    cursor:pointer;
+    width:70px;
+    height:10px;
+ /* margin-top:10px;
+    margin-right:10px;*/
+    background-color:#DEDEDE;
+}
+
+.volumeBar {
+    display:block;
+    width: 70%;
+    height:10px;
+/*    position:absolute;*/
+    top:0;
+    left:0;
+    background-color:#489FD6;
+    z-index:10;
+}
+
+.volume3 {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 50px 100px;
+    border-color: transparent transparent #007bff transparent;
+    line-height: 0px;
+    _border-color: #000000 #000000 #007bff #000000;
+    _filter: progid:DXImageTransform.Microsoft.Chroma(color='#000000');
+}
+
+#pButton, #sButton{
+    border: none;
+    background-repeat: no-repeat;
+    background-color: white;
+    outline:none;
+    text-align: center;
+}
+
+#sButton {
+	height:30px; 
+    width: 30px;
+    background-size: 50% 50%;
+    background-position: center;
+    vertical-align: middle;
+}
+
+ 
+#pButton {
+	height:50px; 
+    width: 50px;
+    background-size: 50% 50%;
+    background-position: center;
+    vertical-align: middle;
+}
+
+.btnPayer, .btnPayer2 {
+    margin: 0.5em;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+} 
+
+.btnPayer2 {
+	width: 130px; 
+}
+
+#mutePct {
+	width: 20px;
+	vertical-align: middle;
+}
+
+#mute {
+	display: inline-block;
+	float: left;
+}
+
+.boccara {
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 11px;
+    margin: 5px;
+    font-family: impact;
+    font-style: normal;
+    font-size: 19px;
+    text-align: center;
+    text-decoration: none;
+}
+
+#logo {
+	width: 200px;
+	text-align: left;
+}

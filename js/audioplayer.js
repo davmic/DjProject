@@ -15,16 +15,17 @@ window.onload = function init() {
 function play(idPlayer, control) {
     var player = document.querySelector('#' + idPlayer);
     
-    if (player.paused) {
+    if (playList1[0].paused) {
+		playList1[0].load();
 		playList1[0].play();
         pButton.className = "";
         pButton.className = "pause";
-		player.play();
+		//player.play();
     } else {
 		playList1[0].stop();
         pButton.className = "";
         pButton.className = "play";
-		player.pause();
+		//player.pause();
     }
     
 }
@@ -33,6 +34,8 @@ function play(idPlayer, control) {
 
 function stop(idPlayer) {
     var player = document.querySelector('#' + idPlayer);
+	pButton.className = "";
+    pButton.className = "play";
     playList1[0].stop();
 }
 
@@ -185,7 +188,7 @@ function loadSoundUsingAjax(music) {
 			music.decodedSound = buffer;
 			// we enable the button
 			//playButton.disabled = false;
-			music.load();
+			//music.load();
 		}, function(e) {
 			console.log("error");});
 		};

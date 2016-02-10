@@ -30,7 +30,8 @@ function Music(songName, context, url) {
     };
 	
 	this.stop = function () {
-		this.elapsedTimeSinceStart = this.decodedSound.duration;console.log(this.elapsedTimeSinceStart);
+		//a calculer//this.elapsedTimeSinceStart = ;
 		this.bufferSource.stop();console.log(this.bufferSource);
+		this.paused = true;
 	};
 }

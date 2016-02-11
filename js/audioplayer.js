@@ -2,7 +2,6 @@
 var audio = document.getElementById('audioPlayer');
 var ctx;
 var playList1 = [];
-var gainExemple, gainSlider, gainNode;
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
@@ -16,16 +15,14 @@ function play(idPlayer, control) {
     var player = document.querySelector('#' + idPlayer);
     
     if (playList1[0].paused) {
-		playList1[0].load();
+		playList1[0].buildGraph();
 		playList1[0].play();
         pButton.className = "";
         pButton.className = "pause";
-		//player.play();
-    } else {
-		playList1[0].stop();
+    } else {console.log(playList1[0].decodedSound.duration);
+		playList1[0].stop("pause");
         pButton.className = "";
         pButton.className = "play";
-		//player.pause();
     }
     
 }
@@ -34,7 +31,7 @@ function play(idPlayer, control) {
 
 function stop(idPlayer) {
     var player = document.querySelector('#' + idPlayer);
-    playList1[0].stop();
+    playList1[0].stop("stop");
 	pButton.className = "";
     pButton.className = "play";
     
@@ -135,7 +132,6 @@ function loadSoundUsingAjax(music) {
            // playList1[0].gainNode.connect(ctx.destination);
 			// we enable the button
 			//playButton.disabled = false;
-			//music.load();
 		}, function(e) {
 			console.log("error");});
 		};

@@ -11,7 +11,8 @@ function Music(songName, context, url) {
     //this.volume = 1;
     // elapsed time (since beginning, in seconds (float))
     this.elapsedTimeSinceStart = 0;
-
+	this.timeStartOnAudioContext;
+	
     // song is paused ?
     this.paused = true;
 
@@ -20,27 +21,30 @@ function Music(songName, context, url) {
 
 
 	this.gainNode = this.audioContext.createGain();
-	console.log("valeur biatch :" + this.gainNode.gain.value); 
-	this.mySource;
 
-	this.load = function () {
+	this.buildGraph = function () {
 		this.bufferSource = this.audioContext.createBufferSource();
 		this.bufferSource.buffer = this.decodedSound;
-		//this.bufferSource.connect(this.audioContext.destination);
-
 		this.bufferSource.connect(this.gainNode);
 		this.gainNode.connect(this.audioContext.destination);
 	};
 		
 
-	this.play = function () {console.log(this.bufferSource);
-		this.bufferSource.start();
+	this.play = function () {
+		this.timeStartOnAudioContext = this.audioContext.currentTime;
+		this.bufferSource.start(0,this.elapsedTimeSinceStart);
         this.paused = false;
     };
 	
-	this.stop = function () {
-		//a calculer//this.elapsedTimeSinceStart = ;
-		this.bufferSource.stop();console.log(this.bufferSource);
+	this.stop = function (type) {
+		if ( type === "stop") {
+			this.elapsedTimeSinceStart = 0;
+		}
+		else {
+		var timeStopOnAudioContext = this.audioContext.currentTime;
+		this.elapsedTimeSinceStart += (timeStopOnAudioContext-this.timeStartOnAudioContext);
+		}
+		this.bufferSource.stop();
 		this.paused = true;
 	};
 
@@ -53,13 +57,10 @@ function Music(songName, context, url) {
 	this.changeVolume = function(element) {
 	    var volume = element.value;
 	    var fraction = volume / element.max ;
- 		console.log("valeur"+element.value);
 	
  		 this.gainNode.gain.value = volume;
 	   // this.gainNode.gain.value = fraction* fraction;
 	    //this.gainNode.gain.changeVolume.value =  fraction * 30;
-	    console.log(element.value);
-	    console.log(this.gainNode.gain.value);      // Console log of gain value when slider is moved
 	};
 
 

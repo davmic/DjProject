@@ -48,19 +48,9 @@ function Music(songName, context, url) {
 		this.paused = true;
 	};
 
-
-
-
-
 	//volume control
-
-	this.changeVolume = function(element) {
-	    var volume = element.value;
-	    var fraction = volume / element.max ;
-	
- 		 this.gainNode.gain.value = volume;
-	   // this.gainNode.gain.value = fraction* fraction;
-	    //this.gainNode.gain.changeVolume.value =  fraction * 30;
+	this.changeVolume = function(volume) {
+	    this.gainNode.gain.value = volume;
 	};
 
 

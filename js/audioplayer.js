@@ -2,12 +2,18 @@
 var audio = document.getElementById('audioPlayer');
 var ctx;
 var playList1 = [];
+var gainSlider;
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
 	var audioContext = window.AudioContext || window.webkitAudioContext;
 	// get the AudioContext
 	ctx = new audioContext();
+	// input listener on the gain slider
+	gainSlider = document.querySelector('#gainSlider');
+	gainSlider.oninput = function(evt){
+		playList1[0].changeVolume(evt.target.value);
+	}; 
 };
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
 
@@ -19,7 +25,7 @@ function play(idPlayer, control) {
 		playList1[0].play();
         pButton.className = "";
         pButton.className = "pause";
-    } else {console.log(playList1[0].decodedSound.duration);
+    } else {
 		playList1[0].stop("pause");
         pButton.className = "";
         pButton.className = "play";
@@ -124,12 +130,6 @@ function loadSoundUsingAjax(music) {
 		ctx.decodeAudioData(request.response, function(buffer) {
 			console.log("Sound decoded");
 			music.decodedSound = buffer;
-
-                // gainExample = document.querySelector('#gainExample');
-              //var gainMediaElementSource = audioContext.createMediaElementSource(gainExample);
-
-
-           // playList1[0].gainNode.connect(ctx.destination);
 			// we enable the button
 			//playButton.disabled = false;
 		}, function(e) {
@@ -140,10 +140,3 @@ function loadSoundUsingAjax(music) {
     // the request.onload callback will be called (above)
 	request.send();
 }
-
-
-function changeVolume(test){
-    //alert(playList1.length);
-    playList1[0].changeVolume(test);
-}
-

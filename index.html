@@ -48,7 +48,7 @@
 	<div id="bcqd">
     <div id="divPlayer">
  
-        <audio id="audioPlayer" ontimeupdate="update(this)" crossorigin="anonymous">
+        <audio id="audioPlayer"  ontimeupdate="update(this)" crossorigin="anonymous">
           <source src="music/music.ogg"></source>
 	      <source src="music/music.mp3"></source>  
         </audio>
@@ -68,18 +68,18 @@
 		  <button class="control previous" id="sButton"></button>
 		  <button class="control play" id="pButton" onclick="play('audioPlayer', this)"></button>
 		  <button class="control next" id="sButton"></button>
+
+  
+        
+          <input type="range" min="0" max = "1" step="0.01" value="1" id="gainSlider" onchange="changeVolume(this);" />
+
         </div>
         
-        <div class="btnPayer2">
-        	<div><a href="#noscroll" id="mute"><img id="mutePct" src="images/mute.png"></a></div>
-	        <div class="volume" title="Set volume">
-	  	        <span class="volumeBar"></span>
-	        </div> 
-        </div>
+      
 	     
 	</div>
     </div>
-
+   
 <script src="js/audioplayer.js"></script>
   </body>
 </html>

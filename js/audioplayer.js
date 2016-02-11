@@ -2,7 +2,7 @@
 var audio = document.getElementById('audioPlayer');
 var ctx;
 var playList1 = [];
-
+var gainExemple, gainSlider, gainNode;
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
@@ -34,9 +34,10 @@ function play(idPlayer, control) {
 
 function stop(idPlayer) {
     var player = document.querySelector('#' + idPlayer);
+    playList1[0].stop();
 	pButton.className = "";
     pButton.className = "play";
-    playList1[0].stop();
+    
 }
 
 
@@ -81,66 +82,6 @@ function formatTime(time) {
 }
 
 
-////////////////////////////// VOLUME //////////////////////////////
-
-$('.muted').click(function () {
-    audio.muted = !audio.muted;
-    return false;
-});
-
-//VOLUME BAR
-//volume bar event
-var volumeDrag = false;
-$('.volume').on('mousedown', function (e) {
-    volumeDrag = true;
-    audio.muted = false;
-    $('.sound').removeClass('muted');
-    updateVolume(e.pageX);
-});
-$(document).on('mouseup', function (e) {
-    if (volumeDrag) {
-        volumeDrag = false;
-        updateVolume(e.pageX);
-    }
-});
-$(document).on('mousemove', function (e) {
-    if (volumeDrag) {
-        updateVolume(e.pageX);
-    }
-});
-var updateVolume = function (x, vol) {
-    var volume = $('.volume');
-    var percentage;
-    //if only volume have specificed
-    //then direct update volume
-    if (vol) {
-        percentage = vol * 100;
-    } else {
-        var position = x - volume.offset().left;
-        percentage = 100 * position / volume.width();
-    }
-
-    if (percentage > 100) {
-        percentage = 100;
-    }
-    if (percentage < 0) {
-        percentage = 0;
-    }
-
-    //update volume bar and video volume
-    $('.volumeBar').css('width', percentage + '%');
-    audio.volume = percentage / 100;
-
-    //change sound icon based on volume
-    if (audio.volume == 0) {
-        $('.sound').removeClass('sound2').addClass('muted');
-    } else if (audio.volume > 0.5) {
-        $('.sound').removeClass('muted').addClass('sound2');
-    } else {
-        $('.sound').removeClass('muted').removeClass('sound2');
-    }
-
-};
 
 
 ///////////////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////////////
@@ -186,6 +127,12 @@ function loadSoundUsingAjax(music) {
 		ctx.decodeAudioData(request.response, function(buffer) {
 			console.log("Sound decoded");
 			music.decodedSound = buffer;
+
+                // gainExample = document.querySelector('#gainExample');
+              //var gainMediaElementSource = audioContext.createMediaElementSource(gainExample);
+
+
+           // playList1[0].gainNode.connect(ctx.destination);
 			// we enable the button
 			//playButton.disabled = false;
 			//music.load();
@@ -198,10 +145,9 @@ function loadSoundUsingAjax(music) {
 	request.send();
 }
 
-///////////////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////////////
 
-    document.getElementById('mute').addEventListener('click', function (e) {
-        e = e || window.event;
-        audio.muted = !audio.muted;
-        e.preventDefault();
-    }, false);
+function changeVolume(test){
+    //alert(playList1.length);
+    playList1[0].changeVolume(test);
+}
+

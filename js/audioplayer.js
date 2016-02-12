@@ -3,17 +3,31 @@ var audio = document.getElementById('audioPlayer');
 var ctx;
 var playList1 = [];
 var gainSlider;
+var FilterSample = {
+  FREQ_MUL: 7000,
+  QUAL_MUL: 30,
+  playing: true
+};
+
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
 	var audioContext = window.AudioContext || window.webkitAudioContext;
 	// get the AudioContext
 	ctx = new audioContext();
+	
 	// input listener on the gain slider
 	gainSlider = document.querySelector('#gainSlider');
 	gainSlider.oninput = function(evt){
 		playList1[0].changeVolume(evt.target.value);
+	};
+		
+	// imput listener sur freqFilter
+	FilterSample = document.querySelector('#FilterSample');
+	FilterSample.oninput = function(ett){
+		playList1[0].changeFrequency(ett.target.value);
 	}; 
+
 };
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
 
@@ -60,7 +74,27 @@ function update(player) {
     document.querySelector('#progressTime').textContent = formatTime(time);
 }
 
-
+//////////////////////////// EFFET ///////////////////////////////////////
+//filtre lowpass
+	FilterSample.FiltreLowPass = function (element) {
+	  // Clamp the frequency between the minimum value (40 Hz) and half of the
+	  // sampling rate.
+	  var minValue = 40;
+	  var maxValue = context.sampleRate / 2;
+	  // Logarithm (base 2) to compute how many octaves fall in the range.
+	  var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2;
+	  // Compute a multiplier from 0 to 1 based on an exponential scale.
+	  var multiplier = Math.pow(2, numberOfOctaves * (element.value - 1.0));
+	  // Get back to the frequency value between min and max.
+	  this.filter.frequency.value = maxValue * multiplier;	
+	};
+	/*
+// filtre quality
+	FilterSample.FiltreQuality = function FiltreQuality(element) {
+	  this.filter.Q.value = element.value * this.QUAL_MUL;
+	};*/
+	
+	
 ////////////////////////////// TEMPS DE LA MUSIQUE //////////////////////////////
 
 function formatTime(time) {

@@ -71,8 +71,12 @@
 
   
         
-          <input type="range" min="0" max = "1" step="0.01" value="1" id="gainSlider" />
+          <input type="range" min="0" max = "1" step="0.01" value="1"  id="gainSlider" />
 
+		  <input type="range" min="0" max="1" step="0.01" value="1" oninput="FilterSample.FiltreLowPass('audioPlayer');" >
+		  <!--
+		  <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
+		  -->
         </div>
         
       

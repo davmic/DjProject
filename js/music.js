@@ -23,8 +23,7 @@ function Music(songName, context, url) {
 	this.gainNode = this.audioContext.createGain();
 	
 	var filter = this.audioContext.createBiquadFilter();
-	filter.type = (typeof filter.type === 'string') ? 'lowpass' : 0; // LOWPASS
-	filter.frequency.value = 5000;
+	
   
 	// GRAPHE AUDIO (permet de connecter les noeuds à la source) /////
 	this.buildGraph = function () {
@@ -61,13 +60,14 @@ function Music(songName, context, url) {
 	};
 
 	//filtre lowpass
-	this.FiltreLowPass = function(lowpass) {
-		filter.frequency.value = lowpass;
+	
+	this.lowpass = function(freq) {
+		filter.frequency.value = freq;
 	};
 	
 	//filtre quality
-	this.FiltreQuality = function(quality) {
+	/*this.FiltreQuality = function(quality) {
 		filter.frequency.value = quality;
-	};
+	};*/
 	
 }

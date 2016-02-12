@@ -3,11 +3,12 @@ var audio = document.getElementById('audioPlayer');
 var ctx;
 var playList1 = [];
 var gainSlider;
-var FilterSample = {
+/*var FilterSample = {
   FREQ_MUL: 7000,
   QUAL_MUL: 30,
   playing: true
-};
+};*/
+
 
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
@@ -22,10 +23,10 @@ window.onload = function init() {
 		playList1[0].changeVolume(evt.target.value);
 	};
 		
-	// imput listener sur freqFilter
-	FilterSample = document.querySelector('#FilterSample');
-	FilterSample.oninput = function(ett){
-		playList1[0].changeFrequency(ett.target.value);
+	// input listener sur FiltreLowPass
+	filter = document.querySelector('#filter');
+	filter.oninput = function(element){
+		playList1[0].lowpass(element.target.value);
 	}; 
 
 };
@@ -76,18 +77,20 @@ function update(player) {
 
 //////////////////////////// EFFET ///////////////////////////////////////
 //filtre lowpass
-	FilterSample.FiltreLowPass = function (element) {
+
+
+	/*FilterSample.FiltreLowPass = function (element) {
 	  // Clamp the frequency between the minimum value (40 Hz) and half of the
 	  // sampling rate.
 	  var minValue = 40;
-	  var maxValue = context.sampleRate / 2;
+	  var maxValue = ctx.sampleRate / 2;
 	  // Logarithm (base 2) to compute how many octaves fall in the range.
 	  var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2;
 	  // Compute a multiplier from 0 to 1 based on an exponential scale.
 	  var multiplier = Math.pow(2, numberOfOctaves * (element.value - 1.0));
 	  // Get back to the frequency value between min and max.
 	  this.filter.frequency.value = maxValue * multiplier;	
-	};
+	};*/
 	/*
 // filtre quality
 	FilterSample.FiltreQuality = function FiltreQuality(element) {

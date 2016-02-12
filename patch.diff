@@ -1,0 +1,125 @@
+diff --git a/index.html b/index.html
+index 78f857d..13ffe7f 100644
+--- a/index.html
++++ b/index.html
+@@ -71,8 +71,12 @@
+ 
+   
+         
+-          <input type="range" min="0" max = "1" step="0.01" value="1" id="gainSlider" />
++          <input type="range" min="0" max = "1" step="0.01" value="1"  id="gainSlider" />
+ 
++		  <input type="range" min="0" max="1" step="0.01" value="1" oninput="FilterSample.FiltreLowPass('audioPlayer');" >
++		  <!--
++		  <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
++		  -->
+         </div>
+         
+       
+diff --git a/js/audioplayer.js b/js/audioplayer.js
+index 2c9a0c7..2953240 100644
+--- a/js/audioplayer.js
++++ b/js/audioplayer.js
+@@ -3,17 +3,31 @@ var audio = document.getElementById('audioPlayer');
+ var ctx;
+ var playList1 = [];
+ var gainSlider;
++var FilterSample = {
++  FREQ_MUL: 7000,
++  QUAL_MUL: 30,
++  playing: true
++};
++
+ window.onload = function init() {
+ 	// To make it work even on browsers like Safari, that still
+ 	// do not recognize the non prefixed version of AudioContext
+ 	var audioContext = window.AudioContext || window.webkitAudioContext;
+ 	// get the AudioContext
+ 	ctx = new audioContext();
++	
+ 	// input listener on the gain slider
+ 	gainSlider = document.querySelector('#gainSlider');
+ 	gainSlider.oninput = function(evt){
+ 		playList1[0].changeVolume(evt.target.value);
++	};
++		
++	// imput listener sur freqFilter
++	FilterSample = document.querySelector('#FilterSample');
++	FilterSample.oninput = function(ett){
++		playList1[0].changeFrequency(ett.target.value);
+ 	}; 
++
+ };
+ ////////////////////////////// PLAY / PAUSE //////////////////////////////
+ 
+@@ -60,7 +74,27 @@ function update(player) {
+     document.querySelector('#progressTime').textContent = formatTime(time);
+ }
+ 
+-
++//////////////////////////// EFFET ///////////////////////////////////////
++//filtre lowpass
++	FilterSample.FiltreLowPass = function (element) {
++	  // Clamp the frequency between the minimum value (40 Hz) and half of the
++	  // sampling rate.
++	  var minValue = 40;
++	  var maxValue = context.sampleRate / 2;
++	  // Logarithm (base 2) to compute how many octaves fall in the range.
++	  var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2;
++	  // Compute a multiplier from 0 to 1 based on an exponential scale.
++	  var multiplier = Math.pow(2, numberOfOctaves * (element.value - 1.0));
++	  // Get back to the frequency value between min and max.
++	  this.filter.frequency.value = maxValue * multiplier;	
++	};
++	/*
++// filtre quality
++	FilterSample.FiltreQuality = function FiltreQuality(element) {
++	  this.filter.Q.value = element.value * this.QUAL_MUL;
++	};*/
++	
++	
+ ////////////////////////////// TEMPS DE LA MUSIQUE //////////////////////////////
+ 
+ function formatTime(time) {
+diff --git a/js/music.js b/js/music.js
+index 7cb8ffc..d4e8813 100644
+--- a/js/music.js
++++ b/js/music.js
+@@ -21,12 +21,19 @@ function Music(songName, context, url) {
+ 
+ 
+ 	this.gainNode = this.audioContext.createGain();
+-
++	
++	var filter = this.audioContext.createBiquadFilter();
++	filter.type = (typeof filter.type === 'string') ? 'lowpass' : 0; // LOWPASS
++	filter.frequency.value = 5000;
++  
++	// GRAPHE AUDIO (permet de connecter les noeuds à la source) /////
+ 	this.buildGraph = function () {
+ 		this.bufferSource = this.audioContext.createBufferSource();
+ 		this.bufferSource.buffer = this.decodedSound;
+ 		this.bufferSource.connect(this.gainNode);
+ 		this.gainNode.connect(this.audioContext.destination);
++		this.bufferSource.connect(filter);
++		filter.connect(this.audioContext.destination);
+ 	};
+ 		
+ 
+@@ -53,5 +60,14 @@ function Music(songName, context, url) {
+ 	    this.gainNode.gain.value = volume;
+ 	};
+ 
+-
++	//filtre lowpass
++	this.FiltreLowPass = function(lowpass) {
++		filter.frequency.value = lowpass;
++	};
++	
++	//filtre quality
++	this.FiltreQuality = function(quality) {
++		filter.frequency.value = quality;
++	};
++	
+ }
+\ No newline at end of file

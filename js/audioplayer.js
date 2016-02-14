@@ -3,6 +3,7 @@ var audio = document.getElementById('audioPlayer');
 var ctx;
 var playList1 = [];
 var gainSlider;
+/*var progressTime = document.querySelector('#progressTime');*/
 /*var FilterSample = {
   FREQ_MUL: 7000,
   QUAL_MUL: 30,
@@ -98,32 +99,6 @@ function update(player) {
 	};*/
 	
 	
-////////////////////////////// TEMPS DE LA MUSIQUE //////////////////////////////
-
-function formatTime(time) {
-    var hours = Math.floor(time / 3600);
-    var mins  = Math.floor((time % 3600) / 60);
-    var secs  = Math.floor(time % 60);
-    
-    if (secs < 10) {
-        secs = "0" + secs;
-    }
-    
-    if (hours) {
-        if (mins < 10) {
-            mins = "0" + mins;
-		}
-      
-        return hours + ":" + mins + ":" + secs; // hh:mm:ss
-    } else {
-        return mins + ":" + secs; // mm:ss
-    }
-
-}
-
-
-
-
 ///////////////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////////////
 
 $("#audioPlayer").on("canplaythrough", function(e){
@@ -169,6 +144,7 @@ function loadSoundUsingAjax(music) {
 			music.decodedSound = buffer;
 			// we enable the button
 			//playButton.disabled = false;
+			playList1[0].draw();
 		}, function(e) {
 			console.log("error");});
 		};

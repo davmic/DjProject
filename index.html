@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -53,15 +52,15 @@
 	      <source src="music/music.mp3"></source>  
         </audio>
 
-        <img id="imgDrake" src="images/drake.jpg">
+           <img id="imgDrake" src="images/drake.jpg">
 
       <div id="filename"></div>  
 
-	    <div id="progressTime">00:00</div>
+      <progress id="seekbar" value="0" max="10" style="width:400px;"></progress>
 
-	    <div id="progressBarControl">
-			<div id="progressBar" onclick="clickProgress('audioPlayer', this, event)"></div>
-	    </div>
+      <!-- <div id="progressBarControl">
+      <div id="progressBar" onclick="clickProgress('audioPlayer', this, event)"></div>
+      </div> -->
 
 	    <div class="btnPayer">
 	  	  <button class="control stop" id="sButton" onclick="stop('audioPlayer')"></button>

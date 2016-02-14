@@ -117,14 +117,17 @@ function Music(songName, context, url) {
     	if(!this.paused){
 			this.progressBar();  
 		 } 
+		//signale une animation et demande de rappeller la fonction draw
 	 	requestAnimationFrame(this.draw.bind(this));
 	};
 
 	//barre de progression
 	this.progressBar = function() {
 		this.animateTime();
+		//barre progression
 		$('#seekbar').attr("value",  this.elapsedTimeSinceStart);
-
+		//affichage temps
+		$('#progressTime').text((this.elapsedTimeSinceStart+"").toFormattedTime());
 
 	}
 

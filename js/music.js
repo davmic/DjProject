@@ -98,7 +98,6 @@ function Music(songName, context, url) {
             // delta = le temps "courant" de la musique, moins ce qu'il reste du morceaux
             var delta = currentTime - lastTime;
             if (this.decodedSound !== undefined) {                 
-                //View.frontCanvasContext.strokeStyle = "white";
                 //rajout du temps pour le temps total passe
                 this.elapsedTimeSinceStart += delta;
                 //temps precedent 
@@ -133,6 +132,7 @@ function Music(songName, context, url) {
 
 	this.stopProgressBar = function() {
 		$('#seekbar').attr("value", 0);
+		$('#progressTime').text((this.elapsedTimeSinceStart+"").toFormattedTime());
 		//console.log(this.getDuration());
 	}
 

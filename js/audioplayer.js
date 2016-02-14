@@ -10,7 +10,6 @@ var gainSlider;
   playing: true
 };*/
 
-
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext

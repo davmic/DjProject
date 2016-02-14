@@ -3,39 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <title>BOCCARA DJ</title>
+    
+    <!--CSS LINKS-->
     <link rel="stylesheet" type="text/css" href="css/player.css" /> 
+    
+    <!--JS LINKS-->
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
-    <!-- <script src="audioplayer.js"></script>-->
-	   <script src="js/music.js"></script>
-      <script src="js/time.js"></script>
+	  <script src="js/music.js"></script>
+    <script src="js/time.js"></script>
 
-    <style type="text/css">
- .play{
-  background-image: url("images/play.png");
-  background-repeat: no-repeat; 
-}
-
-.pause{
-  background-image: url("images/pause.png");
-  background-repeat: no-repeat;
-}
-
-.stop{
-  background-image: url("images/stop.png");
-  background-repeat: no-repeat;
-}
-
-.previous{
-  background-image: url("images/previous.png");
-  background-repeat: no-repeat;
-}
-
-.next{
-  background-image: url("images/next.png");
-  background-repeat: no-repeat;
-}
-
-    </style>
   </head>
 
   <body>
@@ -45,47 +21,42 @@
     <p>Select a music:</p>
     <input type="file" id="file" />
 
-	<div id="bcqd">
-    <div id="divPlayer">
- 
-        <audio id="audioPlayer"  ontimeupdate="update(this)" crossorigin="anonymous">
-          <source src="music/music.ogg"></source>
-	      <source src="music/music.mp3"></source>  
-        </audio>
+    <div id="bcqd">
+      <div id="divPlayer">
+     
+              <audio id="audioPlayer"  ontimeupdate="update(this)" crossorigin="anonymous">
+                <source src="music/music.ogg"></source>
+      	        <source src="music/music.mp3"></source>  
+              </audio>
 
-           <img id="imgDrake" src="images/drake.jpg">
+              <img id="imgDrake" src="images/drake.jpg">
 
-      <div id="filename"></div>  
-      <div id="progressTime"></div>
-      <progress id="seekbar" value="0" max="10" style="width:400px;"></progress>
+              <div id="filename"></div>  
+              <div id="progressTime">0:00:0</div>
+              <progress id="seekbar" value="0" max="10"></progress>
 
-      <!-- <div id="progressBarControl">
-      <div id="progressBar" onclick="clickProgress('audioPlayer', this, event)"></div>
-      </div> -->
+      	    <div class="btnPayer">
+      	  	    <button class="control stop" id="sButton" onclick="stop('audioPlayer')"></button>
+      		      <button class="control previous" id="sButton"></button>
+      		      <button class="control play" id="pButton" onclick="play('audioPlayer', this)"></button>
+      		      <button class="control next" id="sButton"></button>
 
-	    <div class="btnPayer">
-	  	  <button class="control stop" id="sButton" onclick="stop('audioPlayer')"></button>
-		  <button class="control previous" id="sButton"></button>
-		  <button class="control play" id="pButton" onclick="play('audioPlayer', this)"></button>
-		  <button class="control next" id="sButton"></button>
-
-  
-			<br/> Volume :
-          <input type="range" min="0" max = "1" step="0.01" value="1"  id="gainSlider" />
-			<br/>Lowpass:
-		  <input type="range" min="0" max="1" step="0.01" value="1"  id="filter" />
-		  <!--
-		  <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
-		  -->
-        </div>
         
-      
-	     
-	</div>
+      			     <br/> Volume : <input type="range" min="0" max = "1" step="0.01" value="1"  id="gainSlider" />
+      			     <br/>Lowpass:  <input type="range" min="0" max="1" step="0.01" value="1"  id="filter" />
+          		   <!--
+          		   <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
+          		   -->
+            </div>
+            
+    	</div>
     </div>
    
-<script src="js/audioplayer.js"></script>
-  </body>
+    <script src="js/audioplayer.js"></script>
+ 
+ </body>
+
+ 
 </html>
 
 

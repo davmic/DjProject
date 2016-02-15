@@ -44,25 +44,23 @@
    
                   <button class="control2 previous" id="sButton"></button>
         		      <button class="control2 next" id="sButton"></button>
-
-                  <br/>
-                   VOL
-        			     <div class="slider"> 
-                      <label for="myslider" class=""></label>
-                      <input type="range" id="gainSlider" name="rangeInput" min="0" max="1" step="0.01" value="1" class="vVertical" />
-                   </div> 
-        			     <br/>
-                     LowPass  
-                     <div class="slider"> 
-                      <label for="myslider" class=""></label>
-                      <input type="range" id="gainSlider" name="rangeInput" min="0" max="1" step="0.01" value="1" class="vVertical" />
-                   </div> 
-            		   <!--
-            		   <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
-            		   -->
-
               </div>
-            
+
+             <br/>
+             <span style="padding-right:4em;padding-left:3em;color: white;">Vol.</span> <span style="color: white;">Low/Pass</span>
+  			     <div class="slider"> 
+                <label for="myslider" class=""></label>
+                <input type="range" id="gainSlider" name="rangeInput" min="0" max="1" step="0.01" value="1" class="vVertical" />
+             </div> 
+  			    
+                
+              <div class="slider"> 
+                <label for="myslider" class=""></label>
+                <input type="range" min="0" max="1" step="0.01" value="1"  id="filter" class="vVertical" />
+             </div> 
+      		   <!--
+      		   <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
+      		   -->          
     	</div>
     </div>
    

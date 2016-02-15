@@ -39,11 +39,11 @@ function play(idPlayer, control) {
 		playList1[0].buildGraph();
 		playList1[0].play();
         pButton.className = "";
-        pButton.className = "pause";
+        pButton.className = "control1 pause";
     } else {
 		playList1[0].stop("pause");
-        pButton.className = "";
-        pButton.className = "play";
+        pButton.className = "";  
+        pButton.className = "control1 play";
     }
     
 }
@@ -54,7 +54,7 @@ function stop(idPlayer) {
     var player = document.querySelector('#' + idPlayer);
     playList1[0].stop("stop");
 	pButton.className = "";
-    pButton.className = "play";
+    pButton.className = "control1 play";
     
 }
 

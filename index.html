@@ -6,6 +6,7 @@
     
     <!--CSS LINKS-->
     <link rel="stylesheet" type="text/css" href="css/player.css" /> 
+    <link rel="stylesheet" type="text/css" href="css/sound-button.css" /> 
     
     <!--JS LINKS-->
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
@@ -24,30 +25,43 @@
     <div id="bcqd">
       <div id="divPlayer">
      
-              <audio id="audioPlayer"  ontimeupdate="update(this)" crossorigin="anonymous">
+              <audio id="audioPlayer" ontimeupdate="update(this)" crossorigin="anonymous">
                 <source src="music/music.ogg"></source>
       	        <source src="music/music.mp3"></source>  
               </audio>
 
-              <img id="imgDrake" src="images/drake.jpg">
+              <img id="imgDrake" src="images/slide.jpg">
+              
+              <span id="filename"></span>  
 
-              <div id="filename"></div>  
-              <div id="progressTime">0:00:0</div>
+              <div id="progressTime">0:00:00</div>
+
               <progress id="seekbar" value="0" max="10"></progress>
 
-      	    <div class="btnPayer">
-      	  	    <button class="control stop" id="sButton" onclick="stop('audioPlayer')"></button>
-      		      <button class="control previous" id="sButton"></button>
-      		      <button class="control play" id="pButton" onclick="play('audioPlayer', this)"></button>
-      		      <button class="control next" id="sButton"></button>
+        	    <div class="btnPayer">
+        	  	    <button class="control1 stop" id="sButton" onclick="stop('audioPlayer')"></button>
+                  <button class="control1 play" id="pButton" onclick="play('audioPlayer', this)"></button>
+   
+                  <button class="control2 previous" id="sButton"></button>
+        		      <button class="control2 next" id="sButton"></button>
 
-        
-      			     <br/> Volume : <input type="range" min="0" max = "1" step="0.01" value="1"  id="gainSlider" />
-      			     <br/>Lowpass:  <input type="range" min="0" max="1" step="0.01" value="1"  id="filter" />
-          		   <!--
-          		   <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
-          		   -->
-            </div>
+                  <br/>
+                   VOL
+        			     <div class="slider"> 
+                      <label for="myslider" class=""></label>
+                      <input type="range" id="gainSlider" name="rangeInput" min="0" max="1" step="0.01" value="1" class="vVertical" />
+                   </div> 
+        			     <br/>
+                     LowPass  
+                     <div class="slider"> 
+                      <label for="myslider" class=""></label>
+                      <input type="range" id="gainSlider" name="rangeInput" min="0" max="1" step="0.01" value="1" class="vVertical" />
+                   </div> 
+            		   <!--
+            		   <input type="range"min="0" max="1" step="0.01" value="0" oninput="FilterSample.FiltreQuality('audioPlayer');" >
+            		   -->
+
+              </div>
             
     	</div>
     </div>

@@ -7,8 +7,8 @@ function Music(songName, context, url) {
     this.url = url;
 	this.decodedSound;
 	this.bufferSource;
-    // master volume of this song
-    //this.volume = 1;
+    // vitesse du son
+    this.speedSound = 1;
     // elapsed time (since beginning, in seconds (float))
     this.elapsedTimeSinceStart = 0;
 	this.timeStartOnAudioContext;
@@ -40,7 +40,6 @@ function Music(songName, context, url) {
 		this.bufferSource.connect(gainNode);
 		gainNode.connect(this.audioContext.destination);
 		
-		
 
 		// Progress bar: valeur maximale = temps du morceaux 
 		if($('#seekbar').attr("max")!=this.getDuration()){
@@ -54,7 +53,8 @@ function Music(songName, context, url) {
         // Apres pause donc lastTime a 0 pour ne pas repartir en arriere 
 		lastTime=0;
         // appel de la fonction pour le temps de la chanson 
-		this.animateTime();	
+		this.animateTime();
+		this.bufferSource.playbackRate.value = this.speedSound;
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
     };
@@ -68,6 +68,7 @@ function Music(songName, context, url) {
 		var timeStopOnAudioContext = this.audioContext.currentTime;
 		this.elapsedTimeSinceStart += (timeStopOnAudioContext-this.timeStartOnAudioContext);
 		}*/
+		this.speedSound = this.bufferSource.playbackRate.value;
 		this.bufferSource.stop();
 		this.paused = true;
 	};
@@ -154,7 +155,10 @@ function Music(songName, context, url) {
 		//console.log(this.getDuration());
 	}
 
-	
+	// Vitesse du son / speed sound
+	this.changeSpeed = function(value) {
+		this.bufferSource.playbackRate.value = value*2;
+	}
 }
 
 

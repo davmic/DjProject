@@ -23,7 +23,13 @@ window.onload = function init() {
 	gainSlider.oninput = function(evt){
 		playList1[0].changeVolume(evt.target.value);
 	};
-		
+	
+	// input listener sur le speedSound slider
+	speedSoundlider = document.querySelector('#speedSoundSlider');
+	speedSoundSlider.oninput = function(evt){
+		playList1[0].changeSpeed(evt.target.value);
+	};
+	
 	// input listener sur FiltreLowPass
 	filter = document.querySelector('#filter');
 	filter.oninput = function(element){

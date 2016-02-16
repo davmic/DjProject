@@ -3,12 +3,13 @@ var audio = document.getElementById('audioPlayer');
 var ctx;
 var playList1 = [];
 var gainSlider;
+/*var progressTime = document.querySelector('#progressTime');*/
 /*var FilterSample = {
   FREQ_MUL: 7000,
   QUAL_MUL: 30,
   playing: true
 };*/
-
+var filter;
 
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
@@ -39,11 +40,11 @@ function play(idPlayer, control) {
 		playList1[0].buildGraph();
 		playList1[0].play();
         pButton.className = "";
-        pButton.className = "pause";
+        pButton.className = "control1 pause";
     } else {
 		playList1[0].stop("pause");
-        pButton.className = "";
-        pButton.className = "play";
+        pButton.className = "";  
+        pButton.className = "control1 play";
     }
     
 }
@@ -54,7 +55,7 @@ function stop(idPlayer) {
     var player = document.querySelector('#' + idPlayer);
     playList1[0].stop("stop");
 	pButton.className = "";
-    pButton.className = "play";
+    pButton.className = "control1 play";
     
 }
 
@@ -76,54 +77,8 @@ function update(player) {
 }
 
 //////////////////////////// EFFET ///////////////////////////////////////
-//filtre lowpass
 
-
-	/*FilterSample.FiltreLowPass = function (element) {
-	  // Clamp the frequency between the minimum value (40 Hz) and half of the
-	  // sampling rate.
-	  var minValue = 40;
-	  var maxValue = ctx.sampleRate / 2;
-	  // Logarithm (base 2) to compute how many octaves fall in the range.
-	  var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2;
-	  // Compute a multiplier from 0 to 1 based on an exponential scale.
-	  var multiplier = Math.pow(2, numberOfOctaves * (element.value - 1.0));
-	  // Get back to the frequency value between min and max.
-	  this.filter.frequency.value = maxValue * multiplier;	
-	};*/
-	/*
-// filtre quality
-	FilterSample.FiltreQuality = function FiltreQuality(element) {
-	  this.filter.Q.value = element.value * this.QUAL_MUL;
-	};*/
 	
-	
-////////////////////////////// TEMPS DE LA MUSIQUE //////////////////////////////
-
-function formatTime(time) {
-    var hours = Math.floor(time / 3600);
-    var mins  = Math.floor((time % 3600) / 60);
-    var secs  = Math.floor(time % 60);
-    
-    if (secs < 10) {
-        secs = "0" + secs;
-    }
-    
-    if (hours) {
-        if (mins < 10) {
-            mins = "0" + mins;
-		}
-      
-        return hours + ":" + mins + ":" + secs; // hh:mm:ss
-    } else {
-        return mins + ":" + secs; // mm:ss
-    }
-
-}
-
-
-
-
 ///////////////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////////////
 
 $("#audioPlayer").on("canplaythrough", function(e){
@@ -169,6 +124,7 @@ function loadSoundUsingAjax(music) {
 			music.decodedSound = buffer;
 			// we enable the button
 			//playButton.disabled = false;
+			playList1[0].draw();
 		}, function(e) {
 			console.log("error");});
 		};

@@ -64,7 +64,7 @@ function Music(songName, context, url) {
 			this.elapsedTimeSinceStart = 0;
 			this.stopProgressBar();
 		}
-/*		else {
+        /*else {
 		var timeStopOnAudioContext = this.audioContext.currentTime;
 		this.elapsedTimeSinceStart += (timeStopOnAudioContext-this.timeStartOnAudioContext);
 		}*/
@@ -80,7 +80,6 @@ function Music(songName, context, url) {
 
 	//filtre lowpass
 	this.lowpass = function(freq) {
-	
 		this.bufferSource.connect(filter);
 		filter.connect(this.audioContext.destination);
 		filter.frequency.value= freq;
@@ -93,8 +92,6 @@ function Music(songName, context, url) {
 		// Get back to the frequency value between min and max.
 		//filter.frequency.value = maxValue * multiplier;	
 		
-
-
 	
 	//filtre quality
 	/*this.FiltreQuality = function(quality) {
@@ -114,12 +111,14 @@ function Music(songName, context, url) {
         if (!this.paused) {
         	//current time correct en enlevant le temps mort avant le play
             currentTime = this.audioContext.currentTime - this.timeStartOnAudioContext;
-            // delta = le temps "courant" de la musique, moins ce qu'il reste du morceaux
-            var delta = currentTime - lastTime;
+            
+            // delta 1) le temps "courant" de la musique, moins ce qu'il reste du morceaux
+            // delta 2) on multiplie le tout par la vitesse du son en reprenant sa valeur (playbackRate.value)
+            var delta = (currentTime - lastTime)*this.bufferSource.playbackRate.value;
             if (this.decodedSound !== undefined) {                 
-                //rajout du temps pour le temps total passe
+                // rajout du temps pour le temps total passe
                 this.elapsedTimeSinceStart += delta;
-                //temps precedent 
+                // temps precedent 
                 lastTime = currentTime;
 
                 // quand on met le son sur stop = this.elapsedTimeSinceStart = 0;
@@ -143,7 +142,7 @@ function Music(songName, context, url) {
 	this.progressBar = function() {
 		this.animateTime();
 		//barre progression
-		$('#seekbar').attr("value",  this.elapsedTimeSinceStart);
+		$('#seekbar').attr("value", this.elapsedTimeSinceStart);
 		//affichage temps
 		$('#progressTime').text((this.elapsedTimeSinceStart+"").toFormattedTime());
 

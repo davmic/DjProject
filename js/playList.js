@@ -43,6 +43,8 @@ function PlayList(){
 					liste[0].play();
 					document.getElementById("song0").className="";
 					document.getElementById("song0").className="hoverClickplay";
+					pButton.className = "control1 pause";
+
 				}
 			}, function(e) {
 			console.log("error");});

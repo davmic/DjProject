@@ -40,6 +40,8 @@ window.onload = function init() {
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
 
 function play(idPlayer, control) {
+
+    
     var player = document.querySelector('#' + idPlayer);
     
     if (playList1.playList[playList1.choix].paused) {
@@ -57,6 +59,8 @@ function play(idPlayer, control) {
 
         document.getElementById("song"+playList1.choix).className="hoverClickplay";
     }
+
+
     
 }
 

@@ -1,7 +1,7 @@
 ////////////////////////////// VARIABLE AUDIO //////////////////////////////
 var audio = document.getElementById('audioPlayer');
 var ctx;
-var playList1 = [];
+var playList1 = new PlayList();
 var gainSlider;
 /*var progressTime = document.querySelector('#progressTime');*/
 /*var FilterSample = {
@@ -21,19 +21,19 @@ window.onload = function init() {
 	// input listener on the gain slider
 	gainSlider = document.querySelector('#gainSlider');
 	gainSlider.oninput = function(evt){
-		playList1[0].changeVolume(evt.target.value);
+		playList1.playList[playList1.choix].changeVolume(evt.target.value);
 	};
 	
 	// input listener sur le speedSound slider
 	speedSoundlider = document.querySelector('#speedSoundSlider');
 	speedSoundSlider.oninput = function(evt){
-		playList1[0].changeSpeed(evt.target.value);
+		playList1.playList[playList1.choix].changeSpeed(evt.target.value);
 	};
 	
 	// input listener sur FiltreLowPass
 	filter = document.querySelector('#filter');
 	filter.oninput = function(element){
-		playList1[0].lowpass(element.target.value);
+		playList1.playList[playList1.choix].lowpass(element.target.value);
 	}; 
 
 };
@@ -42,15 +42,20 @@ window.onload = function init() {
 function play(idPlayer, control) {
     var player = document.querySelector('#' + idPlayer);
     
-    if (playList1[0].paused) {
-		playList1[0].buildGraph();
-		playList1[0].play();
+    if (playList1.playList[playList1.choix].paused) {
+		playList1.playList[playList1.choix].buildGraph();
+		playList1.playList[playList1.choix].play();
         pButton.className = "";
         pButton.className = "control1 pause";
+
+        document.getElementById("song"+playList1.choix).className="hoverClickplay";
+
     } else {
-		playList1[0].stop("pause");
+		playList1.playList[playList1.choix].stop("pause");
         pButton.className = "";  
         pButton.className = "control1 play";
+
+        document.getElementById("song"+playList1.choix).className="hoverClickplay";
     }
     
 }
@@ -59,10 +64,11 @@ function play(idPlayer, control) {
 
 function stop(idPlayer) {
     var player = document.querySelector('#' + idPlayer);
-    playList1[0].stop("stop");
+    playList1.playList[playList1.choix].stop("stop");
 	pButton.className = "";
     pButton.className = "control1 play";
-    
+
+    document.getElementById("song"+playList1.choix).className="hoverClickpause";
 }
 
 
@@ -82,10 +88,8 @@ function update(player) {
     document.querySelector('#progressTime').textContent = formatTime(time);
 }
 
-//////////////////////////// EFFET ///////////////////////////////////////
-
 	
-///////////////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////////////
+/////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////
 
 $("#audioPlayer").on("canplaythrough", function(e){
     var seconds = e.currentTarget.duration;
@@ -101,41 +105,28 @@ $("#audioPlayer").on("canplaythrough", function(e){
     URL.revokeObjectURL(objectUrl);
 });
 
+
 $("#file").change(function(e){
-    var file = e.currentTarget.files[0];
-	objectUrl = URL.createObjectURL(file);
-	var music = new Music(file.name.replace(".mp3",""), ctx, objectUrl);
-	playList1.push(music);
-	$("#filename").text(music.name);
-    
-    $("#audioPlayer").prop("src", objectUrl);
-	
-	loadSoundUsingAjax(music);
+    playList1.change(e);
+    //action au double click
+    $("#playList").append("<div id=song"+(playList1.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique("+(playList1.playList.length-1)+")'>"+ playList1.playList[playList1.playList.length-1].name+"</div><br/>");
+
 });
 
-function loadSoundUsingAjax(music) {
-	var request = new XMLHttpRequest();
-  
-	request.open('GET', music.url, true);
-	// Important: we're loading binary data
-	request.responseType = 'arraybuffer';
 
-	// Decode asynchronously
-	request.onload = function() {
-		console.log("Sound loaded");
-    
-		// Let's decode it. This is also asynchronous
-		ctx.decodeAudioData(request.response, function(buffer) {
-			console.log("Sound decoded");
-			music.decodedSound = buffer;
-			// we enable the button
-			//playButton.disabled = false;
-			playList1[0].draw();
-		}, function(e) {
-			console.log("error");});
-		};
-  
-    // send the request. When the file will be loaded,
-    // the request.onload callback will be called (above)
-	request.send();
+///////////////////////// CHOIX AUDIO /////////////////////////
+//click sur la playList
+function choixMusique(i){
+	playList1.changeChoix(i);
 }
+//next
+function next(){
+	playList1.nextSong();
+
+}
+
+//previous
+function previous(){
+	playList1.previousSong();
+}
+

@@ -1,6 +1,7 @@
 function Music(songName, context, url) {
     // the web audio context
-    this.audioContext = context;
+   // this.audioContext = context;
+   this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     // name of the song
     this.name = songName;
     // url of this song
@@ -19,13 +20,12 @@ function Music(songName, context, url) {
     // song is muted ?
     this.muted = false;
 
+	
 	var gainNode = this.audioContext.createGain();
 	
 	//filtre
 	var filter = this.audioContext.createBiquadFilter();
-	filter.type = (typeof filter.type === 'string') ? 'lowpass' : 0; // LOWPASS
-	filter.frequency.value = 300;
-
+	filter.frequency.value = 5000;	
 	
   	// variables temps
 	var lastTime = 0;
@@ -36,18 +36,25 @@ function Music(songName, context, url) {
 	this.buildGraph = function () {
 		this.bufferSource = this.audioContext.createBufferSource();
 		this.bufferSource.buffer = this.decodedSound;
-		
-		this.bufferSource.connect(gainNode);
+
+		this.bufferSource.connect(filter);
+		filter.connect(gainNode);
 		gainNode.connect(this.audioContext.destination);
 		
-
+		/*this.bufferSource.connect(gainNode);
+		gainNode.connect(this.audioContext.destination);	
+		this.bufferSource.connect(filter);
+		filter.connect(this.audioContext.destination);	
+		*/			
 		// Progress bar: valeur maximale = temps du morceaux 
 		if($('#seekbar').attr("max")!=this.getDuration()){
 			$('#seekbar').attr("max", this.getDuration());	
 		}
 	};
 		
-
+	/*this.buildGraphFilter = function () {
+	};*/
+	
 	this.play = function () {
 		this.timeStartOnAudioContext = this.audioContext.currentTime;
         // Apres pause donc lastTime a 0 pour ne pas repartir en arriere 
@@ -80,10 +87,27 @@ function Music(songName, context, url) {
 
 	//filtre lowpass
 	this.lowpass = function(freq) {
-		this.bufferSource.connect(filter);
-		filter.connect(this.audioContext.destination);
-		filter.frequency.value= freq;
+		this.bufferSource.frequency.value= freq;
 			};
+			
+//////////////////////// BASS  /////////////////////////
+	var bass = document.getElementById("bassButton");
+	var activated = 'false';
+
+	bass.onclick = function(){
+
+		if(activated !=="true"){
+			filter.type = 'lowpass' ; // LOWPASS
+			filter.frequency.value = 300;
+			filter.gain.value=40;
+			activated= "true";
+		}
+		else{
+			filter.frequency.value = 5000;
+			activated = "false";
+		}
+};
+
 		/* var minValue = 40;
 		var maxValue = context.sampleRate / 2;
 		var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2; */
@@ -92,7 +116,6 @@ function Music(songName, context, url) {
 		// Get back to the frequency value between min and max.
 		//filter.frequency.value = maxValue * multiplier;	
 		
-	
 	//filtre quality
 	/*this.FiltreQuality = function(quality) {
 		filter.frequency.value = quality;

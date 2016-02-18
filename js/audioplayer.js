@@ -4,12 +4,6 @@ var ctx;
 var playList1 = new PlayList();
 var gainSlider;
 /*var progressTime = document.querySelector('#progressTime');*/
-/*var FilterSample = {
-  FREQ_MUL: 7000,
-  QUAL_MUL: 30,
-  playing: true
-};*/
-var filter;
 
 window.onload = function init() {
 	// To make it work even on browsers like Safari, that still
@@ -19,22 +13,24 @@ window.onload = function init() {
 	ctx = new audioContext();
 	
 	// input listener on the gain slider
-	gainSlider = document.querySelector('#gainSlider');
+	gainSlider = document.getElementById("gainSlider");
 	gainSlider.oninput = function(evt){
 		playList1.playList[playList1.choix].changeVolume(evt.target.value);
 	};
-	
+			// input listener sur FiltreLowPass
+	filter = document.getElementById("filterLP");
+	filter.oninput = function(element){
+		playList1.playList[playList1.choix].lowpass(element.target.value);
+	}; 
+
+
 	// input listener sur le speedSound slider
-	speedSoundlider = document.querySelector('#speedSoundSlider');
+	speedSoundlider = document.getElementById("speedSoundSlider");
 	speedSoundSlider.oninput = function(evt){
 		playList1.playList[playList1.choix].changeSpeed(evt.target.value);
 	};
 	
-	// input listener sur FiltreLowPass
-	filter = document.querySelector('#filter');
-	filter.oninput = function(element){
-		playList1.playList[playList1.choix].lowpass(element.target.value);
-	}; 
+
 
 };
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
@@ -61,7 +57,7 @@ function play(idPlayer, control) {
     }
 
 
-    
+ 
 }
 
 ////////////////////////////// STOP //////////////////////////////

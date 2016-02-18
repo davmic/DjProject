@@ -17,12 +17,11 @@ window.onload = function init() {
 	gainSlider.oninput = function(evt){
 		playList1.playList[playList1.choix].changeVolume(evt.target.value);
 	};
-			// input listener sur FiltreLowPass
-	filter = document.getElementById("filterLP");
-	filter.oninput = function(element){
-		playList1.playList[playList1.choix].lowpass(element.target.value);
-	}; 
-
+	// input listener sur FiltreLowPass
+	/*filter = document.getElementById("filterLP");
+	filter.oninput = function(evt){
+		playList1.playList[playList1.choix].lowpass(evt.target.value);
+	}; */
 
 	// input listener sur le speedSound slider
 	speedSoundlider = document.getElementById("speedSoundSlider");

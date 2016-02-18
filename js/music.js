@@ -84,13 +84,16 @@ function Music(songName, context, url) {
 	this.changeVolume = function(volume) {
 	    gainNode.gain.value = volume;
 	};
-
-	//filtre lowpass
-	this.lowpass = function(freq) {
-		this.bufferSource.frequency.value= freq;
-			};
-			
-//////////////////////// BASS  /////////////////////////
+	
+////////////////////// Filtre LowPass ///////////////////////
+	filterLP = document.getElementById("filterLP");
+	
+	filterLP.oninput = function(){
+		var x = document.getElementById("filterLP").value;
+		filter.frequency.value = x;
+	};	
+		
+//////////////////////// BOUTON BASS  /////////////////////////
 	var bass = document.getElementById("bassButton");
 	var activated = 'false';
 
@@ -107,19 +110,6 @@ function Music(songName, context, url) {
 			activated = "false";
 		}
 };
-
-		/* var minValue = 40;
-		var maxValue = context.sampleRate / 2;
-		var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2; */
-		// Compute a multiplier from 0 to 1 based on an exponential scale.
-	//var multiplier = Math.pow(2, numberOfOctaves * (freq.value - 1.0));
-		// Get back to the frequency value between min and max.
-		//filter.frequency.value = maxValue * multiplier;	
-		
-	//filtre quality
-	/*this.FiltreQuality = function(quality) {
-		filter.frequency.value = quality;
-	};*/
 
 	/////////////////  PROGRESS BAR + DISPLAYING TIME /////////////////
     // time

@@ -91,6 +91,7 @@ function Music(songName, context, url) {
 	filterLP.oninput = function(){
 		var x = document.getElementById("filterLP").value;
 		filter.frequency.value = x;
+		filter.Q.value = 10;
 	};	
 		
 //////////////////////// BOUTON BASS  /////////////////////////
@@ -102,6 +103,7 @@ function Music(songName, context, url) {
 		if(activated !=="true"){
 			filter.type = 'lowpass' ; // LOWPASS
 			filter.frequency.value = 300;
+			filter.Q.value = 10;
 			filter.gain.value=40;
 			activated= "true";
 		}

@@ -2,12 +2,25 @@ function PlayList(){
 	this.playList = [];
 	this.choix = 0;
 
+	// the web audio context
+	this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+	this.gainNode =  this.audioContext.createGain();
+	//filtre
+	var fil = this.audioContext.createBiquadFilter();
+	fil.frequency.value = 5000;
+	this.speedSound = 1;
+
+	//premiere fois 
 	var firstTime = true;
+
+
+
+
 
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), ctx, objectUrl);
+		var music = new Music(file.name.replace(".mp3",""), ctx, objectUrl, this.audioContext, this.gainNode, fil, this.speedSound);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -17,7 +30,6 @@ function PlayList(){
     	$("#audioPlayer").prop("src", objectUrl);
 		this.loadSoundUsingAjax(music,firstTime);
 	}
-
 
 	this.loadSoundUsingAjax =  function(music, fT) {
 		var request = new XMLHttpRequest();
@@ -54,6 +66,9 @@ function PlayList(){
 		request.send();
 	}
 
+
+
+
 	//change le choix
 	this.changeChoix = function(i){
 		
@@ -70,11 +85,13 @@ function PlayList(){
 
 		// reconstruction
 		this.playList[this.choix].buildGraph();
-
-		// on joue la musique
+		//abimation 
 		this.playList[this.choix].draw();
+		// on joue la musique
 		this.playList[this.choix].play();
-}
+		//change la rapidite
+		this.changeSpeed(this.speedSound);
+	}
 
 
 	// chanson suivante
@@ -101,4 +118,46 @@ function PlayList(){
 		this.changeChoix(i);
 	}
 
+
+
+
+
+	////////////////////// Filtre LowPass ///////////////////////
+	filterLP = document.getElementById("filterLP");
+	
+	filterLP.oninput = function(){
+		var x = document.getElementById("filterLP").value;
+		fil.frequency.value = x;
+		fil.Q.value = 10;
+	}	
+		
+	//////////////////////// BOUTON BASS  /////////////////////////
+	var bass = document.getElementById("bassButton");
+	var activated = 'false';
+
+	bass.onclick = function(){
+		if(activated !=="true"){
+			fil.type = 'lowpass' ; // LOWPASS
+			fil.frequency.value = 300;
+			fil.Q.value = 10;
+			fil.gain.value=40;
+			activated= "true";
+		}
+		else{
+			fil.frequency.value = 5000;
+			activated = "false";
+		}
+	}
+
+	//volume control
+	this.changeVolume = function(volume) {
+	    this.gainNode.gain.value = volume;
+	}	
+
+	// Vitesse du son / speed sound
+	this.changeSpeed = function(value) {
+		//changer rapidite de la musique
+		this.speedSound = value;
+		this.playList[this.choix].changeSpeed(this.speedSound);
+	}
 }

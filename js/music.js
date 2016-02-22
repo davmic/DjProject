@@ -1,7 +1,7 @@
-function Music(songName, context, url) {
+function Music(songName, context, url, ac, gainNode, filter, speed) {
     // the web audio context
    // this.audioContext = context;
-   this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+   this.audioContext = ac ;
     // name of the song
     this.name = songName;
     // url of this song
@@ -9,7 +9,7 @@ function Music(songName, context, url) {
 	this.decodedSound;
 	this.bufferSource;
     // vitesse du son
-    this.speedSound = 1;
+    this.speedSound =  speed;
     // elapsed time (since beginning, in seconds (float))
     this.elapsedTimeSinceStart = 0;
 	this.timeStartOnAudioContext;
@@ -20,12 +20,10 @@ function Music(songName, context, url) {
     // song is muted ?
     this.muted = false;
 
+    //maj progressbar
+    this.maj = 0;
+    this.sauvmaj = 0;
 	
-	var gainNode = this.audioContext.createGain();
-	
-	//filtre
-	var filter = this.audioContext.createBiquadFilter();
-	filter.frequency.value = 5000;	
 	
   	// variables temps
 	var lastTime = 0;
@@ -40,20 +38,13 @@ function Music(songName, context, url) {
 		this.bufferSource.connect(filter);
 		filter.connect(gainNode);
 		gainNode.connect(this.audioContext.destination);
-		
-		/*this.bufferSource.connect(gainNode);
-		gainNode.connect(this.audioContext.destination);	
-		this.bufferSource.connect(filter);
-		filter.connect(this.audioContext.destination);	
-		*/			
+				
 		// Progress bar: valeur maximale = temps du morceaux 
 		if($('#seekbar').attr("max")!=this.getDuration()){
 			$('#seekbar').attr("max", this.getDuration());	
 		}
 	};
 		
-	/*this.buildGraphFilter = function () {
-	};*/
 	
 	this.play = function () {
 		this.timeStartOnAudioContext = this.audioContext.currentTime;
@@ -80,38 +71,6 @@ function Music(songName, context, url) {
 		this.paused = true;
 	};
 
-	//volume control
-	this.changeVolume = function(volume) {
-	    gainNode.gain.value = volume;
-	};
-	
-////////////////////// Filtre LowPass ///////////////////////
-	filterLP = document.getElementById("filterLP");
-	
-	filterLP.oninput = function(){
-		var x = document.getElementById("filterLP").value;
-		filter.frequency.value = x;
-		filter.Q.value = 10;
-	};	
-		
-//////////////////////// BOUTON BASS  /////////////////////////
-	var bass = document.getElementById("bassButton");
-	var activated = 'false';
-
-	bass.onclick = function(){
-
-		if(activated !=="true"){
-			filter.type = 'lowpass' ; // LOWPASS
-			filter.frequency.value = 300;
-			filter.Q.value = 10;
-			filter.gain.value=40;
-			activated= "true";
-		}
-		else{
-			filter.frequency.value = 5000;
-			activated = "false";
-		}
-};
 
 	/////////////////  PROGRESS BAR + DISPLAYING TIME /////////////////
     // time
@@ -123,16 +82,25 @@ function Music(songName, context, url) {
     };
 
     this.animateTime = function() {
-        if (!this.paused) {
         	//current time correct en enlevant le temps mort avant le play
             currentTime = this.audioContext.currentTime - this.timeStartOnAudioContext;
             
             // delta 1) le temps "courant" de la musique, moins ce qu'il reste du morceaux
             // delta 2) on multiplie le tout par la vitesse du son en reprenant sa valeur (playbackRate.value)
             var delta = (currentTime - lastTime)*this.bufferSource.playbackRate.value;
-            if (this.decodedSound !== undefined) {                 
-                // rajout du temps pour le temps total passe
-                this.elapsedTimeSinceStart += delta;
+            //if (this.decodedSound !== undefined) {                 
+                //maj temps click seekBar, si sauvegarde diff de la nouvelle maj
+               	if(this.sauvmaj != this.maj){
+               		//sauvegarde maj
+               		this.sauvmaj = this.maj;
+               		//musique au temps du click de la seek bar
+               		this.elapsedTimeSinceStart = this.maj;
+               		//time start
+               		this.timeStartOnAudioContext = this.audioContext.currentTime;
+               	}
+
+               	// rajout du temps pour le temps total passe
+               	this.elapsedTimeSinceStart += delta;
                 // temps precedent 
                 lastTime = currentTime;
 
@@ -140,8 +108,14 @@ function Music(songName, context, url) {
                 if (this.elapsedTimeSinceStart > this.getDuration()) {
                     this.elapsedTimeSinceStart = 0;
                 }
-            }
-        }  
+            //}
+      //   else{
+      //        if(this.sauvmaj != this.maj){
+      //      		this.sauvmaj = this.maj;
+      //      		this.elapsedTimeSinceStart = this.maj;
+      //      		this.elapsedTimeSinceStart += delta;
+      //      	}
+      //   }  
     };
 
     //fonction appelle tout au long de la duree de l'app
@@ -169,9 +143,29 @@ function Music(songName, context, url) {
 		//console.log(this.getDuration());
 	}
 
+
+	//maj temps click seekbar
+	this.majTime = function(value) {
+		//maj de la valeur de la musique		
+		this.maj = value;
+		//si en pause alors on appel progress bar qui met tt a j 
+		if(this.paused){
+			this.progressBar();	
+		}
+		//si on est en train de jouer on stop puis play
+		else {
+			this.stop("stop");
+			this.buildGraph();
+			this.play();
+		}
+
+	}
+
+
+
 	// Vitesse du son / speed sound
 	this.changeSpeed = function(value) {
-		this.bufferSource.playbackRate.value = value*2;
+		this.bufferSource.playbackRate.value = value;
 	}
 }
 

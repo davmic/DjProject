@@ -15,7 +15,7 @@ window.onload = function init() {
 	// input listener on the gain slider
 	gainSlider = document.getElementById("gainSlider");
 	gainSlider.oninput = function(evt){
-		playList1.playList[playList1.choix].changeVolume(evt.target.value);
+		playList1.changeVolume(evt.target.value);
 	};
 	// input listener sur FiltreLowPass
 	/*filter = document.getElementById("filterLP");
@@ -26,7 +26,7 @@ window.onload = function init() {
 	// input listener sur le speedSound slider
 	speedSoundlider = document.getElementById("speedSoundSlider");
 	speedSoundSlider.oninput = function(evt){
-		playList1.playList[playList1.choix].changeSpeed(evt.target.value);
+		playList1.changeSpeed(evt.target.value);
 	};
 	
 
@@ -88,21 +88,21 @@ function update(player) {
 }
 
 	
-/////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////
+// /////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////
 
-$("#audioPlayer").on("canplaythrough", function(e){
-    var seconds = e.currentTarget.duration;
-    var duration = moment.duration(seconds, "seconds");
+// $("#audioPlayer").on("canplaythrough", function(e){
+//     var seconds = e.currentTarget.duration;
+//     var duration = moment.duration(seconds, "seconds");
     
-    var time = "";
-    var hours = duration.hours();
-    if (hours > 0) { time = hours + ":" ; }
+//     var time = "";
+//     var hours = duration.hours();
+//     if (hours > 0) { time = hours + ":" ; }
     
-    time = time + duration.minutes() + ":" + duration.seconds();
-    $("#duration").text(time);
+//     time = time + duration.minutes() + ":" + duration.seconds();
+//     $("#duration").text(time);
     
-    URL.revokeObjectURL(objectUrl);
-});
+//     URL.revokeObjectURL(objectUrl);
+// });
 
 
 $("#file").change(function(e){
@@ -129,3 +129,12 @@ function previous(){
 	playList1.previousSong();
 }
 
+$('#seekbar').click(function(e){
+    var time = ((e.pageX - this.offsetLeft) * this.max)/this.offsetWidth;
+    playList1.playList[playList1.choix].majTime(time);
+    /*
+    Enlever la taille des border pour bien calculer la valeur de la seekBar lors du click 
+    Faire le test avec le time avec traitement dans music.js , animateTime, essayer de bien faire 
+    */
+
+});

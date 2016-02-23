@@ -7,6 +7,8 @@ function Music(songName, url, ctx, gainNode, filter, speed) {
     this.url = url;
 	this.decodedSound;
 	this.bufferSource;
+	// le buffer qui contient la musique dans le sens inverse
+	this.inverseDecodedSound;
     // vitesse du son
     this.speedSound =  speed;
     // elapsed time (since beginning, in seconds (float))

@@ -48,6 +48,7 @@ function PlayList(ctx){
 			audioContext.decodeAudioData(request.response, function(buffer) {
 				console.log("Sound decoded");
 				music.decodedSound = buffer;
+				music.inverseDecodedSound = inverseBuffer(audioContext,buffer);
 				// si premiere fois 
 				if(fT){
 					liste[0].draw();	
@@ -65,9 +66,22 @@ function PlayList(ctx){
     	// the request.onload callback will be called (above)
 		request.send();
 	}
-
-
-
+	
+	// avoir un buffer qui contient la musique inversée
+	function inverseBuffer(audioContext,buffer) {
+		var newBuffer = audioContext.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+		if (newBuffer) {
+			var length = buffer.length;
+			for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
+				var oldBuf = buffer.getChannelData(channel);
+				var newBuf = newBuffer.getChannelData(channel);
+				for (var i = 0; i < length; i++) {
+					newBuf[length-i-1] = oldBuf[i];
+				}
+			}
+		}
+		return newBuffer;
+	}
 
 	//change le choix
 	this.changeChoix = function(i){

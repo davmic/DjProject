@@ -1,10 +1,10 @@
-function PlayList(){
+function PlayList(ctx){
 	this.playList = [];
 	this.choix = 0;
 
 	// the web audio context
-	this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-	this.gainNode =  this.audioContext.createGain();
+	this.audioContext = ctx;
+	this.gainNode = this.audioContext.createGain();
 	//filtre
 	var fil = this.audioContext.createBiquadFilter();
 	fil.frequency.value = 5000;
@@ -20,7 +20,7 @@ function PlayList(){
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), ctx, objectUrl, this.audioContext, this.gainNode, fil, this.speedSound);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, this.speedSound);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -28,10 +28,10 @@ function PlayList(){
 		}
 		/*$("#filename").text(music.name);*/
     	$("#audioPlayer").prop("src", objectUrl);
-		this.loadSoundUsingAjax(music,firstTime);
+		this.loadSoundUsingAjax(this.audioContext,music,firstTime);
 	}
 
-	this.loadSoundUsingAjax =  function(music, fT) {
+	this.loadSoundUsingAjax =  function(audioContext, music, fT) {
 		var request = new XMLHttpRequest();
   		var liste = [];
 		request.open('GET', music.url, true);
@@ -45,7 +45,7 @@ function PlayList(){
 		request.onload = function() {
 			console.log("Sound loaded");
 			// Let's decode it. This is also asynchronous
-			ctx.decodeAudioData(request.response, function(buffer) {
+			audioContext.decodeAudioData(request.response, function(buffer) {
 				console.log("Sound decoded");
 				music.decodedSound = buffer;
 				// si premiere fois 
@@ -123,11 +123,9 @@ function PlayList(){
 
 
 	////////////////////// Filtre LowPass ///////////////////////
-	filterLP = document.getElementById("filterLP");
 	
-	filterLP.oninput = function(){
-		var x = document.getElementById("filterLP").value;
-		fil.frequency.value = x;
+	this.filterLowPass = function(value){
+		fil.frequency.value = value;
 		fil.Q.value = 10;
 	}	
 		
@@ -149,7 +147,7 @@ function PlayList(){
 		}
 	}
 
-	//volume control
+	// volume control
 	this.changeVolume = function(volume) {
 	    this.gainNode.gain.value = volume;
 	}	

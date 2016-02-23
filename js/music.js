@@ -1,7 +1,6 @@
-function Music(songName, context, url, ac, gainNode, filter, speed) {
+function Music(songName, url, ctx, gainNode, filter, speed) {
     // the web audio context
-   // this.audioContext = context;
-   this.audioContext = ac ;
+	this.audioContext = ctx;
     // name of the song
     this.name = songName;
     // url of this song
@@ -16,9 +15,6 @@ function Music(songName, context, url, ac, gainNode, filter, speed) {
 	
     // song is paused ?
     this.paused = true;
-
-    // song is muted ?
-    this.muted = false;
 
     //maj progressbar
     this.maj = 0;
@@ -62,10 +58,6 @@ function Music(songName, context, url, ac, gainNode, filter, speed) {
 			this.elapsedTimeSinceStart = 0;
 			this.stopProgressBar();
 		}
-        /*else {
-		var timeStopOnAudioContext = this.audioContext.currentTime;
-		this.elapsedTimeSinceStart += (timeStopOnAudioContext-this.timeStartOnAudioContext);
-		}*/
 		this.speedSound = this.bufferSource.playbackRate.value;
 		this.bufferSource.stop();
 		this.paused = true;

@@ -1,27 +1,30 @@
 ////////////////////////////// VARIABLE AUDIO //////////////////////////////
-var audio = document.getElementById('audioPlayer');
-var ctx;
-var playList1 = new PlayList();
-var gainSlider;
-/*var progressTime = document.querySelector('#progressTime');*/
+var playList1;
 
 window.onload = function init() {
+
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
 	var audioContext = window.AudioContext || window.webkitAudioContext;
+	
 	// get the AudioContext
 	ctx = new audioContext();
 	
+	// on instancie les playlists
+	playList1 = new PlayList(ctx);
+	
 	// input listener on the gain slider
+	var gainSlider;
 	gainSlider = document.getElementById("gainSlider");
 	gainSlider.oninput = function(evt){
 		playList1.changeVolume(evt.target.value);
 	};
+	
 	// input listener sur FiltreLowPass
-	/*filter = document.getElementById("filterLP");
-	filter.oninput = function(evt){
-		playList1.playList[playList1.choix].lowpass(evt.target.value);
-	}; */
+	filterLP = document.getElementById("filterLP");
+	filterLP.oninput = function(evt){
+		playList1.filterLowPass(evt.target.value);
+	}; 
 
 	// input listener sur le speedSound slider
 	speedSoundlider = document.getElementById("speedSoundSlider");
@@ -29,9 +32,8 @@ window.onload = function init() {
 		playList1.changeSpeed(evt.target.value);
 	};
 	
-
-
 };
+
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
 
 function play(idPlayer, control) {
@@ -70,7 +72,6 @@ function stop(idPlayer) {
     document.getElementById("song"+playList1.choix).className="hoverClickpause";
 }
 
-
 ////////////////////////////// VOLUME //////////////////////////////
 
 function update(player) {
@@ -87,23 +88,7 @@ function update(player) {
     document.querySelector('#progressTime').textContent = formatTime(time);
 }
 
-	
-// /////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////
-
-// $("#audioPlayer").on("canplaythrough", function(e){
-//     var seconds = e.currentTarget.duration;
-//     var duration = moment.duration(seconds, "seconds");
-    
-//     var time = "";
-//     var hours = duration.hours();
-//     if (hours > 0) { time = hours + ":" ; }
-    
-//     time = time + duration.minutes() + ":" + duration.seconds();
-//     $("#duration").text(time);
-    
-//     URL.revokeObjectURL(objectUrl);
-// });
-
+////////////////// CHARGER AUDIO + AFFICHER NOM MUSIQUE /////////////////
 
 $("#file").change(function(e){
     playList1.change(e);
@@ -112,8 +97,8 @@ $("#file").change(function(e){
 
 });
 
-
 ///////////////////////// CHOIX AUDIO /////////////////////////
+
 //click sur la playList
 function choixMusique(i){
 	playList1.changeChoix(i);
@@ -128,6 +113,8 @@ function next(){
 function previous(){
 	playList1.previousSong();
 }
+
+///////////////////////// BARRE DE PROGRESSION CLIQUEABLE /////////////////////////
 
 $('#seekbar').click(function(e){
     var time = ((e.pageX - this.offsetLeft) * this.max)/this.offsetWidth;

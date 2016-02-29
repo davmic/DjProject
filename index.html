@@ -75,17 +75,34 @@
                 <label for="speedSoundSlider"></label>
                 <input type="range" min="0" max="4" step="0.01" value="1" id="speedSoundSlider" class="vVertical"/>
              </div>
-         </div>
+			</div>
      
       </div>
     
 
-      <div id="divPlayer" style=" vertical-align:top;">
+    <div id="divPlayer" style=" vertical-align:top;">
         <img id="imgDrake" src="images/slide.jpg">
           <!-- <span id="filename"></span> -->
           <div class="btnPayer">
             <div id="playList"></div>  
           </div>
+		  
+		<div id="equaliser">
+		<label>Equaliser</label>
+				<div class="controls">
+					<label>Bass</label>
+					<input type="range" value="0" step="1" min="-40" max="30" id="lowEq"></input>
+				 </div>
+				 <div class="controls">
+					<label>Medium</label>
+					<input type="range" value="0" step="1" min="-40" max="30" id="medEq"></input>
+				 </div>
+				 <div class="controls">
+					<label>Treble</label>
+					<input type="range" value="0" step="1" min="-40" max="30" id="trebEq"></input>
+				 </div>
+		</div>
+		
       </div>
     </div>
 

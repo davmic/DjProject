@@ -7,20 +7,33 @@ function PlayList(ctx){
 	this.gainNode = this.audioContext.createGain();
 	//filtre
 	var fil = this.audioContext.createBiquadFilter();
+	fil.type = "lowpass";
 	fil.frequency.value = 5000;
 	this.speedSound = 1;
-
 	//premiere fois 
 	var firstTime = true;
+	
+	/////////////// Création equaliser/////////////////
+		// BASS
+	var lowFil = this.audioContext.createBiquadFilter();
+	lowFil.type = "lowshelf";
+	lowFil.frequency.value = 500;
+	var lowGain = this.audioContext.createGain();
+		//MEDIUM
+	var medFil = this.audioContext.createBiquadFilter();
+	medFil.type = "peaking";
+	medFil.frequency.value = 2000;
+		//AIGUE
+	var trebFil = this.audioContext.createBiquadFilter();
+	trebFil.type = "highshelf";
+	trebFil.frequency.value = 3000;
 
-
-
-
-
+	///////////////////FIN EQUALISER////////////////////////////
+		
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, this.speedSound);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, lowGain, medFil, trebFil, this.speedSound);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -131,16 +144,27 @@ function PlayList(ctx){
 		// changement musique
 		this.changeChoix(i);
 	}
+	/////////////////////////EQUALISER//////////////////////////
 
-
-
-
+	this.volumeLowEq = function(value){
+		//var eqVol = parseFloat(value) / 100.0;
+		lowFil.gain.value= value;
+	}
+	this.volumeMedEq = function(value){
+		//var eqVol = parseFloat(value) / 100.0;
+		medFil.gain.value= value;
+	}
+	this.volumeTrebEq = function(value){
+		//var eqVol = parseFloat(value) / 100.0;
+		trebFil.gain.value= value;
+	}
 
 	////////////////////// Filtre LowPass ///////////////////////
 	
 	this.filterLowPass = function(value){
 		fil.frequency.value = value;
-		fil.Q.value = 10;
+		fil.Q.value = 5;
+		fil.gain.value=40;
 	}	
 		
 	//////////////////////// BOUTON BASS  /////////////////////////
@@ -151,7 +175,7 @@ function PlayList(ctx){
 		if(activated !=="true"){
 			fil.type = 'lowpass' ; // LOWPASS
 			fil.frequency.value = 300;
-			fil.Q.value = 10;
+			fil.Q.value = 5;
 			fil.gain.value=40;
 			activated= "true";
 		}

@@ -26,6 +26,22 @@ window.onload = function init() {
 		playList1.filterLowPass(evt.target.value);
 	}; 
 
+	// input listener sur lowEq
+	lowEq = document.getElementById("lowEq");
+	lowEq.oninput = function(evt){
+		playList1.volumeLowEq(evt.target.value);
+	}; 
+	// input listener sur medEq
+	medEq = document.getElementById("medEq");
+	medEq.oninput = function(evt){
+		playList1.volumeMedEq(evt.target.value);
+	}; 
+	// input listener sur trebEq
+	trebEq = document.getElementById("trebEq");
+	trebEq.oninput = function(evt){
+		playList1.volumeTrebEq(evt.target.value);
+	}; 
+
 	// input listener sur le speedSound slider
 	speedSoundlider = document.getElementById("speedSoundSlider");
 	speedSoundSlider.oninput = function(evt){

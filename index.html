@@ -14,31 +14,27 @@
     <script src="js/time.js"></script>
     <script src="js/playList.js"></script>
 
-    <style type="text/css">
-
-
-    </style>
-
   </head>
 
   <body>
-
  
     <img src="images/logo.png" id="logo">
 
+<!-- ///////////////////////////// PREMIERE PLAYLIST TAB ///////////////////////////// -->
+
+    <table>
+      <tr>
+        <td>
     <p>Select a music:</p>
     <input type="file" id="file" />
 
     <div id="bcqd">
       <div id="divPlayer">
 
-
               <audio id="audioPlayer" ontimeupdate="update(this)" crossorigin="anonymous">
                 <source src="music/music.ogg"></source>
                 <source src="music/music.mp3"></source>  
-              </audio>
-
-              
+              </audio>              
 
               <div id="progressTime">0:00:00</div>
 
@@ -54,10 +50,22 @@
 
                   <button class="control2 previous" id="sButton" onclick="previous()"></button>
                   <button class="control2 next" id="sButton" onclick="next()"></button>
-				  
-				  <button class="control2 bass" id="bassButton" onclick="bassBoost()"></button>
-              
-               <br/>
+          
+                  <button class="control2 bass" id="bassButton" onclick="bassBoost()"></button>
+
+                    <!-- <img id="imgDrake" src="images/slide.jpg"> -->
+                    <!-- <span id="filename"></span> -->
+                    <div class="btnPayer">
+                      <div id="playList"></div>  
+                    </div>
+
+      </div>    
+      </div>
+    
+
+    <div id="divPlayer" style=" vertical-align:top;">
+
+         <br/>
                <span style="padding-right:4em;padding-left:0em;color: white;">Vol.</span> <span style="padding-right:3em;color: white;">Low/Pass</span>
                <span style="color: white;">Vitesse</span>
               
@@ -75,39 +83,128 @@
                 <label for="speedSoundSlider"></label>
                 <input type="range" min="0" max="4" step="0.01" value="1" id="speedSoundSlider" class="vVertical"/>
              </div>
-			</div>
-     
+
+      
+    <div id="equaliser">
+        <label style="color: white">Equaliser</label>
+        </br>
+        <span style="padding-right:4em;padding-left:0em;color: white;">Bass</span> <span style="padding-right:3em;color: white;">Medium</span>
+        <span style="color: white;">Treble</span>
+        
+        <div class="slider">
+          <!-- <label>Bass</label> -->
+          <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="lowEq"></input>
+         </div>
+         
+         <div class="slider">
+          <!-- <label>Medium</label> -->
+          <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="medEq"></input>
+         </div>
+         
+         <div class="slider">
+          <!-- <label>Treble</label> -->
+          <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="trebEq"></input>
+         </div>
+    </div>
+
+
+    
+      </div>
+    </div>
+  </td>
+
+<!-- ///////////////////////////// DEUXIEME PLAYLIST TAB ///////////////////////////// -->
+
+  <td>
+      <p>Select a music:</p>
+    <input type="file" id="file2" />
+
+    <div id="bcqd">
+      <div id="divPlayer">
+
+
+              <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
+                <source src="music/music.ogg"></source>
+                <source src="music/music.mp3"></source>  
+              </audio>
+
+              <div id="progressTime2">0:00:00</div>
+
+              <progress id="seekbar2" value="0" max="10"></progress>
+
+              <div id="progressBarControl">
+                  <div id="progressBar2" onclick="clickProgress2('audioPlayer2', this, event)"></div>
+              </div>
+ 
+              <div class="btnPayer">
+                  <button class="control2_1 stop" id="sButton2" onclick="stop2('audioPlayer2')"></button>
+                  <button class="control2_1 play" id="pButton2" onclick="play2('audioPlayer2', this)"></button>
+
+                  <button class="control2_2 previous" id="sButton2" onclick="previous2()"></button>
+                  <button class="control2_2 next" id="sButton2" onclick="next2()"></button>
+          
+                  <button class="control2 bass" id="bassButton2" onclick="bassBoost2()"></button>
+
+                    <!-- <img id="imgDrake" src="images/slide.jpg"> -->
+                    <!-- <span id="filename"></span> -->
+                    <div class="btnPayer">
+                      <div id="playList2"></div>  
+                    </div>
+        
+
+      </div>   
       </div>
     
 
     <div id="divPlayer" style=" vertical-align:top;">
-        <img id="imgDrake" src="images/slide.jpg">
-          <!-- <span id="filename"></span> -->
-          <div class="btnPayer">
-            <div id="playList"></div>  
-          </div>
-		  
-		<div id="equaliser">
-		<label>Equaliser</label>
-				<div class="controls">
-					<label>Bass</label>
-					<input type="range" value="0" step="1" min="-40" max="30" id="lowEq"></input>
-				 </div>
-				 <div class="controls">
-					<label>Medium</label>
-					<input type="range" value="0" step="1" min="-40" max="30" id="medEq"></input>
-				 </div>
-				 <div class="controls">
-					<label>Treble</label>
-					<input type="range" value="0" step="1" min="-40" max="30" id="trebEq"></input>
-				 </div>
-		</div>
-		
+
+              <br/>
+               <span style="padding-right:4em;padding-left:0em;color: white;">Vol.</span> <span style="padding-right:3em;color: white;">Low/Pass</span>
+               <span style="color: white;">Vitesse</span>
+              
+               <div class="slider"> 
+                  <label for="myslider" class=""></label>
+                  <input type="range" id="gainSlider2" name="rangeInput" min="0" max="4" step="0.01" value="1" class="vVertical" />
+               </div> 
+    
+              <div class="slider"> 
+                <label for="myslider" class=""></label>
+                <input type="range" min="300" max="5000" step="100" value="5000" id="filterLP2" class="vVertical" />
+             </div> 
+
+             <div class="slider">
+                <label for="speedSoundSlider"></label>
+                <input type="range" min="0" max="4" step="0.01" value="1" id="speedSoundSlider2" class="vVertical"/>
+             </div>
+      
+              <div id="equaliser">
+                  <label style="color: white">Equaliser</label>
+                  </br>
+                  <span style="padding-right:4em;padding-left:0em;color: white;">Bass</span> <span style="padding-right:3em;color: white;">Medium</span>
+                  <span style="color: white;">Treble</span>
+                  
+
+                  <div class="slider">
+                    <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="lowEq2"></input>
+                   </div>
+
+                   <div class="slider">
+                    <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="medEq2"></input>
+                   </div>
+
+                   <div class="slider">
+                    <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="trebEq2"></input>
+                   </div>
+              </div>
+    
       </div>
     </div>
+  </td>
+  </tr>
 
-
-   <script src="js/audioplayer.js"></script>
+  </table>
+    <script src="js/audioplayer.js"></script>  
+  
 </body>
 </html>
 

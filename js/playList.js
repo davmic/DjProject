@@ -1,4 +1,4 @@
-function PlayList(ctx){
+function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	this.playList = [];
 	this.choix = 0;
 
@@ -33,14 +33,14 @@ function PlayList(ctx){
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, lowGain, medFil, trebFil, this.speedSound);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, lowGain, medFil, trebFil, this.speedSound,seekbar,progressTime);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
 			firstTime = false;
 		}
 		/*$("#filename").text(music.name);*/
-    	$("#audioPlayer").prop("src", objectUrl);
+    	$("#"+audioPlayer).prop("src", objectUrl);
 		this.loadSoundUsingAjax(this.audioContext,music,firstTime);
 	}
 
@@ -69,7 +69,13 @@ function PlayList(ctx){
 					liste[0].play();
 					document.getElementById("song0").className="";
 					document.getElementById("song0").className="hoverClickplay";
-					pButton.className = "control1 pause";
+					
+					/* enclencher le play dès la lecture auto de la musique */
+					if(seekbar === "seekbar"){
+						pButton.className = "control1 pause";
+					} else {
+						pButton2.className = "control2_1 pause";
+					}
 
 				}
 			}, function(e) {

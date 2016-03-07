@@ -1,4 +1,4 @@
-function Music(songName, url, ctx, gainNode, filter, lowFil, lowGain, medFil, trebFil, speed) {
+function Music(songName, url, ctx, gainNode, filter, lowFil, lowGain, medFil, trebFil, speed,seekbar,progressTime) {
     // the web audio context
 	this.audioContext = ctx;
     // name of the song
@@ -51,8 +51,8 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, lowGain, medFil, tr
 		gainNode.connect(this.audioContext.destination);
 		
 		// Progress bar: valeur maximale = temps du morceaux 
-		if($('#seekbar').attr("max")!=this.getDuration()){
-			$('#seekbar').attr("max", this.getDuration());	
+		if($('#'+seekbar).attr("max")!=this.getDuration()){
+			$('#'+seekbar).attr("max", this.getDuration());	
 		}
 	};
 		
@@ -95,34 +95,32 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, lowGain, medFil, tr
             // delta 1) le temps "courant" de la musique, moins ce qu'il reste du morceaux
             // delta 2) on multiplie le tout par la vitesse du son en reprenant sa valeur (playbackRate.value)
             var delta = (currentTime - lastTime)*this.bufferSource.playbackRate.value;
-            //if (this.decodedSound !== undefined) {                 
-                //maj temps click seekBar, si sauvegarde diff de la nouvelle maj
-               	if(this.sauvmaj != this.maj){
-               		//sauvegarde maj
-               		this.sauvmaj = this.maj;
-               		//musique au temps du click de la seek bar
-               		this.elapsedTimeSinceStart = this.maj;
-               		//time start
-               		this.timeStartOnAudioContext = this.audioContext.currentTime;
-               	}
+                    
+            //maj temps click seekBar, si sauvegarde diff de la nouvelle maj
+           	if(this.sauvmaj != this.maj){
+           		//sauvegarde maj
+           		this.sauvmaj = this.maj;
+           		//musique au temps du click de la seek bar
+           		this.elapsedTimeSinceStart = this.maj;
+           		//time start
+           		this.timeStartOnAudioContext = this.audioContext.currentTime;
+           	}
 
-               	// rajout du temps pour le temps total passe
-               	this.elapsedTimeSinceStart += delta;
-                // temps precedent 
-                lastTime = currentTime;
+           	// rajout du temps pour le temps total passe
+           	this.elapsedTimeSinceStart += delta;
+            // temps precedent 
+            lastTime = currentTime;
 
-                // quand on met le son sur stop = this.elapsedTimeSinceStart = 0;
-                if (this.elapsedTimeSinceStart > this.getDuration()) {
-                    this.elapsedTimeSinceStart = 0;
+            // quand on met le son sur stop = this.elapsedTimeSinceStart = 0;
+            if (this.elapsedTimeSinceStart > this.getDuration()) {
+                this.elapsedTimeSinceStart = 0;
+
+            //fin de musique on passe a la suivante 
+                if(seekbar === "seekbar"){
+                	document.getElementsByClassName('control2 next')[0].click();
                 }
-            //}
-      //   else{
-      //        if(this.sauvmaj != this.maj){
-      //      		this.sauvmaj = this.maj;
-      //      		this.elapsedTimeSinceStart = this.maj;
-      //      		this.elapsedTimeSinceStart += delta;
-      //      	}
-      //   }  
+                else document.getElementsByClassName('control2_2 next')[0].click();
+     		}
     };
 
     //fonction appelle tout au long de la duree de l'app
@@ -138,15 +136,15 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, lowGain, medFil, tr
 	this.progressBar = function() {
 		this.animateTime();
 		//barre progression
-		$('#seekbar').attr("value", this.elapsedTimeSinceStart);
+		$('#'+seekbar).attr("value", this.elapsedTimeSinceStart);
 		//affichage temps
-		$('#progressTime').text((this.elapsedTimeSinceStart+"").toFormattedTime());
+		$('#'+progressTime).text((this.elapsedTimeSinceStart+"").toFormattedTime());
 
 	}
 
 	this.stopProgressBar = function() {
-		$('#seekbar').attr("value", 0);
-		$('#progressTime').text((this.elapsedTimeSinceStart+"").toFormattedTime());
+		$('#'+seekbar).attr("value", 0);
+		$('#'+progressTime).text((this.elapsedTimeSinceStart+"").toFormattedTime());
 		//console.log(this.getDuration());
 	}
 

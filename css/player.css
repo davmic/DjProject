@@ -52,7 +52,7 @@ body {
   width: 400px;
 }
 
-#imgDrake, #progressTime, #seekbar, #filename{
+#imgDrake, #progressTime, #seekbar, #filename, #progressTime2, #seekbar2{
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -135,7 +135,7 @@ progress::-webkit-progress-value {
   cursor: pointer;
 }*/
 
-#progressTime {
+#progressTime, #progressTime2 {
     width: 70px;
   font-size: 15px;
   padding: .5em;
@@ -146,7 +146,7 @@ progress::-webkit-progress-value {
 }
 
 
-.control1, .control2 {
+.control1, .control2, .control2_1, .control2_2 {
     border: none;
     background-repeat: no-repeat;
     background-color: #2B2B2B;
@@ -155,7 +155,7 @@ progress::-webkit-progress-value {
     cursor: pointer;
 }
 
-.control1 {
+.control1, .control2_1 {
   height: 100px; 
     width: 100px;
     background-size: 100% 70%;
@@ -164,7 +164,7 @@ progress::-webkit-progress-value {
 }
 
  
-.control2 {
+.control2, .control2_2 {
   height:60px; 
     width: 60px;
     background-size: 80% 60%;

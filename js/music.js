@@ -1,4 +1,4 @@
-function Music(songName, url, ctx, gainNode, filter, lowFil, lowGain, medFil, trebFil, speed,seekbar,progressTime) {
+function Music(songName, url, ctx, gainNode, filter, lowFil, medFil, trebFil, speed,seekbar,progressTime) {
     // the web audio context
 	this.audioContext = ctx;
     // name of the song
@@ -33,23 +33,12 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, lowGain, medFil, tr
 		this.bufferSource = this.audioContext.createBufferSource();
 		this.bufferSource.buffer = this.decodedSound;
 
-		this.bufferSource.connect(lowFil);
-		lowFil.connect(lowGain);
-		lowGain.connect(gainNode);
-		
-	/*	
-		this.bufferSource.connect(medFil);
-		medFil.connect(gainNode);
-		gainNode.connect(this.audioContext.destination);
-		
-		this.bufferSource.connect(trebFil);
+		this.bufferSource.connect(filter);	
+		filter.connect(lowFil);
+		lowFil.connect(medFil);
+		medFil.connect(trebFil);
 		trebFil.connect(gainNode);
-		gainNode.connect(this.audioContext.destination);
-	*/
-		this.bufferSource.connect(filter);		
-		filter.connect(gainNode);		
-		gainNode.connect(this.audioContext.destination);
-		
+		gainNode.connect(this.audioContext.destination);	
 		// Progress bar: valeur maximale = temps du morceaux 
 		if($('#'+seekbar).attr("max")!=this.getDuration()){
 			$('#'+seekbar).attr("max", this.getDuration());	

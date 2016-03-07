@@ -13,27 +13,27 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	//premiere fois 
 	var firstTime = true;
 	
-	/////////////// Création equaliser/////////////////
+/////////////// Création equaliser/////////////////
 		// BASS
 	var lowFil = this.audioContext.createBiquadFilter();
 	lowFil.type = "lowshelf";
-	lowFil.frequency.value = 500;
-	var lowGain = this.audioContext.createGain();
+	lowFil.frequency.value = 600 ;// les fréquences en dessous de 600 seront atténuées ou amplifiées
 		//MEDIUM
 	var medFil = this.audioContext.createBiquadFilter();
 	medFil.type = "peaking";
-	medFil.frequency.value = 2000;
+	medFil.frequency.value = 1620;
 		//AIGUE
 	var trebFil = this.audioContext.createBiquadFilter();
 	trebFil.type = "highshelf";
-	trebFil.frequency.value = 3000;
+	trebFil.frequency.value = 3500;
+
 
 	///////////////////FIN EQUALISER////////////////////////////
 		
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, lowGain, medFil, trebFil, this.speedSound,seekbar,progressTime);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -153,15 +153,15 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	/////////////////////////EQUALISER//////////////////////////
 
 	this.volumeLowEq = function(value){
-		//var eqVol = parseFloat(value) / 100.0;
+		var eqVol = parseFloat(value) / 100.0;
 		lowFil.gain.value= value;
 	}
 	this.volumeMedEq = function(value){
-		//var eqVol = parseFloat(value) / 100.0;
+		var eqVol = parseFloat(value) / 100.0;
 		medFil.gain.value= value;
 	}
 	this.volumeTrebEq = function(value){
-		//var eqVol = parseFloat(value) / 100.0;
+		var eqVol = parseFloat(value) / 100.0;
 		trebFil.gain.value= value;
 	}
 
@@ -179,9 +179,8 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 
 	bass.onclick = function(){
 		if(activated !=="true"){
-			fil.type = 'lowpass' ; // LOWPASS
 			fil.frequency.value = 300;
-			fil.Q.value = 5;
+			fil.Q.value = 4;
 			fil.gain.value=40;
 			activated= "true";
 		}

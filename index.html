@@ -20,15 +20,17 @@
 
   <body>
 
+
     <div id="header">
         <img src="images/logo.png" id="logo">  
     </div>
 
 
 
-    <div id="bcqd"  >
-<div id="mainBackground">
-      <div class="divPlayer">
+    <div id="bcqd">
+      <div id="mainBackground" class="center">
+
+        <div class="divPlayer">
 
                 <div class="topDivpl">
                         <!-- <input type="file" id="file" style=" display:inline-block; "/> -->
@@ -38,9 +40,8 @@
                           </div>
                         </form>  
                       <div class="ggg">
-                            <div id="playList"> </div> 
-                            <!-- <div id="myDiv">Big Sean - One Man Can Change The World ft. Kanye West, John Legend</div> -->
-                             <div id="progressTime">0:00:00</div> 
+                            <span id="playList"></span> 
+                            <div id="progressTime">0:00:00</div> 
                             <progress id="seekbar" value="0" max="10"></progress>  
                              
                     </div>
@@ -48,9 +49,7 @@
                 </div>
 
               <audio id="audioPlayer" ontimeupdate="update(this)" crossorigin="anonymous">
-                <source src="music/music.ogg"></source>
-                <source src="music/music.mp3"></source>  
-              </audio> 
+              </audio>   
   
               <div class="ggg2">
                       <div class="middlePlat1"> 
@@ -58,7 +57,7 @@
                           <label for="speedSoundSlider"></label>
                           <input type="range" min="0" max="4" step="0.01" value="1" id="speedSoundSlider" class="vVertical"/>
                        </div>
-                          <p>Vit. 1</p>
+                          <p class="textPg">Vitesse 1</p>
                       </div>
 
                       <div class="middlePlat2" style="vertical-align:top;">
@@ -89,12 +88,11 @@
 
                <div class="sliderG"> 
                   <label for="myslider" class=""></label>
-                  <input type="range" id="gainSlider2" name="rangeInput" min="0" max="4" step="0.01" value="1" class="vVertical" />
+                  <input type="range" id="gainSlider" name="rangeInput" min="0" max="4" step="0.01" value="1" class="vVertical" />
                </div> 
-
                <div class="sliderG"> 
                   <label for="myslider" class=""></label>
-                  <input type="range" id="gainSlider" name="rangeInput" min="0" max="4" step="0.01" value="1" class="vVertical" />
+                  <input type="range" id="gainSlider2" name="rangeInput" min="0" max="4" step="0.01" value="1" class="vVertical" />
                </div> 
           </div>
           <div class="divCrossF" style="vertical-align:bottom;">
@@ -113,8 +111,8 @@
                           </div>
                         </form>  
                       <div class="ggg">
-                            <div id="playList2"> </div> 
-                             <div id="progressTime2">0:00:00</div> 
+                            <span id="playList2"></span>
+                            <div id="progressTime2">0:00:00</div> 
                             <progress id="seekbar2" value="0" max="10"></progress>  
                              
                     </div>
@@ -136,16 +134,14 @@
                             <label for="speedSoundSlider"></label>
                             <input type="range" min="0" max="4" step="0.01" value="1" id="speedSoundSlider2" class="vVertical"/>
                         </div>
-                          <p>Vit. 2</p>
+                          <p class="textPd">Vitesse 2</p>
                       </div>
 
 
               </div>
 
-              <audio id="audioPlayer" ontimeupdate="update(this)" crossorigin="anonymous">
-                <source src="music/music.ogg"></source>
-                <source src="music/music.mp3"></source>  
-              </audio>              
+              <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
+              </audio>             
  
               <div class="btnPayer">
                   <button class="control2_1 play" id="pButton2" onclick="play2('audioPlayer2', this)"></button>
@@ -159,11 +155,13 @@
 
   </div>  
 
+</div>
+<div id="mainBackground" class="center">
+
    
   <div class="divPlayerB">
        
           <!-- <label style="color: white">Equaliser: </label> -->
-          
           <span style="padding-right:4em;padding-left:0em;color: white;">Low/Pass</span>
           <span style="padding-right:5em;padding-left:0em;color: white;">Bass</span> <span style="padding-right:5em;color: white;">Medium</span>
           <span style="color: white;padding-right:3em;">Treble</span>
@@ -193,8 +191,7 @@
 
   <div class="divPlayerB">
          
-          <!-- <label style="color: white">Equaliser: </label> -->
-          
+          <!-- <label style="color: white">Equaliser: </label> -->     
           <span style="padding-right:4em;padding-left:0em;color: white;">Low/Pass</span>
           <span style="padding-right:5em;padding-left:0em;color: white;">Bass</span> <span style="padding-right:5em;color: white;">Medium</span>
           <span style="color: white;padding-right:3em;">Treble</span>
@@ -222,13 +219,12 @@
 
 
     </div>
+
 </div>
 
     <div id="footer">
-        BOCCARA DJ - 2016
+        BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien. Collection Yolo Records
     </div>
-
-
     <script src="js/audioplayer.js"></script>  
   
 </body>

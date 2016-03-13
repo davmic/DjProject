@@ -23,14 +23,30 @@ input[type=range].vVertical {
 		    height: 28px;
 		}
 
-		.slider {
+		.sliderG {
 		    display: table-cell;
 		    vertical-align: middle;
 		    height: 170px;
 		    width: 20px;
+		    text-align: left;
             /* background-color: red; */
 		    background-image:url(../images/volSlide.png);
 			background-repeat:no-repeat;
 			background-position: 50% 60% ;
+			background-size: 61%;
+			 
+		}
+
+		.sliderD {
+		    display: table-cell;
+		    vertical-align: middle;
+		    height: 170px;
+		    width: 20px;
+/*		    text-align: right;
+		    margin-left: 2em;*/
+            /* background-color: red; */
+		    background-image:url(../images/volSlide.png);
+			background-repeat:no-repeat;
+			background-position: 50% 60%;
 			background-size: 61%;
 		}

@@ -1,11 +1,28 @@
 
+/* /////////////////////////// FONTS /////////////////////////// */
+@font-face {
+  font-family: 'dopestbymarsnev';
+  src: url('../font/dopestbymarsnev.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Thunder Lord';
+  src: url('../font/Thunder Lord.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GOTHIC';
+  src: url("../font/GOTHIC.TTF"); }
+
 /* /////////////////////////// STRUCTURE DE BASE /////////////////////////// */
 
 body {
-
+  color: white;
 }
+
 #header {
-  background-color:red;
   color:white;
   text-align:center;  
   /* vis a vis de hauteur du logo */
@@ -15,6 +32,7 @@ body {
 #logo {
   width: 200px;
   text-align: left;
+  padding: .2em;
 }
 
 #footer {
@@ -22,6 +40,9 @@ body {
     color:white;
     clear:both;
     text-align:center;
+    font-family: 'GOTHIC';
+    font-size: 10px;
+    padding-top: 1.5em;
     height: 50px;   
 }
 
@@ -30,10 +51,12 @@ body {
   padding-top: 0.6em;
   padding-bottom: 2em;
   text-align: center;
+  min-width: 1500px;
 }
 
 #mainBackground {
-  width: 1550px;
+  /*width: 1550px;*/
+  font-family: "Thunder Lord";
 }
 .center {
   margin-left: auto;
@@ -46,6 +69,7 @@ body {
   width: 530px;
   height: 420px;
   border: 1.5px solid #1e6662; 
+  background-color: #2B2B2B;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -57,6 +81,7 @@ body {
   vertical-align: top;
   height: 420px;
   border: 1.5px solid #1e6662; 
+  background-color: #2B2B2B;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -67,6 +92,7 @@ body {
   width: 675px;
   height: 250px;
   border: 1.5px solid #1e6662; 
+  background-color: #2B2B2B;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -93,42 +119,30 @@ div.upload input {
 
 .topDivpl {
   height: 88px;
-  background-color: white;
   margin-bottom: 0.3em;
 }
 
 .formInput {
-  /*float: left;*/
   display: inline-block;
 }
 
 .ggg {
    float: right;
    text-align: right;
-   background-color: green;
-  /* clear: both;*/
 }
 
 #playList, #playList2{
   display: inline-block;
-  background-color: red;
-  padding: 0.2em;
 }
 
-#progressTime, #progressTime2 {  
-/*font-size: 15px;
-  padding: .5em;
-  width: 70px;
-  color: #1e6662;
-  text-align: right;
-  border: 1.5px solid #1e6662;
-  background-color: #171514;*/
+#progressTime, #progressTime2, #playList2, #playList {  
+  font-family: "GOTHIC";
+  font-size: 15px;
 }
 
 /* //////////////// PROGRESS BAR //////////////// */
 progress {
   width: 300px;
-  /* margin: 2em auto;*/
   margin-bottom: 0.8em;
   padding: 3px;
   border: 0 none;
@@ -158,46 +172,42 @@ progress::-webkit-progress-value {
 } 
 
 .ggg2 {
-  background-color: blue;
 }
 
 .middlePlat1 {
-  width: 180px;/* 
-  text-align: center;
-  border: solid 1px black;*/
-  background-color: red;
+  width: 180px;
   display: inline-block;
-  vertical-align: center;
+  text-align: left;
+  padding-left: 2em;
+}
+
+.textPg {
+  padding-left: 2.5em;
+}
+
+.textPd {
+  padding-right: 2.5em;
 }
 
 .middlePlat2 {
-  width: 200px;/* 
-  vertical-align: middle;
-  
-  border: solid 1px black;*/
+  width: 200px;
   margin-left: 3em;
   text-align: center;
-  background-color: red;
   display: inline-block;
 }
 
 .middlePlat3 {
-  width: 200px;/* 
-  vertical-align: middle;
-  
-  border: solid 1px black;*/
+  width: 200px;
   margin-right: 3em;
   text-align: center;
-  background-color: red;
   display: inline-block;
 }
 
 .middlePlat4 {
   width: 180px;
-  margin-left: 2em;
-  text-align: right;/* 
-  border: solid 1px black;*/
-  background-color: red;
+  padding-left: 2em;
+  text-align: right; 
+  text-align: center;
   display: inline-block;
   vertical-align: center;
 }
@@ -206,33 +216,6 @@ progress::-webkit-progress-value {
 #platine {
   width: 200px;
 }
-
-
-/*#imgDrake {
-  width: 400px;
-}*/
-
-/*#imgDrake, #progressTime, #seekbar, #filename, #progressTime2, #seekbar2{
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  display: block;
-  padding: 0.5em;
-}
-*/
-
-/*#filename {
-  padding: 1em;
-    color: white;
-}*/
-
-/*h1 {
-  font-size: 17px;
-  line-height: 30px;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 25px;
-}*/
 
 .play{
   background-image: url("../images/Bplay.png");
@@ -305,7 +288,6 @@ progress::-webkit-progress-value {
 }
 
 .btnPayer {
-   background-color: yellow;
    margin-top: 0.2em;
 } 
 
@@ -316,83 +298,21 @@ progress::-webkit-progress-value {
 }
 
 .twoVols {
-  background-color: blue;
   height: 180px;
-/*  vertical-align: middle;*/
 }
 
 .divCrossF {
-  background-color: red;
   height: 100px;
 }
-
-
-/*#mutePct {
-  width: 20px;
-  vertical-align: middle;
-}
-
-#mute {
-  display: inline-block;
-  float: left;
-}*/
-
-/*.boccara {
-    background-color: #FFFFFF;
-    color: #000000;
-    padding: 11px;
-    margin: 5px;
-    font-family: impact;
-    font-style: normal;
-    font-size: 19px;
-    text-align: center;
-    text-decoration: none;
-}*/
-
 
 #equaliser {
   padding-left: 3em;
 }
 
-/* //////////////// CSS DIV PLAYLIST /////////////////// */
-.hoverClickplay {
- /* font-weight: bold;
-  width: 370px;
-  text-align: left;
-  color: white;
-  padding: 2px;
-  cursor: pointer;
-
-  background-color: inherit;
-  background-image: url("../images/iconPlay.png");
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 5% 80%;
-
-  font-size: 12px;
-  border-bottom: 1px solid #228d87; 
-  display: block;
-  margin-right: auto;
-  margin-left: auto;*/
-}
-
-.hoverClickpause {
- 
-/*cursor: pointer;
-  color: white;
-  font-size: 11px;
-  font-weight: 0;
-  display: block;*/
-
-  display: inline-block;
-  background-color: red;
-  padding: 0.5em;
- 
-}
 
 /* ////////////////// LIMIT CHARACTERS ///////////////////// */
 span.read-more { 
-  cursor: pointer; color: red; 
+  /*cursor: pointer; color: red; */
 }
 
 span.more { 

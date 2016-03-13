@@ -62,7 +62,7 @@ window.onload = function init() {
 	// input listener on the gain slider
 	var gainSlider2;
 	gainSlider2 = document.getElementById("gainSlider2");
-	gainSlider.oninput = function(evt){
+	gainSlider2.oninput = function(evt){
 		playList2.changeVolume(evt.target.value);
 	};
 	
@@ -109,14 +109,14 @@ function play(idPlayer, control) {
         pButton.className = "";
         pButton.className = "control1 pause";
 
-        document.getElementById("song"+playList1.choix).className="hoverClickplay";
+        /*document.getElementById("song"+playList1.choix).className="hoverClickplay";*/
 
     } else {
 		playList1.playList[playList1.choix].stop("pause");
         pButton.className = "";  
         pButton.className = "control1 play";
 
-        document.getElementById("song"+playList1.choix).className="hoverClickplay";
+        /*document.getElementById("song"+playList1.choix).className="hoverClickplay";*/
     }
 
 
@@ -131,7 +131,7 @@ function stop(idPlayer) {
 	pButton.className = "";
     pButton.className = "control1 play";
 
-    document.getElementById("song"+playList1.choix).className="hoverClickpause";
+    /*document.getElementById("song"+playList1.choix).className="hoverClickpause";*/
 }
 
 ////////////////////////////// VOLUME //////////////////////////////
@@ -155,7 +155,7 @@ function update(player) {
 $("#file").change(function(e){
     playList1.change(e,"audioPlayer");
     //action au double click
-    $("#playList").append("<div id=song"+(playList1.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique("+(playList1.playList.length-1)+")'>"+ playList1.playList[playList1.playList.length-1].name+"</div><br/>");
+    $("#playList").append("<div id=song"+(playList1.playList.length-1)+" ondblclick='choixMusique("+(playList1.playList.length-1)+")'>"+ playList1.playList[playList1.playList.length-1].name+"</div>");
 
 });
 
@@ -203,15 +203,10 @@ function play2(idPlayer, control) {
 		playList2.playList[playList2.choix].play();
         pButton2.className = "";
         pButton2.className = "control2_1 pause";
-
-        document.getElementById("song"+playList2.choix).className="hoverClickplay";
-
     } else {
 		playList2.playList[playList2.choix].stop("pause");
         pButton2.className = "";  
         pButton2.className = "control2_1 play";
-
-        document.getElementById("song"+playList2.choix).className="hoverClickplay";
     }
 
 }
@@ -223,8 +218,6 @@ function stop2(idPlayer) {
     playList2.playList[playList2.choix].stop("stop");
 	pButton2.className = "";
     pButton2.className = "control2_1 play";
-
-    document.getElementById("song"+playList2.choix).className="hoverClickpause";
 }
 
 ////////////////////////////// VOLUME //////////////////////////////
@@ -248,7 +241,7 @@ function update2(player) {
 $("#file2").change(function(e){
     playList2.change(e,audioPlayer2);
     //action au double click
-    $("#playList2").append("<div id=song"+(playList2.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique("+(playList2.playList.length-1)+")'>"+ playList2.playList[playList2.playList.length-1].name+"</div><br/>");
+    $("#playList2").append("<div id=song"+(playList2.playList.length-1)+" ondblclick='choixMusique("+(playList2.playList.length-1)+")'>"+ playList2.playList[playList2.playList.length-1].name+"</div>");
 
 });
 

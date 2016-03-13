@@ -60,10 +60,10 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		// Decode asynchronously
 		request.onload = function() {
 
-				// Limit les charactères du titre pour ne pas apparaitre en entier
+				// PLAYLIST 1: Limit les charactères du titre pour ne pas apparaitre en entier
 				var limit = 35;
 		        var chars = $("#playList").text(); 
-		        if (chars.length > limit) {
+		        if (chars.length > limit ) {
 		            var visiblePart = $("<span> "+ chars.substr(0, limit-1) +"</span>");
 		            var dots = $("<span class='dots'>... </span>");
 		            var hiddenPart = $("<span class='more'>"+ chars.substr(limit-1) +"</span>");
@@ -73,7 +73,7 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		                .append(dots)
 		                .append(hiddenPart);
 		        }
-
+		        // PLAYLIST 2: Limit les charactères du titre pour ne pas apparaitre en entier
 				var limit2 = 35;
 		        var chars2 = $("#playList2").text(); 
 		        if (chars2.length > limit2) {
@@ -91,8 +91,6 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 			// Let's decode it. This is also asynchronous
 			audioContext.decodeAudioData(request.response, function(buffer) {
 
-				
-
 				console.log("Sound decoded");
 				music.decodedSound = buffer;
 				music.inverseDecodedSound = inverseBuffer(audioContext,buffer);
@@ -108,14 +106,7 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 				if(fT){
 					liste[0].draw();	
 					liste[0].buildGraph();	
-					liste[0].play();
-					document.getElementById("song0").className="";
-					document.getElementById("song0").className="hoverClickplay";
-					
-				
-
-
-
+					liste[0].play();					
 				}
 			}, function(e) {
 			console.log("error");});
@@ -144,17 +135,10 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	//change le choix
 	this.changeChoix = function(i){
 		
-		/*document.getElementById("song0").className="hoverClickpause";*/
-		document.getElementById("song"+this.choix).className="";
-		document.getElementById("song"+this.choix).className="hoverClickpause";
-		
 		this.playList[this.choix].stop("stop"); 
 
 		// changement du choix 
 		this.choix=i;
-		document.getElementById("song"+this.choix).className="";
-		document.getElementById("song"+this.choix).className="hoverClickplay";
-
 		// reconstruction
 		this.playList[this.choix].buildGraph();
 		//abimation 

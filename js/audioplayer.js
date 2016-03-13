@@ -12,7 +12,8 @@ window.onload = function init() {
 	
 	// on instancie les playlists
 	playList1 = new PlayList(ctx,"audioPlayer","seekbar","progressTime");
-	// input listener on the gain slider volume
+	console.log(playList1);
+	// input listener on the gain slider
 	var gainSlider;
 	gainSlider = document.getElementById("gainSlider");
 	gainSlider.oninput = function(evt){
@@ -57,10 +58,11 @@ window.onload = function init() {
 	
 	// on instancie les playlists
 	playList2 = new PlayList(ctx2,"audioPlayer2","seekbar2","progressTime2");
-	// input listener on the gain slider volume
+	console.log(playList2);
+	// input listener on the gain slider
 	var gainSlider2;
 	gainSlider2 = document.getElementById("gainSlider2");
-	gainSlider2.oninput = function(evt){
+	gainSlider.oninput = function(evt){
 		playList2.changeVolume(evt.target.value);
 	};
 	
@@ -177,9 +179,8 @@ function previous(){
 ///////////////////////// BARRE DE PROGRESSION CLIQUEABLE /////////////////////////
 
 $('#seekbar').click(function(e){
-	 var $div = $(e.target);
-	var offset = $div.offset();
-    var time = ((e.pageX -  offset.left) * this.max)/this.offsetWidth;
+	console.log("taille "  + e.pageX);
+    var time = ((e.pageX - this.offsetLeft) * this.max)/this.offsetWidth;
     playList1.playList[playList1.choix].majTime(time);
     /*
     Enlever la taille des border pour bien calculer la valeur de la seekBar lors du click 

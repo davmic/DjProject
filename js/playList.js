@@ -54,14 +54,56 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		if(fT){
 			liste = this.playList;
 		}
+
+				
+
 		// Decode asynchronously
 		request.onload = function() {
+
+				// Limit les charactères du titre pour ne pas apparaitre en entier
+				var limit = 35;
+		        var chars = $("#playList").text(); 
+		        if (chars.length > limit) {
+		            var visiblePart = $("<span> "+ chars.substr(0, limit-1) +"</span>");
+		            var dots = $("<span class='dots'>... </span>");
+		            var hiddenPart = $("<span class='more'>"+ chars.substr(limit-1) +"</span>");
+
+		            $("#playList").empty()
+		                .append(visiblePart)
+		                .append(dots)
+		                .append(hiddenPart);
+		        }
+
+				var limit2 = 35;
+		        var chars2 = $("#playList2").text(); 
+		        if (chars2.length > limit2) {
+		            var visiblePart2 = $("<span> "+ chars2.substr(0, limit2-1) +"</span>");
+		            var dots2 = $("<span class='dots'>... </span>");
+		            var hiddenPart2 = $("<span class='more'>"+ chars2.substr(limit2-1) +"</span>");
+
+		            $("#playList2").empty()
+		                .append(visiblePart2)
+		                .append(dots2)
+		                .append(hiddenPart2);
+		        }
+
 			console.log("Sound loaded");
 			// Let's decode it. This is also asynchronous
 			audioContext.decodeAudioData(request.response, function(buffer) {
+
+				
+
 				console.log("Sound decoded");
 				music.decodedSound = buffer;
 				music.inverseDecodedSound = inverseBuffer(audioContext,buffer);
+
+	                /* enclencher le play dès la lecture auto de la musique */
+					if(seekbar === "seekbar"){
+						pButton.className = "control1 pause";
+					} else {
+						pButton2.className = "control2_1 pause";
+					}
+
 				// si premiere fois 
 				if(fT){
 					liste[0].draw();	
@@ -70,12 +112,9 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 					document.getElementById("song0").className="";
 					document.getElementById("song0").className="hoverClickplay";
 					
-					/* enclencher le play dès la lecture auto de la musique */
-					if(seekbar === "seekbar"){
-						pButton.className = "control1 pause";
-					} else {
-						pButton2.className = "control2_1 pause";
-					}
+				
+
+
 
 				}
 			}, function(e) {

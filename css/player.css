@@ -1,6 +1,9 @@
 
 /* /////////////////////////// STRUCTURE DE BASE /////////////////////////// */
 
+body {
+
+}
 #header {
   background-color:red;
   color:white;
@@ -29,6 +32,9 @@
   text-align: center;
 }
 
+#mainBackground {
+  width: 1550px;
+}
 .center {
   margin-left: auto;
   margin-right: auto;
@@ -77,7 +83,7 @@ div.upload {
 }
 
 div.upload input {
-    /*display: block !important; */
+    /* display: block !important; */
     display: inline-block;
     width: 157px !important;
     height: 57px !important;
@@ -384,3 +390,11 @@ progress::-webkit-progress-value {
  
 }
 
+/* ////////////////// LIMIT CHARACTERS ///////////////////// */
+span.read-more { 
+  cursor: pointer; color: red; 
+}
+
+span.more { 
+  display: none;  
+}

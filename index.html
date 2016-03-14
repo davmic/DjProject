@@ -14,7 +14,6 @@
     <script src="js/music.js"></script>
     <script src="js/time.js"></script>
     <script src="js/playList.js"></script>
-    <script src="js/limit-characters.js"></script>
 
   </head>
 
@@ -96,7 +95,8 @@
                </div> 
           </div>
           <div class="divCrossF" style="vertical-align:bottom;">
-                     <img src="images/CrossFader.png" id="platine" style="vertical-align:bottom;">
+                     <!-- <img src="images/CrossFader.png" id="platine" style="vertical-align:bottom;"> -->
+                      <input type="range" id="crossFader" name="crossFader" min="0" max="4" step="0.01" value="2"  />
           </div>
 
   </div>
@@ -120,8 +120,6 @@
                 </div>
 
              <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
-                <source src="music/music.ogg"></source>
-                <source src="music/music.mp3"></source>  
               </audio>
   
               <div class="ggg2">

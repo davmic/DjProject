@@ -58,6 +58,7 @@ body {
   /*width: 1550px;*/
   font-family: "Thunder Lord";
 }
+
 .center {
   margin-left: auto;
   margin-right: auto;
@@ -88,7 +89,7 @@ body {
   display: inline-block;
 }
 
-.divPlayerB {
+.divPlayerB, .divPlayerPlay {
   width: 675px;
   height: 250px;
   border: 1.5px solid #1e6662; 
@@ -97,6 +98,10 @@ body {
   margin: 0.2em;
   padding: 7px;
   display: inline-block;
+}
+
+.divPlayerPlay {
+  text-align: left;
 }
 
 
@@ -132,10 +137,10 @@ div.upload input {
 }
 
 #playList, #playList2{
-  display: inline-block;
+   padding: 1em;
 }
 
-#progressTime, #progressTime2, #playList2, #playList {  
+#progressTime, #progressTime2, #playList2, #playList, #currentSong2, #currentSong {  
   font-family: "GOTHIC";
   font-size: 15px;
 }
@@ -317,4 +322,40 @@ span.read-more {
 
 span.more { 
   display: none;  
+}
+
+
+/* ////////////////////////////  PLAYLIST BOTTOM CSS ////////////// */
+.hoverClickplay {
+  font-weight: bold;
+  width: 450px;
+  text-align: left;
+  color: white;
+  padding: 2px;
+  cursor: pointer;
+
+  background-color: inherit;
+  background-image: url("../images/iconPlay.png");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 4% 85%;
+
+  font-size: 12px;
+  border-bottom: 1px solid #228d87; 
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.hoverClickpause {
+  width: 370px;
+  padding: 2px;
+  cursor: pointer;
+  text-align: left;
+  color: white;
+  font-size: 11px;
+  font-weight: 0;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }

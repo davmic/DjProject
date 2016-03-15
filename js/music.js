@@ -55,6 +55,8 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, medFil, trebFil, sp
 		this.bufferSource.playbackRate.value = this.speedSound;
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
+
+
     };
 	
 	this.stop = function (type) {
@@ -155,12 +157,42 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, medFil, trebFil, sp
 
 	}
 
-
-
 	// Vitesse du son / speed sound
 	this.changeSpeed = function(value) {
 		this.bufferSource.playbackRate.value = value;
 	}
+
+	////////////////////// LIMIT CHARACTERS ///////////////////////
+	
+	this.limitCharacters = function(){
+
+		// CURRENT SONG 1: Limit les charactères du titre pour ne pas apparaitre en entier
+	 	var limit = 35;
+        var chars = $("#currentSong").text(); 
+        if (chars.length > limit ) {
+            var visiblePart = $("<span> "+ chars.substr(0, limit-1) +"</span>");
+            var dots = $("<span class='dots'>... </span>");
+            var hiddenPart = $("<span class='more'>"+ chars.substr(limit-1) +"</span>");
+
+            $("#currentSong").empty()
+                .append(visiblePart)
+                .append(dots)
+                .append(hiddenPart);
+        }
+        // CURRENT SONG 2: Limit les charactères du titre pour ne pas apparaitre en entier
+		var limit2 = 35;
+        var chars2 = $("#currentSong2").text(); 
+        if (chars2.length > limit2) {
+            var visiblePart2 = $("<span> "+ chars2.substr(0, limit2-1) +"</span>");
+            var dots2 = $("<span class='dots'>... </span>");
+            var hiddenPart2 = $("<span class='more'>"+ chars2.substr(limit2-1) +"</span>");
+
+            $("#currentSong2").empty()
+                .append(visiblePart2)
+                .append(dots2)
+                .append(hiddenPart2);
+        }
+	}	
 }
 
 

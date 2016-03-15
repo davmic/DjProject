@@ -42,6 +42,8 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		/*$("#filename").text(music.name);*/
     	$("#"+audioPlayer).prop("src", objectUrl);
 		this.loadSoundUsingAjax(this.audioContext,music,firstTime);
+
+ 
 	}
 
 	this.loadSoundUsingAjax =  function(audioContext, music, fT) {
@@ -60,54 +62,37 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		// Decode asynchronously
 		request.onload = function() {
 
-				// PLAYLIST 1: Limit les charactères du titre pour ne pas apparaitre en entier
-				var limit = 35;
-		        var chars = $("#playList").text(); 
-		        if (chars.length > limit ) {
-		            var visiblePart = $("<span> "+ chars.substr(0, limit-1) +"</span>");
-		            var dots = $("<span class='dots'>... </span>");
-		            var hiddenPart = $("<span class='more'>"+ chars.substr(limit-1) +"</span>");
-
-		            $("#playList").empty()
-		                .append(visiblePart)
-		                .append(dots)
-		                .append(hiddenPart);
-		        }
-		        // PLAYLIST 2: Limit les charactères du titre pour ne pas apparaitre en entier
-				var limit2 = 35;
-		        var chars2 = $("#playList2").text(); 
-		        if (chars2.length > limit2) {
-		            var visiblePart2 = $("<span> "+ chars2.substr(0, limit2-1) +"</span>");
-		            var dots2 = $("<span class='dots'>... </span>");
-		            var hiddenPart2 = $("<span class='more'>"+ chars2.substr(limit2-1) +"</span>");
-
-		            $("#playList2").empty()
-		                .append(visiblePart2)
-		                .append(dots2)
-		                .append(hiddenPart2);
-		        }
-
+			music.limitCharacters();
+ 
 			console.log("Sound loaded");
 			// Let's decode it. This is also asynchronous
 			audioContext.decodeAudioData(request.response, function(buffer) {
 
-				console.log("Sound decoded");
-				music.decodedSound = buffer;
-				music.inverseDecodedSound = inverseBuffer(audioContext,buffer);
+			console.log("Sound decoded");
+			music.decodedSound = buffer;
+			music.inverseDecodedSound = inverseBuffer(audioContext,buffer);
 
-	                /* enclencher le play dès la lecture auto de la musique */
-					if(seekbar === "seekbar"){
-						pButton.className = "control1 pause";
-					} else {
-						pButton2.className = "control2_1 pause";
-					}
+			music.limitCharacters();
 
-				// si premiere fois 
-				if(fT){
-					liste[0].draw();	
-					liste[0].buildGraph();	
-					liste[0].play();					
-				}
+			// si premiere fois 
+			if(fT){
+				liste[0].draw();	
+				liste[0].buildGraph();	
+				liste[0].play();
+
+				/* enclencher le play dès la lecture auto de la musique */
+				if(seekbar === "seekbar"){
+					pButton.className = "control1 pause";
+
+					document.getElementById("song0").className="";
+					document.getElementById("song0").className="hoverClickplay";
+				} else {
+					pButton2.className = "control2_1 pause";
+					
+					document.getElementById("song20").className="";
+				    document.getElementById("song20").className="hoverClickplay"; 
+				}				
+			}
 			}, function(e) {
 			console.log("error");});
 		};
@@ -134,11 +119,42 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 
 	//change le choix
 	this.changeChoix = function(i){
-		
+
+
+		if(seekbar === "seekbar"){
+			document.getElementById("song"+this.choix).className="";
+			document.getElementById("song"+this.choix).className="hoverClickpause";
+			
+			pButton.className = "";
+            pButton.className = "control1 play";
+		} else {			
+			document.getElementById("song2"+this.choix).className="";
+			document.getElementById("song2"+this.choix).className="hoverClickpause";
+			pButton2.className = "";
+            pButton2.className = "control2_1 play";
+		}
+
 		this.playList[this.choix].stop("stop"); 
 
 		// changement du choix 
 		this.choix=i;
+
+
+		if(seekbar === "seekbar"){
+			document.getElementById("song"+this.choix).className="";
+			document.getElementById("song"+this.choix).className="hoverClickplay";
+			
+			pButton.className = "";
+            pButton.className = "control1 pause";
+		} else {			
+			document.getElementById("song2"+this.choix).className="";
+			document.getElementById("song2"+this.choix).className="hoverClickplay";
+			
+			pButton2.className = "";
+            pButton2.className = "control2_1 pause";
+		}
+ 
+
 		// reconstruction
 		this.playList[this.choix].buildGraph();
 		//abimation 
@@ -147,8 +163,9 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		this.playList[this.choix].play();
 		//change la rapidite
 		this.changeSpeed(this.speedSound);
-	}
 
+		this.playList[this.choix].limitCharacters();
+	}
 
 	// chanson suivante
 	this.nextSong = function(){
@@ -195,7 +212,9 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		fil.Q.value = 5;
 		fil.gain.value=40;
 	}	
-		
+
+
+
 	//////////////////////// BOUTON BASS  /////////////////////////
 	var bass = document.getElementById("bassButton");
 	var activated = 'false';

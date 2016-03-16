@@ -347,3 +347,103 @@ function changeCurrentSong(i){
 		playList2.playList[playList2.choix].limitCharacters();
 	}
 };
+
+
+// Gestion MIDI //
+
+// On verifie que le navigateur supporte l'API WEBMIDI
+if (navigator.requestMIDIAccess) {
+	navigator.requestMIDIAccess({sysex: false}).then(onMIDISuccess, onMIDIFailure);
+} else {
+	console.warn("No MIDI support in your browser")
+}
+
+// ON SUCCESS
+function onMIDISuccess(midiData) {
+	// MIDI data, inputs, outputs, sysex status
+	var midi = midiData;
+	var allInputs = midi.inputs.values();
+	// Ecoute des inputs MIDI
+	for (var input = allInputs.next(); input && !input.done; input = allInputs.next()) {
+		// Quand une valeur MIDI est recu on appelle onMIDIMessage
+		input.value.onmidimessage = onMIDImessage;
+		// Affiche les informations sur l'input
+		listInputs(input);
+	}
+	// Quand un changement est detecte on appelle onStateChange
+	midi.onstatechange = onStateChange;
+}
+
+function onStateChange(event) {
+    var port = event.port,
+        state = port.state,
+        name = port.name,
+        type = port.type;
+    if (type == "input") console.log("name: ", name, "port: ", port, "state: ", state);
+	if (state == "disconnected") console.warn(" MIDI disconnected");	
+}
+
+function onMIDImessage(messageData) {
+	console.log(messageData.data);
+	var data = messageData.data;
+	// channel/command du message
+	channel = data[0] & 0xf0;
+	note = data[1];
+	velocity = data[2];
+	switch(channel) {
+		case 144 :
+			//Play Button A
+			if(note == 59) {
+				console.log("Play Button A");
+				play('audioPlayer', $('#pButton'));
+			}
+			//Play Button B
+			else if (note == 66) {
+				console.log("Play Button B");
+			}
+			break;
+		case 176 :
+			//Wheel A
+			if(note == 25) {
+				console.log("Wheel A");
+			}
+			//Wheel B
+			else if (note == 24) {
+				console.log("Wheel B");
+			}
+			//Volume A
+			else if (note == 8) {
+				console.log("Volume A");
+				$('#gainSlider').val(velocity/32);
+				playList1.changeVolume(velocity/32);
+			}
+			//Volume B
+			else if (note == 11) {
+				console.log("Volume B");
+			}
+			//Crossfader
+			else if (note == 10) {
+				console.log("CrossFader");
+			}
+			//Volume Master
+			else if (note == 23) {
+				$('#gainSlider').val(velocity/32);
+				$('#gainSlider2').val(velocity/32);
+				playList1.changeVolume(velocity/32);
+				playList2.changeVolume(velocity/32);
+			}
+			break;
+	}
+}
+
+// ON FAILURE
+function onMIDIFailure() {
+  console.warn("Not recognising MIDI controller")
+}
+
+function listInputs(inputs) {
+    var input = inputs.value;
+    console.log("Input port : [ type:'" + input.type + "' id: '" + input.id +
+        "' manufacturer: '" + input.manufacturer + "' name: '" + input.name +
+        "' version: '" + input.version + "']");
+}

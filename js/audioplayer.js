@@ -15,35 +15,35 @@ window.onload = function init() {
 	// input listener on the gain slider
 	var gainSlider;
 	gainSlider = document.getElementById("gainSlider");
-	gainSlider.oninput = function(evt){
+	gainSlider.onchange = function(evt){
 		playList1.changeVolume(evt.target.value);
 	};
 	
 	// input listener sur FiltreLowPass
 	filterLP = document.getElementById("filterLP");
-	filterLP.oninput = function(evt){
+	filterLP.onchange = function(evt){
 		playList1.filterLowPass(evt.target.value);
 	}; 
 
 	// input listener sur lowEq
 	lowEq = document.getElementById("lowEq");
-	lowEq.oninput = function(evt){
+	lowEq.onchange = function(evt){
 		playList1.volumeLowEq(evt.target.value);
 	}; 
 	// input listener sur medEq
 	medEq = document.getElementById("medEq");
-	medEq.oninput = function(evt){
+	medEq.onchange = function(evt){
 		playList1.volumeMedEq(evt.target.value);
 	}; 
 	// input listener sur trebEq
 	trebEq = document.getElementById("trebEq");
-	trebEq.oninput = function(evt){
+	trebEq.onchange = function(evt){
 		playList1.volumeTrebEq(evt.target.value);
 	}; 
 
 	// input listener sur le speedSound slider
 	speedSoundlider = document.getElementById("speedSoundSlider");
-	speedSoundSlider.oninput = function(evt){
+	speedSoundSlider.onchange = function(evt){
 		playList1.changeSpeed(evt.target.value);
 	};
 
@@ -60,35 +60,35 @@ window.onload = function init() {
 	// input listener on the gain slider
 	var gainSlider2;
 	gainSlider2 = document.getElementById("gainSlider2");
-	gainSlider2.oninput = function(evt){
+	gainSlider2.onchange = function(evt){
 		playList2.changeVolume(evt.target.value);
 	};
 	
 	// input listener sur FiltreLowPass
 	filterLP2 = document.getElementById("filterLP2");
-	filterLP2.oninput = function(evt){
+	filterLP2.onchange = function(evt){
 		playList2.filterLowPass(evt.target.value);
 	}; 
 
 	// input listener sur lowEq
 	lowEq2 = document.getElementById("lowEq2");
-	lowEq2.oninput = function(evt){
+	lowEq2.onchange = function(evt){
 		playList2.volumeLowEq(evt.target.value);
 	}; 
 	// input listener sur medEq
 	medEq2 = document.getElementById("medEq2");
-	medEq2.oninput = function(evt){
+	medEq2.onchange = function(evt){
 		playList2.volumeMedEq(evt.target.value);
 	}; 
 	// input listener sur trebEq
 	trebEq2 = document.getElementById("trebEq2");
-	trebEq2.oninput = function(evt){
+	trebEq2.onchange = function(evt){
 		playList2.volumeTrebEq(evt.target.value);
 	}; 
 
 	// input listener sur le speedSound slider
 	speedSoundlider2 = document.getElementById("speedSoundSlider2");
-	speedSoundSlider2.oninput = function(evt){
+	speedSoundSlider2.onchange = function(evt){
 		playList2.changeSpeed(evt.target.value);
 	};
 	
@@ -298,7 +298,7 @@ var crossFader;
 //recup element
 crossFader = document.getElementById("crossFader");
 //qd on bouge le crossFader
-crossFader.oninput = function(evt){
+crossFader.onchange = function(evt){
 	//si superieur a 2 , playlist 2 avantage
 	if(crossFader.value>2){
 		//soustrait au volume la valeur d'ajout du crossFader (-2 puisque valeur de comparaison)

@@ -15,15 +15,17 @@
     <script src="js/time.js"></script>
     <script src="js/playList.js"></script>
 
+    <script src="js/platform.js"></script>
+    <link rel="import" href="webcomponents/polymer.html">
+    <link rel="import" href="webcomponents/controls.html">
+
   </head>
 
-  <body>
-
+  <body onload="Init()">
 
     <div id="header">
         <img src="images/logo.png" id="logo">  
     </div>
-
 
 
     <div id="bcqd">
@@ -32,30 +34,31 @@
         <div class="divPlayer">
 
                 <div class="topDivpl">
-                        <!-- <input type="file" id="file" style=" display:inline-block; "/> -->
-                        <form action="" method="post" enctype="multipart/form-data" class="formInput">
+                      <form action="" method="post" enctype="multipart/form-data" class="formInput">
                           <div class="upload">
                               <input type="file" id="file" name="upload"/>
                           </div>
-                        </form>  
+                      </form>  
                       <div class="ggg">
-                            <span id="currentSong"></span> 
-                            <div id="progressTime">0:00:00</div> 
+                            <span id="currentSong"></span>
                             <progress id="seekbar" value="0" max="10"></progress>  
                              
-                    </div>
-                
+                      </div>
                 </div>
 
               <audio id="audioPlayer" ontimeupdate="update(this)" crossorigin="anonymous">
               </audio>   
+
+              <div class="topDivpl2">
+                    <div id="progressTime">0:00:00</div>
+                    <div class="DvspectreA">
+                        <img src="images/spectre.jpg" id="spectreAudio">  
+                    </div>
+              </div>
   
               <div class="ggg2">
                       <div class="middlePlat1"> 
-                       <div class="sliderG">
-                          <label for="speedSoundSlider"></label>
-                          <input type="range" min="0" max="4" step="0.01" value="1" id="speedSoundSlider" class="vVertical"/>
-                       </div>
+                       <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" min="0" max="4" step="0.01" value="1" id="speedSoundSlider"></webaudio-slider>
                           <p class="textPg">Vitesse 1</p>
                       </div>
 
@@ -77,27 +80,32 @@
   </div>    
 
 
+
   <div class="divPlayerMd">
 
-          <div class="divWhiteE">
-                    <p>VOL 1 / VOL 2</p>
-                    <p>Cross Fader</p>
+          <div class="divPlayerMpart1">
+                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="trebEq" diameter="48"></webaudio-knob><p>Treble</p>
+
+                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="medEq" diameter="48"></webaudio-knob><p>Medium</p>
+                
+                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="lowEq" diameter="48"></webaudio-knob><p>Basse</p>
+               
+                <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" id="gainSlider" name="rangeInput" min="0" max="4" step="0.01" value="2"></webaudio-slider>
           </div>
 
-          <div class="twoVols">
+          <div class="divPlayerMpart1">
+                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="trebEq2" diameter="48"></webaudio-knob><p>Treble</p>
 
-               <div class="sliderG"> 
-                  <label for="myslider" class=""></label>
-                  <input type="range" id="gainSlider" name="rangeInput" min="0" max="4" step="0.01" value="1" class="vVertical" />
-               </div> 
-               <div class="sliderG"> 
-                  <label for="myslider" class=""></label>
-                  <input type="range" id="gainSlider2" name="rangeInput" min="0" max="4" step="0.01" value="1" class="vVertical" />
-               </div> 
+                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="medEq2" diameter="48"></webaudio-knob><p>Medium</p>   
+
+                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="lowEq2" diameter="48"></webaudio-knob><p>Basse</p>   
+
+                <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" id="gainSlider2" name="rangeInput" min="0" max="4" step="0.01" value="2"></webaudio-slider>
           </div>
+
+
           <div class="divCrossF" style="vertical-align:bottom;">
-                    <!-- <img src="images/CrossFader.png" id="platine" style="vertical-align:bottom;"> -->
-                    <input type="range" id="crossFader" name="crossFader" min="0" max="4" step="0.01" value="2"  />
+               <webaudio-slider id="crossFader" direction="horz" src="img/hsliderbody.png" knobsrc="img/hsliderknob.png" name="crossFader" min="0" max="4" step="0.01" value="2"></webaudi-slider>
           </div>
 
   </div>
@@ -105,7 +113,6 @@
   <div class="divPlayer" style="vertical-align:top;">
 
                 <div class="topDivpl">
-                         <!-- <input type="file" id="file" style=" display:inline-block; "/> -->
                         <form action="" method="post" enctype="multipart/form-data" class="formInput">
                           <div class="upload">
                               <input type="file" id="file2" name="upload"/>
@@ -113,26 +120,28 @@
                         </form>  
                       <div class="ggg">
                             <span id="currentSong2"></span>
-                            <div id="progressTime2">0:00:00</div> 
                             <progress id="seekbar2" value="0" max="10"></progress>  
-                             
                     </div>
                      
                 </div>
 
              <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
               </audio>
-  
+
+                    <div class="topDivpl2">
+                          <div class="DvspectreA">
+                              <img src="images/spectre.jpg" id="spectreAudio">  
+                          </div>                    
+                          <div id="progressTime2">0:00:00</div>
+                    </div>
+
               <div class="ggg2">
                       <div class="middlePlat3">
                           <img src="images/platine.png" id="platine">
                       </div>
 
                       <div class="middlePlat4" style="vertical-align:top;"> 
-                         <div class="sliderG">
-                            <label for="speedSoundSlider"></label>
-                            <input type="range" min="0" max="4" step="0.01" value="1" id="speedSoundSlider2" class="vVertical"/>
-                        </div>
+                        <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" min="0" max="4" step="0.01" value="1" id="speedSoundSlider2"></webaudio-slider>
                           <p class="textPd">Vitesse 2</p>
                       </div>
 
@@ -152,101 +161,90 @@
                   <button class="control2 bass" id="bassButton2" onclick="bassBoost2()"></button>
               </div>
 
-  </div>  
-
-</div>
-<div id="mainBackground" class="center">
-
-   
-     <div class="divPlayerB">
-       
-          <!-- <label style="color: white">Equaliser: </label> -->
-          <span style="padding-right:4em;padding-left:0em;color: white;">Low/Pass</span>
-          <span style="padding-right:5em;padding-left:0em;color: white;">Bass</span> <span style="padding-right:5em;color: white;">Medium</span>
-          <span style="color: white;padding-right:3em;">Treble</span>
-          
-          <div id="equaliser">
-              <div class="sliderG"> 
-                <label for="myslider" class=""></label>
-                <input type="range" min="300" max="5000" step="100" value="5000" id="filterLP" class="vVertical" />
-             </div> 
-
-        <div class="sliderG">
-          <!-- <label>Bass</label> -->
-          <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="lowEq"></input>
-         </div>
-         
-         <div class="sliderG">
-          <!-- <label>Medium</label> -->
-          <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="medEq"></input>
-         </div>
-         
-         <div class="sliderG">
-          <!-- <label>Treble</label> -->
-          <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="trebEq"></input>
-         </div>
-    </div>
-  </div>
-
-  <div class="divPlayerB">
-         
-          <!-- <label style="color: white">Equaliser: </label> -->     
-          <span style="padding-right:4em;padding-left:0em;color: white;">Low/Pass</span>
-          <span style="padding-right:5em;padding-left:0em;color: white;">Bass</span> <span style="padding-right:5em;color: white;">Medium</span>
-          <span style="color: white;padding-right:3em;">Treble</span>
-          
-          <div id="equaliser">
-          <div class="sliderG"> 
-                  <label for="myslider" class=""></label>
-                  <input type="range" min="300" max="5000" step="100" value="5000" id="filterLP2" class="vVertical" />
-          </div> 
-
-          
-            <div class="sliderG">
-                    <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="lowEq2"></input>
-             </div>
-
-              <div class="sliderG">
-                    <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="medEq2"></input>
-              </div>
-
-              <div class="sliderG">
-                    <input type="range" class="vVertical" value="0" step="1" min="-40" max="30" id="trebEq2"></input>
-               </div>
-          </div>
-    </div>
+      </div>  
 
     </div>
-
+ 
 
     <div id="mainBackground" class="center">
-         <div class="divPlayerPlay">
+         <div class="divPlayerPy">
             <p>Playlist n°1</p>
             <span id="playList"></span>
-<!--        <span id="playList">Drake - Fall For Your Type Lyrics (HD)</span> </br>
-            <span id="playList">Incognito Jocelyn Brown - Always There (1991)</span> </br>
-            <span id="playList">Big Sean - One Man Can Change The World ft. Kanye West, John Legend</span> </br> -->
          </div>
 
-         <div class="divPlayerPlay" style="vertical-align: top;">
+
+         <div class="divPlayerMdPy">
+               <div class="divPlayerMpart1">
+                 <div>Effects</div> 
+                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP"  diameter="48"></webaudio-knob><p>Low/Pass</p>    
+
+                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP"  diameter="48"></webaudio-knob><p>Low/Pass</p>                
+              </div>
+
+              <div class="divPlayerMpart1">
+                <div>Effects</div> 
+                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP2" diameter="48"></webaudio-knob><p>Low/Pass</p>        
+
+                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP2" diameter="48"></webaudio-knob><p>Low/Pass</p>      
+              </div>
+          </div>
+
+         <div class="divPlayerPy" style="vertical-align: top;">
             <p>Playlist n°2</p>
             <span id="playList2"></span>
-<!--        <span id="playList2">Drake-Karaoke with Lyrics</span>  </br>
-            <span id="playList2">Rick Astley - Together Forever</span> </br>  -->  
          </div>
 
     </div>
-
 
 
 </div>
 
-    <div id="footer">
+ <div id="footer">
         BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien. Collection Yolo Records
-    </div>
+    </div> 
     <script src="js/audioplayer.js"></script>  
-  
+
+  <script type="text/javascript">
+    var message="";
+    var log=[];
+    var knobs = document.getElementsByTagName('webaudio-knob');
+    for(var i = 0; i < knobs.length; i++)
+        knobs[i].addEventListener("change",Dump,false);
+    var sliders = document.getElementsByTagName('webaudio-slider');
+    for(var i = 0; i < sliders.length; i++)
+        sliders[i].addEventListener("change",Dump,false);
+    var switches = document.getElementsByTagName('webaudio-switch');
+    for(var i = 0; i < switches.length; i++) {
+        switches[i].addEventListener("change",Dump,false);
+    }
+    var key=document.getElementById("key");
+    key.addEventListener('change',Dump,false);
+    key.addEventListener('note',Dump,false);
+    var key2=document.getElementById("key2");
+
+    function Dump(e) {
+        var str="";
+        if(e.target.id=="key") {
+            key2.setNote(e.note[0],e.note[1]);
+            str=e.type + " : " + e.target.id + " : [" + e.note + "] ";
+        }
+        else
+            str=e.type + " : " + e.target.id + " : " + e.target.value + " ";
+        console.log(str);
+        log.unshift(str);
+        log.length=20;
+        str="";
+        for(var i=19;i>=0;--i) {
+            if(log[i])
+                str+=log[i]+"<br/>";
+        }
+        var evview=document.getElementById("events");
+        evview.innerHTML=str;
+        evview.scrollTop=evview.scrollHeight;
+    }
+</script>
 </body>
 </html>
 
 
+  

@@ -29,7 +29,8 @@
 
 
     <div id="bcqd">
-      <div id="mainBackground" class="center">
+    
+    <div id="mainBackground" class="center">
 
         <div class="divPlayer">
 
@@ -58,7 +59,7 @@
   
               <div class="ggg2">
                       <div class="middlePlat1"> 
-                       <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" min="0" max="4" step="0.01" value="1" id="speedSoundSlider"></webaudio-slider>
+                      <webaudio-knob id="speedSoundSlider" src="img/slider_knobman.png" sprites="30" min="0" max="4" step="0.01" value="1" width="50" height="128"></webaudio-knob>
                           <p class="textPg">Vitesse 1</p>
                       </div>
 
@@ -84,28 +85,29 @@
   <div class="divPlayerMd">
 
           <div class="divPlayerMpart1">
-                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="trebEq" diameter="48"></webaudio-knob><p>Treble</p>
+                <webaudio-knob src="img/filtate_2.png" sprites="30" name="rangeInput" value="0" step="1" min="-40" max="30" id="trebEq" diameter="48"></webaudio-knob><p>Treble</p>
 
-                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="medEq" diameter="48"></webaudio-knob><p>Medium</p>
+                <webaudio-knob src="img/filtate_2.png" sprites="30" name="rangeInput" value="0" step="1" min="-40" max="30" id="medEq" diameter="48"></webaudio-knob><p>Medium</p>
                 
-                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="lowEq" diameter="48"></webaudio-knob><p>Basse</p>
-               
-                <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" id="gainSlider" name="rangeInput" min="0" max="4" step="0.01" value="2"></webaudio-slider>
+                <webaudio-knob src="img/filtate_2.png" sprites="30" name="rangeInput" value="0" step="1" min="-40" max="30" id="lowEq" diameter="48"></webaudio-knob><p>Basse</p>
+                
+                <webaudio-knob id="gainSlider" src="img/slider_knobman2.png" sprites="30" min="0" max="4" step="0.01" value="2" width="24" height="100"></webaudio-knob>
           </div>
 
           <div class="divPlayerMpart1">
-                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="trebEq2" diameter="48"></webaudio-knob><p>Treble</p>
+                <webaudio-knob src="img/filtate_2.png" sprites="30" name="rangeInput" value="0" step="1" min="-40" max="30" id="trebEq2" diameter="48"></webaudio-knob><p>Treble</p>
 
-                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="medEq2" diameter="48"></webaudio-knob><p>Medium</p>   
+                <webaudio-knob src="img/filtate_2.png" sprites="30" name="rangeInput" value="0" step="1" min="-40" max="30" id="medEq2" diameter="48"></webaudio-knob><p>Medium</p>   
 
-                <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" value="0" step="1" min="-40" max="30" id="lowEq2" diameter="48"></webaudio-knob><p>Basse</p>   
+                <webaudio-knob src="img/filtate_2.png" sprites="30" name="rangeInput" value="0" step="1" min="-40" max="30" id="lowEq2" diameter="48"></webaudio-knob><p>Basse</p>   
 
-                <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" id="gainSlider2" name="rangeInput" min="0" max="4" step="0.01" value="2"></webaudio-slider>
+                <webaudio-knob id="gainSlider2" src="img/slider_knobman2.png" sprites="30" min="0" max="4" step="0.01" value="2" width="24" height="100"></webaudio-knob>
           </div>
 
 
           <div class="divCrossF" style="vertical-align:bottom;">
-               <webaudio-slider id="crossFader" direction="horz" src="img/hsliderbody.png" knobsrc="img/hsliderknob.png" name="crossFader" min="0" max="4" step="0.01" value="2"></webaudi-slider>
+               <webaudio-knob id="crossFader" src="img/Slider45.png" sprites="4" name="crossFader" min="0" max="4" step="0.01" value="2" width="128" height="32"><webaudio-knob>
+
           </div>
 
   </div>
@@ -141,11 +143,9 @@
                       </div>
 
                       <div class="middlePlat4" style="vertical-align:top;"> 
-                        <webaudio-slider src="img/vsliderbody.png" knobsrc="img/vsliderknob.png" basewidth="24" baseheight="128" knobwidth="24" knobheight="24" ditchLength="100" tooltip="Slider-L" min="0" max="4" step="0.01" value="1" id="speedSoundSlider2"></webaudio-slider>
+                        <webaudio-knob id="speedSoundSlider2" src="img/slider_knobman.png" sprites="30" min="0" max="4" step="0.01" value="1" width="50" height="128"></webaudio-knob>
                           <p class="textPd">Vitesse 2</p>
                       </div>
-
-
               </div>
 
               <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
@@ -176,16 +176,16 @@
          <div class="divPlayerMdPy">
                <div class="divPlayerMpart1">
                  <div>Effects</div> 
-                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP"  diameter="48"></webaudio-knob><p>Low/Pass</p>    
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" min="300" max="5000" step="100" value="5000" id="filterLP" diameter="48"></webaudio-knob><p>Low/Pass</p>    
 
-                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP"  diameter="48"></webaudio-knob><p>Low/Pass</p>                
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP" diameter="48"></webaudio-knob><p>Low/Pass</p>                
               </div>
 
               <div class="divPlayerMpart1">
                 <div>Effects</div> 
-                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP2" diameter="48"></webaudio-knob><p>Low/Pass</p>        
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP2" diameter="48"></webaudio-knob><p>Low/Pass</p>        
 
-                 <webaudio-knob src="img/LittlePhatty.png" sprites="100" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP2" diameter="48"></webaudio-knob><p>Low/Pass</p>      
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="300" max="5000" step="100" value="5000" id="filterLP2" diameter="48"></webaudio-knob><p>Low/Pass</p>      
               </div>
           </div>
 
@@ -194,14 +194,18 @@
             <span id="playList2"></span>
          </div>
 
+    
     </div>
+</div>
 
+<div id="mainBackground" class="center">
+
+    <div id="footer">
+        BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien. Collection Yolo Records
+    </div> 
 
 </div>
 
- <div id="footer">
-        BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien. Collection Yolo Records
-    </div> 
     <script src="js/audioplayer.js"></script>  
 
   <script type="text/javascript">

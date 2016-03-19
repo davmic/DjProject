@@ -57,6 +57,9 @@ body {
 #mainBackground {
   /*width: 1550px;*/
   font-family: "Thunder Lord";
+  background-color: #2B2B2B;
+ 
+  min-width: 1500px;
 }
 .center {
   margin-left: auto;
@@ -81,7 +84,7 @@ body {
   vertical-align: top;
   height: 420px;
   border: 1.5px solid #1e6662; 
-  background-color: #2B2B2B;
+  background-color: #252525;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -93,7 +96,7 @@ body {
   vertical-align: top;
   height: 300px;
   border: 1.5px solid #1e6662; 
-  background-color: #2B2B2B;
+  background-color: #252525;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -112,8 +115,6 @@ body {
 }
 
 .divPlayerMpart1 {
-  border: 1.5px solid #1e6662; 
-  /*background-color: green;*/
   margin: 0.2em;
   display: inline-table;
   width: 110px;
@@ -142,7 +143,8 @@ div.upload input {
 
 .topDivpl {
   height: 60px;
-  background-color: #1e6662;
+  background-color: #3797a3;
+  /* #1e6662 */
   margin-bottom: 0.2em;
 }
 
@@ -156,9 +158,10 @@ div.upload input {
 }
 
 #currentSong, #currentSong2 {
-/*  padding: 1em;
+  /*padding: 1em;
   background-color: red;
   width: 70px;*/
+  padding-right: 0.3em;
 }
 
 .ggg {
@@ -251,8 +254,7 @@ progress::-webkit-progress-value {
 .middlePlat1 {
   width: 175px;
   display: inline-block;
-  text-align: left;
-  padding-left: 2em;
+ 
 }
 
 .middlePlat2 {
@@ -276,14 +278,6 @@ progress::-webkit-progress-value {
   text-align: center;
   display: inline-block;
   vertical-align: center;
-}
-
-.textPg {
-  padding-left: 2.5em;
-}
-
-.textPd {
-  padding-right: 2.5em;
 }
 
 #platine {

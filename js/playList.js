@@ -13,6 +13,107 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	//premiere fois 
 	var firstTime = true;
 	
+/////////////// CREATION ANALYSEUR DE SPECTRE/////////////////
+	var analyser = this.audioContext.createAnalyser();
+	analyser.fftSize = 256;
+	analyser.smoothingTimeConstant = 0.3;
+	analyser.maxDecibels = 0;
+	var bufferLength = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
+	var tailleMemoireTampon = analyser.fftSize;
+	var freqDomain = new Uint8Array(bufferLength); 
+	
+	// on récupère leS canvas que l'on veut animer
+	var canvas = document.getElementById("BarSpectre1");
+	var canvasCtx = canvas.getContext("2d");
+	var drawVisual;
+	
+	var canvas2 = document.getElementById("BarSpectre2");
+	var canvasCtx2 = canvas2.getContext("2d");
+	var drawVisual2;
+	
+ 	WIDTH = canvas.width;
+	HEIGHT = canvas.height;
+	canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+	
+	WIDTH2 = canvas2.width;
+	HEIGHT2 = canvas2.height;
+	canvasCtx2.clearRect(0, 0, WIDTH2, HEIGHT2);
+////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN BAR///////////////////////
+
+ function draw() {
+ 
+      drawVisual = requestAnimationFrame(draw);
+      analyser.getByteFrequencyData(freqDomain);
+
+      canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+      canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+	  
+	  var barWidth = (WIDTH / bufferLength) * 2.5;
+      var barHeight;
+      var x = 0;
+	  
+	  for(var i = 0; i < bufferLength; i++) {
+        barHeight = freqDomain[i]/2;
+
+        canvasCtx.fillStyle = 'rgb(16 ,108,135)';
+        canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight);
+
+        x += barWidth + 1;
+      }
+    };
+	draw();
+///////////////FONCTION QUI AFFICHE LE SPECTRE 2 EN BAR//////////////////	
+	function draw2() {
+	var bufferLength2 = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
+	var tailleMemoireTampon2 = analyser.fftSize;
+	var freqDomain2 = new Uint8Array(bufferLength2); 
+      drawVisual2 = requestAnimationFrame(draw2);
+      analyser.getByteFrequencyData(freqDomain2);
+
+      canvasCtx2.fillStyle = 'rgb(200, 200, 200)';
+      canvasCtx2.fillRect(0, 0, WIDTH2, HEIGHT2);
+	  
+	  var barWidth = (WIDTH2 / bufferLength2) * 2.5;
+      var barHeight;
+      var x = 0;
+	  
+	  for(var i = 0; i < bufferLength2; i++) {
+        barHeight = freqDomain2[i]/2;
+
+        canvasCtx2.fillStyle = 'rgb(16 ,108,135)';
+        canvasCtx2.fillRect(x,HEIGHT2-barHeight/2,barWidth,barHeight);
+
+        x += barWidth + 1;
+      }
+    };
+	draw2();
+/////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN ENTIER /////////////
+	var canvasE1 = document.getElementById("spectre1");
+	var canvasCtxE1 = canvasE1.getContext("2d");
+	var drawVisualE1;
+	
+function drawEntier1() {
+      drawVisualE1 = requestAnimationFrame(drawEntier1);
+      analyser.getByteFrequencyData(freqDomain);
+
+      canvasCtxE1.fillStyle = 'rgb(200, 200, 200)';
+      canvasCtxE1.fillRect(0, 0, WIDTH, HEIGHT);
+    };
+	drawEntier1();
+/////////////////FONCTION QUI AFFICHE LE SPECTRE 2 EN ENTIER /////////////
+	var canvasE2 = document.getElementById("spectre2");
+	var canvasCtxE2 = canvasE2.getContext("2d");
+	var drawVisualE2;
+	
+function drawEntier2() {
+      drawVisualE2 = requestAnimationFrame(drawEntier2);
+      analyser.getByteFrequencyData(freqDomain);
+
+      canvasCtxE2.fillStyle = 'rgb(200, 200, 200)';
+      canvasCtxE2.fillRect(0, 0, WIDTH, HEIGHT);
+    };
+	drawEntier2();
+
 /////////////// Création equaliser/////////////////
 		// BASS
 	var lowFil = this.audioContext.createBiquadFilter();
@@ -33,7 +134,7 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -190,6 +291,9 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 		// changement musique
 		this.changeChoix(i);
 	}
+	
+	//////////////////////////////////////////////////////
+	
 	/////////////////////////EQUALISER//////////////////////////
 
 	this.volumeLowEq = function(value){

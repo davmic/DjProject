@@ -30,6 +30,7 @@ window.onload = function init() {
 	lowEq.onchange = function(evt){
 		playList1.volumeLowEq(evt.target.value);
 	}; 
+	
 	// input listener sur medEq
 	medEq = document.getElementById("medEq");
 	medEq.onchange = function(evt){
@@ -91,6 +92,7 @@ window.onload = function init() {
 	speedSoundSlider2.onchange = function(evt){
 		playList2.changeSpeed(evt.target.value);
 	};
+	
 	
 };
 
@@ -255,6 +257,12 @@ $("#file2").change(function(e){
     	changeCurrentSong(2);
     }
 });
+/////////////////// AFFICHER LE SPECTRE AUDIO ////////////////////////////
+/*$("#file2").change(function(){
+	draw();
+});*/
+
+
 
 ///////////////////////// CHOIX AUDIO /////////////////////////
 

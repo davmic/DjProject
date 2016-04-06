@@ -24,7 +24,14 @@
   <body onload="Init()">
 
     <div id="header">
-        <img src="images/logo.png" id="logo">  
+        <img src="images/logo.png" id="logo"> 
+		<div class="BarSpectreA">
+                        <canvas id="BarSpectre1" height="50" width="550"></canvas>
+        </div>
+		<div class="BarSpectreB">
+                        <canvas id="BarSpectre2" height="50" width="550"></canvas>
+        </div>
+			
     </div>
 
 
@@ -53,7 +60,7 @@
               <div class="topDivpl2">
                     <div id="progressTime">0:00:00</div>
                     <div class="DvspectreA">
-                        <img src="images/spectre.jpg" id="spectreAudio">  
+                        <canvas id="spectre1" height="50" width="400"></canvas>
                     </div>
               </div>
   
@@ -132,7 +139,7 @@
 
                     <div class="topDivpl2">
                           <div class="DvspectreA">
-                              <img src="images/spectre.jpg" id="spectreAudio">  
+                              <canvas id="spectre2" style="z-index:100;" height="50" width="400"></canvas>
                           </div>                    
                           <div id="progressTime2">0:00:00</div>
                     </div>

@@ -1,4 +1,4 @@
-function Music(songName, url, ctx, gainNode, filter, lowFil, medFil, trebFil, speed,seekbar,progressTime) {
+function Music(songName, url, ctx, gainNode, filter,analyser, lowFil, medFil, trebFil, speed,seekbar,progressTime) {
     // the web audio context
 	this.audioContext = ctx;
     // name of the song
@@ -38,7 +38,9 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, medFil, trebFil, sp
 		lowFil.connect(medFil);
 		medFil.connect(trebFil);
 		trebFil.connect(gainNode);
-		gainNode.connect(this.audioContext.destination);	
+		gainNode.connect(analyser);
+		analyser.connect(this.audioContext.destination);		
+		
 		// Progress bar: valeur maximale = temps du morceaux 
 		if($('#'+seekbar).attr("max")!=this.getDuration()){
 			$('#'+seekbar).attr("max", this.getDuration());	
@@ -69,6 +71,7 @@ function Music(songName, url, ctx, gainNode, filter, lowFil, medFil, trebFil, sp
 		this.paused = true;
 	};
 
+	
 
 	/////////////////  PROGRESS BAR + DISPLAYING TIME /////////////////
     // time

@@ -1,4 +1,4 @@
-function Music(songName, url, ctx, gainNode, filter,analyser, lowFil, medFil, trebFil, speed,seekbar,progressTime) {
+function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, medFil, trebFil, speed,seekbar,progressTime) {
     // the web audio context
 	this.audioContext = ctx;
     // name of the song
@@ -33,8 +33,9 @@ function Music(songName, url, ctx, gainNode, filter,analyser, lowFil, medFil, tr
 		this.bufferSource = this.audioContext.createBufferSource();
 		this.bufferSource.buffer = this.decodedSound;
 
-		this.bufferSource.connect(filter);	
-		filter.connect(lowFil);
+		this.bufferSource.connect(filter);
+		filter.connect(filHP);		
+		filHP.connect(lowFil);
 		lowFil.connect(medFil);
 		medFil.connect(trebFil);
 		trebFil.connect(gainNode);
@@ -57,7 +58,6 @@ function Music(songName, url, ctx, gainNode, filter,analyser, lowFil, medFil, tr
 		this.bufferSource.playbackRate.value = this.speedSound;
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
-
 
     };
 	

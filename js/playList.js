@@ -6,9 +6,15 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	this.audioContext = ctx;
 	this.gainNode = this.audioContext.createGain();
 	//filtre
+	
 	var fil = this.audioContext.createBiquadFilter();
 	fil.type = "lowpass";
 	fil.frequency.value = 5000;
+	//filtre HP
+	var filHP = this.audioContext.createBiquadFilter();
+	filHP.type = "highpass";
+
+	
 	this.speedSound = 1;
 	//premiere fois 
 	var firstTime = true;
@@ -22,7 +28,7 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	var tailleMemoireTampon = analyser.fftSize;
 	var freqDomain = new Uint8Array(bufferLength); 
 	
-	// on récupère leS canvas que l'on veut animer
+	// on récupère les canvas que l'on veut animer
 	var canvas = document.getElementById("BarSpectre1");
 	var canvasCtx = canvas.getContext("2d");
 	var drawVisual;
@@ -39,8 +45,7 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	HEIGHT2 = canvas2.height;
 	canvasCtx2.clearRect(0, 0, WIDTH2, HEIGHT2);
 ////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN BAR///////////////////////
-
- function draw() {
+	function draw() {
  
       drawVisual = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(freqDomain);
@@ -134,7 +139,7 @@ function drawEntier2() {
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , filHP, analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -315,6 +320,13 @@ function drawEntier2() {
 		fil.frequency.value = value;
 		fil.Q.value = 5;
 		fil.gain.value=40;
+	}	
+	////////////////////// Filtre HighPass ///////////////////////
+	
+	this.filterHighPass = function(value){
+		filHP.frequency.value = value*(-1);
+		filHP.Q.value = 5;
+		filHP.gain.value=40;
 	}	
 
 

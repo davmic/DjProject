@@ -24,6 +24,11 @@ window.onload = function init() {
 	filterLP.onchange = function(evt){
 		playList1.filterLowPass(evt.target.value);
 	}; 
+	// input listener sur FiltreHighPass
+	filterHP = document.getElementById("filterHP");
+	filterHP.onchange = function(evt){
+		playList1.filterHighPass(evt.target.value);
+	}; 
 
 	// input listener sur lowEq
 	lowEq = document.getElementById("lowEq");
@@ -47,8 +52,9 @@ window.onload = function init() {
 	speedSoundSlider.onchange = function(evt){
 		playList1.changeSpeed(evt.target.value);
 	};
-
-
+	
+	
+	
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
 	var audioContext2 = window.AudioContext || window.webkitAudioContext;
@@ -69,6 +75,11 @@ window.onload = function init() {
 	filterLP2 = document.getElementById("filterLP2");
 	filterLP2.onchange = function(evt){
 		playList2.filterLowPass(evt.target.value);
+	}; 
+	// input listener sur FiltreHighPass
+	filterHP2 = document.getElementById("filterHP2");
+	filterHP2.onchange = function(evt){
+		playList2.filterHighPass(evt.target.value);
 	}; 
 
 	// input listener sur lowEq

@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="author" content="Boccara DJ">
     <title>BOCCARA DJ</title>
     
     <!--CSS LINKS-->
@@ -22,6 +23,9 @@
     <script src="js/platform.js"></script>
     <link rel="import" href="webcomponents/polymer.html">
     <link rel="import" href="webcomponents/controls.html">
+
+    <!-- LINK FOR SYNC BUTTON -->
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
   </head>
 
@@ -116,9 +120,13 @@
 
           <div class="divCrossF" style="vertical-align:bottom;">
                <webaudio-knob id="crossFader" src="img/Slider45.png" sprites="4" name="crossFader" min="0" max="4" step="0.01" value="2" width="128" height="32"><webaudio-knob>
-
           </div>
-
+          
+          <div class="divCrossF" style="vertical-align:bottom;">
+                <div class="one-third column">
+                    <input type="submit" value="SYNC" class="alizarin-flat-button">       
+                </div>
+          </div>
   </div>
   
   <div class="divPlayer" style="vertical-align:top;">
@@ -187,7 +195,9 @@
                  <div>Effects</div> 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" min="300" max="5000" step="100" value="5000" id="filterLP" diameter="48"></webaudio-knob><p>Low/Pass</p>    
 
-                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP" diameter="48"></webaudio-knob><p>High/Pass</p>                
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP" diameter="48"></webaudio-knob><p>High/Pass</p>
+
+         
               </div>
 
               <div class="divPlayerMpart1">
@@ -196,6 +206,8 @@
 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP2" diameter="48"></webaudio-knob><p>High/Pass</p>      
               </div>
+     
+              
           </div>
 
          <div class="divPlayerPy" style="vertical-align: top;">
@@ -208,14 +220,12 @@
 </div>
 
 <div id="mainBackground" class="center">
-
     <div id="footer">
-        BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien. Collection Yolo Records
-    </div> 
-
+        BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien. Collection Yolo Records*
+    </div>
 </div>
 
-    <script src="js/audioplayer.js"></script>  
+  <script src="js/audioplayer.js"></script>  
 
   <script type="text/javascript">
     var message="";
@@ -255,7 +265,9 @@
         evview.innerHTML=str;
         evview.scrollTop=evview.scrollHeight;
     }
-</script>
+  </script>
+
+
 </body>
 </html>
 

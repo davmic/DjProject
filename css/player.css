@@ -342,6 +342,10 @@ progress::-webkit-progress-value {
   background-image: url("../images/Bass.png");
   background-repeat: no-repeat;
 }
+.bass:hover{
+  background-image: url("../images/BassH.png");
+  background-repeat: no-repeat;
+}
 
 .control1, .control2, .control2_1, .control2_2 {
   border: none;

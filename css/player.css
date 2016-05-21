@@ -95,7 +95,7 @@ body {
   vertical-align: top;
   height: 420px;
   border: 1.5px solid #1e6662; 
-  background-color: #252525;
+  background-color: #212121;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -107,7 +107,7 @@ body {
   vertical-align: top;
   height: 300px;
   border: 1.5px solid #1e6662; 
-  background-color: #252525;
+  background-color: #212121;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -202,7 +202,11 @@ div.upload input {
   width: 70px;
   font-size: 19px;
   padding: 0.5em;
-  margin-right: 1.7em;
+
+  /* ANCIEN margin-right: 1.7em; */
+  margin-right: 1.2em;
+  margin-top: 0.3em;
+  margin-left: 0.5em;
 }
 
 #progressTime2 {
@@ -213,7 +217,11 @@ div.upload input {
   width: 70px;
   font-size: 19px;
   padding: 0.5em;
-  margin-left: 1.7em;
+  
+  /* ANCIEN margin-left: 1.7em; */
+  margin-left: 1.2em;
+  margin-top: 0.3em;
+  margin-right: 0.5em;
 }
 
 
@@ -345,7 +353,7 @@ progress::-webkit-progress-value {
 }
 
 .control1, .control2_1 {
-  height: 110px; 
+  height: 105px; /* ancien mauvais px : 110px; */
   width: 120px;
   background-size: 100% 70%;
   background-position: center;

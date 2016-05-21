@@ -24,7 +24,8 @@ body {
 
 #header {
   color:white;
-  text-align:center;  
+  text-align:center;
+  background-color: white;  
   /* vis a vis de hauteur du logo */
 }
  #BarSpectre1{
@@ -58,7 +59,7 @@ body {
 
 #bcqd {
   background-color: #2B2B2B;
-  padding-top: 0.6em;
+  /*padding-top: 0.6em;*/
   padding-bottom: 2em;
   text-align: center;
   min-width: 1500px;

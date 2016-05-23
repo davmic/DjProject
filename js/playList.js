@@ -126,7 +126,7 @@ function drawEntier2() {
 		var type = file.type;
 		var size = file.size;
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , filHP, analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){

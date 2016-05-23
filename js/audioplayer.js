@@ -52,7 +52,12 @@ window.onload = function init() {
 	speedSoundSlider.onchange = function(evt){
 		playList1.changeSpeed(evt.target.value);
 	};
-	
+		// input sur distorsion 1
+	disto1 = document.getElementById("disto1");
+	disto1.onchange = function(evt){
+		k = parseFloat(evt.target.value);
+		playList1.changeDisto(evt.target.value);
+	};
 	
 	
 	// To make it work even on browsers like Safari, that still

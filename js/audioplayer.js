@@ -171,7 +171,7 @@ function update(player) {
 $("#file").change(function(e){
     playList1.change(e,"audioPlayer");
     //action au double click
-    $("#playList").append("<div id=song"+(playList1.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique("+(playList1.playList.length-1)+")'>"+ playList1.playList[playList1.playList.length-1].name+"</div><br/>");
+  	$("#playList").append("<div id=song"+(playList1.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique("+(playList1.playList.length-1)+")'>"+ playList1.playList[playList1.playList.length-1].name+"</div><div id='bpm'>bpm: </div><div id='time1_"+(playList1.playList.length-1)+"'>temps:</div><div>format:</div><br/>");
 
     if(playList1.playList.length===1){
     	changeCurrentSong(1);
@@ -266,7 +266,7 @@ function update2(player) {
 $("#file2").change(function(e){
     playList2.change(e,audioPlayer2);
     //action au double click
-    $("#playList2").append("<div id=song2"+(playList2.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique2("+(playList2.playList.length-1)+")'>"+ playList2.playList[playList2.playList.length-1].name+"</div><br/>");
+    $("#playList2").append("<div id=song2"+(playList2.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique2("+(playList2.playList.length-1)+")'>"+ playList2.playList[playList2.playList.length-1].name+"</div><div id='bpm2'>bpm: </div><div id='time2_"+(playList2.playList.length-1)+"'>temps:</div><div id='form2'>format:</div><br/>");
 
     if(playList2.playList.length===1){
     	changeCurrentSong(2);

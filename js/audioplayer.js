@@ -1,6 +1,7 @@
 ////////////////////////////// VARIABLE AUDIO //////////////////////////////
 var playList1;
-
+var gainSlider;
+var gainSlider2;
 window.onload = function init() {
 
 	// To make it work even on browsers like Safari, that still
@@ -13,7 +14,6 @@ window.onload = function init() {
 	// on instancie les playlists
 	playList1 = new PlayList(ctx,"audioPlayer","seekbar","progressTime");
 	// input listener on the gain slider
-	var gainSlider;
 	gainSlider = document.getElementById("gainSlider");
 	gainSlider.onchange = function(evt){
 		playList1.changeVolume(evt.target.value);
@@ -70,7 +70,6 @@ window.onload = function init() {
 	// on instancie les playlists
 	playList2 = new PlayList(ctx2,"audioPlayer2","seekbar2","progressTime2");
 	// input listener on the gain slider
-	var gainSlider2;
 	gainSlider2 = document.getElementById("gainSlider2");
 	gainSlider2.onchange = function(evt){
 		playList2.changeVolume(evt.target.value);
@@ -350,8 +349,10 @@ crossFader.onchange = function(evt){
 	}
 	//si equilibre alors valeur de depart remisent 
 	else {
-		playList1.changeVolume(gainSlider.value);
-		playList2.changeVolume(gainSlider2.value);	
+		if(gainSlider.value!==undefined){
+			playList1.changeVolume(gainSlider.value);
+			playList2.changeVolume(gainSlider2.value);	
+		}
 	}
 		
 };
@@ -377,12 +378,13 @@ function changeCurrentSong(i){
 
 // On verifie que le navigateur supporte l'API WEBMIDI
 if (navigator.requestMIDIAccess) {
+	// demande d'accès midi au navigateur, si réussi renvoie à la fonction onMIDISucess , sinon onMIDIFailure
 	navigator.requestMIDIAccess({sysex: false}).then(onMIDISuccess, onMIDIFailure);
 } else {
 	console.warn("No MIDI support in your browser")
 }
 
-// ON SUCCESS
+// FUNCTION ON SUCCESS
 function onMIDISuccess(midiData) {
 	// MIDI data, inputs, outputs, sysex status
 	var midi = midiData;
@@ -424,6 +426,7 @@ function onMIDImessage(messageData) {
 			//Play Button B
 			else if (note == 66) {
 				console.log("Play Button B");
+				play2('audioPlayer2', $('#pButton2'));
 			}
 			break;
 		case 176 :
@@ -444,10 +447,13 @@ function onMIDImessage(messageData) {
 			//Volume B
 			else if (note == 11) {
 				console.log("Volume B");
+				$('#gainSlider2').val(velocity/32);
+				playList2.changeVolume(velocity/32);
 			}
 			//Crossfader
 			else if (note == 10) {
 				console.log("CrossFader");
+				$('#crossFader').val(velocity/32);
 			}
 			//Volume Master
 			else if (note == 23) {
@@ -470,4 +476,167 @@ function listInputs(inputs) {
     console.log("Input port : [ type:'" + input.type + "' id: '" + input.id +
         "' manufacturer: '" + input.manufacturer + "' name: '" + input.name +
         "' version: '" + input.version + "']");
+}
+
+
+
+
+function sync(){
+	if (playList2.playList[playList2.choix].paused && !playList1.playList[playList1.choix].paused ) {
+		//play de la 2e musique
+		//playList2.playList[playList2.choix].buildGraph();
+				//volume a 0
+		playList2.changeVolume(0);
+		//playList2.playList[playList2.choix].play();
+		playList2.nextSong();
+		//changer le titre
+		changeCurrentSong(2)
+        pButton2.className = "";
+        //changement affichage boutton
+        pButton2.className = "control2_1 pause";
+        document.getElementById("song2"+playList2.choix).className="hoverClickplay";
+			
+        //tempo 
+        var tempo1 = playList1.playList[playList1.choix].tempo;	
+       
+
+        //tempo 
+        var tempo2 = playList2.playList[playList2.choix].tempo;	
+       
+        //difference bpm pour vitesse
+        var diff = calculDiff(tempo1,tempo2);
+
+        //adapte la vitesse par rapport a l'autre chanson (si vitesse change)
+        diff += vitesseDiff(playList1.speedSound);
+        playList2.changeSpeed(diff);
+
+		setTimeout(function() {
+     			baisseEtAugmente(gainSlider.value,0,1);
+	 	}, 100);
+	 }
+
+
+	if (playList1.playList[playList1.choix].paused && !playList2.playList[playList2.choix].paused ) {
+		//play de la 2e musique
+		//playList1.playList[playList2.choix].buildGraph();
+				//volume a 0
+		playList1.changeVolume(0);
+		//playList1.playList[playList1.choix].play();
+		playList1.nextSong();
+		changeCurrentSong(1)
+        pButton.className = "";
+        //changement affichage boutton
+        pButton.className = "control1 pause";
+        document.getElementById("song"+playList1.choix).className="hoverClickplay";
+			
+        //tempo 
+        var tempo1 = playList1.playList[playList1.choix].tempo;	
+       
+
+        //tempo 
+        var tempo2 = playList2.playList[playList2.choix].tempo;	
+       
+        //difference bpm pour vitesse
+        var diff = calculDiff(tempo2,tempo1);
+        //adapte la vitesse par rapport a l'autre chanson (si vitesse change)
+        diff += vitesseDiff(playList2.speedSound);
+        playList1.changeSpeed(diff);
+		// 	var source = audioCtx.createBufferSource();
+		// source.playbackRate.value = 1.25; 
+
+
+		setTimeout(function() {
+    			baisseEtAugmente(gainSlider.value,0,2);
+		}, 100);
+	}
+
+
+
+
+}
+
+
+
+function baisseEtAugmente(i,j,playL){
+	//baisse le volume de la première musique et augmente celle de la 2e
+	i-= 0.01;
+	j+= 0.01;
+	//console.log("test1: "+ i);
+	if(playL == 1){
+		playList1.changeVolume(i);
+		playList2.changeVolume(j);
+	}
+	else {
+		playList1.changeVolume(j);
+		playList2.changeVolume(i);
+	}
+	
+	//tant que le son de la première superieur a 0
+	if(i>0.00){
+		setTimeout(function() {
+    			baisseEtAugmente(i,j,playL);
+		}, 100);
+	}
+	//quand son egal 0 alors pause 
+	else  {
+		if(playL == 1){
+			//musique a 0
+			playList1.playList[playList1.choix].stop("stop");
+	        pButton.className = "";  
+	        pButton.className = "control1 play";
+	        playList1.changeVolume(1);
+	        document.getElementById("song"+playList1.choix).className="hoverClickplay"; 
+    	}
+    	else {
+    		//musique a 0
+			playList2.playList[playList2.choix].stop("stop");
+	        pButton2.className = "";  
+	        pButton2.className = "control2_1 play";
+	        playList2.changeVolume(j);
+	        document.getElementById("song2"+playList1.choix).className="hoverClickplay"; 
+    	}
+	}
+}
+
+//calcul pourcentage diff entre les 2 tempos
+function calculDiff(tempo1,tempo2){
+	var calcul = 1;
+	if(tempo1 > tempo2){
+		var p = (100 * tempo2)/tempo1;
+		calcul += (((100-p)/100));
+	}
+
+	else if (tempo1 < tempo2){
+		var p = (100 * tempo1)/tempo2;
+		calcul -=  ((100-p)/100); 
+	}
+	return calcul;
+}
+
+function vitesseDiff(vitesse){
+	vitesse -= 1;
+	return vitesse;
+}
+
+
+// Peut fonctionner qu'avec chargement des deux playlists
+
+function resetAll() {
+	playList1.changeVolume(1);
+	playList2.changeVolume(1);
+
+	playList1.changeSpeed(1);
+	playList2.changeSpeed(1);
+
+	playList1.filterLowPass(5000);
+	playList2.filterLowPass(5000);
+
+	playList1.volumeLowEq(0);
+	playList2.volumeLowEq(0);
+
+	playList1.volumeMedEq(0);
+	playList2.volumeMedEq(0);
+
+	playList1.volumeTrebEq(0);
+	playList2.volumeTrebEq(0);
 }

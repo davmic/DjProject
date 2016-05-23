@@ -41,17 +41,17 @@
 
   <body onload="Init()">
 
-    <div id="header">
-        <img src="images/logo.png" id="logo"> 
-    <div class="BarSpectreA">
-                        <canvas id="BarSpectre1" height="50" width="550"></canvas>
+        <div id="header">
+                 <div class="BarSpectreA" style="display:inline-block;">
+                <canvas id="BarSpectre1"></canvas>
+            </div> 
+ 
+            <img src="images/logo.png" id="logo"> 
+ 
+            <div class="BarSpectreB" style="display:inline-block;">
+                <canvas id="BarSpectre2"></canvas>
+            </div>  
         </div>
-    <div class="BarSpectreB">
-                        <canvas id="BarSpectre2" height="50" width="550"></canvas>
-        </div>
-      
-    </div>
-
 
     <div id="bcqd">
     
@@ -78,7 +78,7 @@
               <div class="topDivpl2">
                     <div id="progressTime">0:00:00</div>
                     <div class="DvspectreA">
-                        <canvas id="spectre1" height="50" width="400"></canvas>
+                        <canvas id="spectre1"></canvas>
                     </div>
               </div>
   
@@ -155,12 +155,12 @@
              <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
               </audio>
 
-                    <div class="topDivpl2">
-                          <div class="DvspectreA">
-                              <canvas id="spectre2" style="z-index:100;" height="50" width="400"></canvas>
-                          </div>                    
-                          <div id="progressTime2">0:00:00</div>
-                    </div>
+                  <div class="topDivpl2">
+                        <div class="DvspectreA">
+                            <canvas id="spectre2"></canvas>
+                        </div>                    
+                        <div id="progressTime2">0:00:00</div>
+                  </div>
 
               <div class="ggg2">
                       <div class="middlePlat3">

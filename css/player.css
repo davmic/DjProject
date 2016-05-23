@@ -28,13 +28,31 @@ body {
   /* vis a vis de hauteur du logo */
 }
  
+ #BarSpectre1 {
+/*position:absolute;
+  margin-left: -700px;
+  margin-top: -55px; */
+  width:550px; 
+  height:50px;
+  margin-right: 0.4em;
+} 
+
+#BarSpectre2 {
+/*position:absolute;
+  margin-left: 150px;
+  margin-top: -55px;*/
+  width:550px; 
+  height:50px;
+  margin-left: 0.4em;
+}
 
 #logo {
   width: 200px;
+  height: 55px;
+  padding-top: 0.3em;
   text-align: left;
-  padding: .2em;
+  background-color: white;
 }
-
 #footer {
     background-color:black;
     color:white;
@@ -163,6 +181,12 @@ div.upload input {
   width: 70px;*/
   padding-right: 0.3em;
 }
+
+#spectre1, #spectre2 {
+  height: 50px;
+  width: 400px;
+}
+
 
 .ggg {
   display: table-cell;

@@ -145,11 +145,6 @@ function drawEntier2() {
 		// Important: we're loading binary data
 		request.responseType = 'arraybuffer';
 		//si premiere fois alors copie playlist car pas acces dans fonction interne
-		if(fT){
-			liste = this.playList;
-		}
-
-				
 
 		// Decode asynchronously
 		request.onload = function() {

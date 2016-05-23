@@ -5,6 +5,8 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
     this.name = songName;
     // url of this song
     this.url = url;
+     //tempo de la musique (bpm)
+  	this.tempo;
 	this.decodedSound;
 	this.bufferSource;
 	// le buffer qui contient la musique dans le sens inverse
@@ -45,7 +47,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		// Progress bar: valeur maximale = temps du morceaux 
 		if($('#'+seekbar).attr("max")!=this.getDuration()){
 			$('#'+seekbar).attr("max", this.getDuration());	
-		}
+		}	
 	};
 		
 	
@@ -59,6 +61,27 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
 
+
+
+		//recuperation du tempo
+		var peaks,
+		initialThresold = 0.9,
+		thresold = initialThresold,
+		minThresold = 0.3,
+		minPeaks = 30;
+
+		do {
+			peaks = getPeaksAtThreshold(this.bufferSource.buffer.getChannelData(0), thresold);
+			thresold -= 0.05;
+		} while (peaks.length < minPeaks && thresold >= minThresold);
+
+		var intervalCounts = countIntervalsBetweenNearbyPeaks(peaks);
+		var tempoCounts = groupNeighborsByTempo(intervalCounts, this.bufferSource.buffer.sampleRate);
+		var top = tempoCounts.sort(function(intA, intB) {
+			return intB.count - intA.count;
+		}).splice(0,5);
+		//tempo attribut a objet self
+		this.tempo = top[0].tempo;
     };
 	
 	this.stop = function (type) {
@@ -196,7 +219,73 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
                 .append(hiddenPart2);
         }
 	}	
+
+	// Function to identify peaks
+	function getPeaksAtThreshold(data, threshold) {
+	    var peaksArray = [];
+	    var length = data.length;
+	    for(var i = 0; i < length;) {
+	      if (data[i] > threshold) {
+	        peaksArray.push(i);
+	        // Skip forward ~ 1/4s to get past this peak.
+	        i += 10000;
+	      }
+	      i++;
+	    }
+	    return peaksArray;
+	}
+
+	// Function used to return a histogram of peak intervals
+	function countIntervalsBetweenNearbyPeaks(peaks) {
+	    var intervalCounts = [];
+	    peaks.forEach(function(peak, index) {
+		    for(var i = 0; i < 10; i++) {
+	    	    var interval = peaks[index + i] - peak;
+	        	var foundInterval = intervalCounts.some(function(intervalCount) {
+	          		if (intervalCount.interval === interval)
+	            		return intervalCount.count++;
+	        		});
+	        		if (!foundInterval) {
+	         			intervalCounts.push({
+	            			interval: interval,
+	            			count: 1
+	          			});
+	        		}
+	      		}
+	    	});
+	    return intervalCounts;
+	}
+
+	// Function used to return a histogram of tempo candidates.
+	function groupNeighborsByTempo(intervalCounts, sampleRate) {
+	    var tempoCounts = [];
+	    intervalCounts.forEach(function(intervalCount, i) {
+	    	if (intervalCount.interval !== 0) {
+	        	// Convert an interval to tempo
+	        	var theoreticalTempo = 60 / (intervalCount.interval / sampleRate );
+
+	        	// Adjust the tempo to fit within the 90-180 BPM range
+	        	while (theoreticalTempo < 90) theoreticalTempo *= 2;
+	        	while (theoreticalTempo > 180) theoreticalTempo /= 2;
+
+	        	theoreticalTempo = Math.round(theoreticalTempo);
+	        	var foundTempo = tempoCounts.some(function(tempoCount) {
+	          		if (tempoCount.tempo === theoreticalTempo)
+	            		return tempoCount.count += intervalCount.count;
+	        	});
+	        	if (!foundTempo) {
+	          		tempoCounts.push({
+	            		tempo: theoreticalTempo,
+	            		count: intervalCount.count
+	          		});
+	        	}
+	      	}
+	    });
+	    return tempoCounts;
+	}
 }
+
+
 
 
 	

@@ -10,14 +10,32 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css" /> 
     
     <!--JS LINKS-->
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+    <script src="js/platform.js"></script><!-- SCRIPT A DL EN FIRST -->
+    <script src="js/jquery-1.12.4.js"></script> 
     <script src="js/music.js"></script>
     <script src="js/time.js"></script>
     <script src="js/playList.js"></script>
 
-    <script src="js/platform.js"></script>
+    <!-- WEBCOMPONENTS FOR DESIGNED BUTTONS AUDIO -->
     <link rel="import" href="webcomponents/polymer.html">
     <link rel="import" href="webcomponents/controls.html">
+    
+    <style type="text/css">
+      .btn13 {
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 20px;
+        background: #d93434;
+        border: none;
+        padding: 10px 20px 10px 20px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn13:hover {
+        text-decoration: none;
+      }
+    </style>
 
   </head>
 
@@ -196,7 +214,11 @@
 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP2" diameter="48"></webaudio-knob><p>High/Pass</p>    
 
-				<webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto2" diameter="48"></webaudio-knob><p>Distorsion</p>     				 
+				         <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto2" diameter="48"></webaudio-knob><p>Distorsion</p>     	
+
+                 <input type="button" value="Sync1" class="btn13" id="syncbutton1" onclick="sync()">
+
+                 <input type="button" value="Reset" class="btn13" id="syncbutton1" onclick="resetAll()">
               </div>
           </div>
 
@@ -219,45 +241,6 @@
 
     <script src="js/audioplayer.js"></script>  
 
-  <script type="text/javascript">
-    var message="";
-    var log=[];
-    var knobs = document.getElementsByTagName('webaudio-knob');
-    for(var i = 0; i < knobs.length; i++)
-        knobs[i].addEventListener("change",Dump,false);
-    var sliders = document.getElementsByTagName('webaudio-slider');
-    for(var i = 0; i < sliders.length; i++)
-        sliders[i].addEventListener("change",Dump,false);
-    var switches = document.getElementsByTagName('webaudio-switch');
-    for(var i = 0; i < switches.length; i++) {
-        switches[i].addEventListener("change",Dump,false);
-    }
-    var key=document.getElementById("key");
-    key.addEventListener('change',Dump,false);
-    key.addEventListener('note',Dump,false);
-    var key2=document.getElementById("key2");
-
-    function Dump(e) {
-        var str="";
-        if(e.target.id=="key") {
-            key2.setNote(e.note[0],e.note[1]);
-            str=e.type + " : " + e.target.id + " : [" + e.note + "] ";
-        }
-        else
-            str=e.type + " : " + e.target.id + " : " + e.target.value + " ";
-        console.log(str);
-        log.unshift(str);
-        log.length=20;
-        str="";
-        for(var i=19;i>=0;--i) {
-            if(log[i])
-                str+=log[i]+"<br/>";
-        }
-        var evview=document.getElementById("events");
-        evview.innerHTML=str;
-        evview.scrollTop=evview.scrollHeight;
-    }
-</script>
 </body>
 </html>
 

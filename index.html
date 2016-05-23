@@ -45,21 +45,19 @@
 
   <body onload="Init()">
 
+    <div id="bcqd">
+    
+    <div id="mainBackground" class="center">
+
         <div id="header">
                  <div class="BarSpectreA" style="display:inline-block;">
                 <canvas id="BarSpectre1"></canvas>
             </div> 
- 
             <img src="images/logo.png" id="logo"> 
- 
             <div class="BarSpectreB" style="display:inline-block;">
                 <canvas id="BarSpectre2"></canvas>
             </div>  
         </div>
-
-    <div id="bcqd">
-    
-    <div id="mainBackground" class="center">
 
         <div class="divPlayer">
 
@@ -209,7 +207,9 @@
 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP" diameter="48"></webaudio-knob><p>High/Pass</p>     
 
-        <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto1" diameter="48"></webaudio-knob><p>Distorsion</p>             
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto1" diameter="48"></webaudio-knob><p>Distorsion</p>     
+
+                 <input type="button" value="Sync1" class="btn13" id="syncbutton1" onclick="sync()">        
               </div>
 
               <div class="divPlayerMpart1">
@@ -219,8 +219,6 @@
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP2" diameter="48"></webaudio-knob><p>High/Pass</p>    
 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto2" diameter="48"></webaudio-knob><p>Distorsion</p>       
-
-                 <input type="button" value="Sync1" class="btn13" id="syncbutton1" onclick="sync()">
 
                  <input type="button" value="Reset" class="btn13" id="syncbutton1" onclick="resetAll()">
               </div>

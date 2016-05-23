@@ -27,17 +27,7 @@ body {
   text-align:center;  
   /* vis a vis de hauteur du logo */
 }
- #BarSpectre1{
- position:absolute;
-	margin-left: -700px;
-	margin-top: -55px;
-}
-#BarSpectre2{
- position:absolute;
-	margin-left: 150px;
-	margin-top: -55px;
-}
-
+ 
 
 #logo {
   width: 200px;
@@ -187,6 +177,10 @@ div.upload input {
    padding: 1em;
 }
 
+#spectreAudio {
+  width: 400px;
+  height: 40px;
+}
 
 #progressTime, #progressTime2, #playList2, #playList, #currentSong2, #currentSong  {  
   font-family: "GOTHIC";
@@ -220,6 +214,7 @@ div.upload input {
   vertical-align: top;
   display: inline-block;
 }
+
 
 /* //////////////// PROGRESS BAR //////////////// */
 progress {

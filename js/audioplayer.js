@@ -52,9 +52,14 @@ window.onload = function init() {
 	speedSoundSlider.onchange = function(evt){
 		playList1.changeSpeed(evt.target.value);
 	};
+	// input sur distorsion 1
+	disto1 = document.getElementById("disto1");
+	disto1.onchange = function(evt){
+		k = parseFloat(evt.target.value);
+		playList1.changeDisto(evt.target.value);
+	};
 	
-	
-	
+
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
 	var audioContext2 = window.AudioContext || window.webkitAudioContext;
@@ -103,7 +108,11 @@ window.onload = function init() {
 	speedSoundSlider2.onchange = function(evt){
 		playList2.changeSpeed(evt.target.value);
 	};
-	
+	// input sur distorsion 2
+	disto2 = document.getElementById("disto2");
+	disto2.onchange = function(evt){
+		playList2.changeDisto(evt.target.value);
+	};
 	
 };
 
@@ -122,17 +131,13 @@ function play(idPlayer, control) {
 
         document.getElementById("song"+playList1.choix).className="hoverClickplay";
 
-
     } else {
 		playList1.playList[playList1.choix].stop("pause");
         pButton.className = "";  
         pButton.className = "control1 play";
 
         document.getElementById("song"+playList1.choix).className="hoverClickplay"; 
-    }
-
-
- 
+    } 
 }
 
 ////////////////////////////// STOP //////////////////////////////
@@ -205,8 +210,6 @@ $('#seekbar').click(function(e){
     */
 });
 
-
-
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
 
 function play2(idPlayer, control) {
@@ -272,8 +275,6 @@ $("#file2").change(function(e){
 /*$("#file2").change(function(){
 	draw();
 });*/
-
-
 
 ///////////////////////// CHOIX AUDIO /////////////////////////
 

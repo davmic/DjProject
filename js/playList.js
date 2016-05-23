@@ -13,40 +13,43 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	//filtre HP
 	var filHP = this.audioContext.createBiquadFilter();
 	filHP.type = "highpass";
-
 	
 	this.speedSound = 1;
 	//premiere fois 
 	var firstTime = true;
+////////////////////////////DISTORSION////////////////
+	var distorsion = this.audioContext.createWaveShaper();
+///////////////////REVERB////////////////////////
+	var convolver = this.audioContext.createConvolver();
 	
 /////////////// CREATION ANALYSEUR DE SPECTRE/////////////////
 	var analyser = this.audioContext.createAnalyser();
 	analyser.fftSize = 256;
 	analyser.smoothingTimeConstant = 0.3;
 	analyser.maxDecibels = 0;
+	
+
+	// on récupère les canvas que l'on veut animer
+
+////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN BAR///////////////////////
+	function draw() {
+	
+	if (seekbar === "seekbar") {
+		canvas = document.getElementById("BarSpectre1");
+	}
+	else {
+		canvas = document.getElementById("BarSpectre2");
+	}
+	var canvasCtx = canvas.getContext("2d");
+	var drawVisual;
+	
+	WIDTH = canvas.width;
+	HEIGHT = canvas.height;
+	canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 	var bufferLength = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
 	var tailleMemoireTampon = analyser.fftSize;
 	var freqDomain = new Uint8Array(bufferLength); 
 	
-	// on récupère les canvas que l'on veut animer
-	var canvas = document.getElementById("BarSpectre1");
-	var canvasCtx = canvas.getContext("2d");
-	var drawVisual;
-	
-	var canvas2 = document.getElementById("BarSpectre2");
-	var canvasCtx2 = canvas2.getContext("2d");
-	var drawVisual2;
-	
- 	WIDTH = canvas.width;
-	HEIGHT = canvas.height;
-	canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-	
-	WIDTH2 = canvas2.width;
-	HEIGHT2 = canvas2.height;
-	canvasCtx2.clearRect(0, 0, WIDTH2, HEIGHT2);
-////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN BAR///////////////////////
-	function draw() {
- 
       drawVisual = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(freqDomain);
 
@@ -67,13 +70,22 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
       }
     };
 	draw();
-///////////////FONCTION QUI AFFICHE LE SPECTRE 2 EN BAR//////////////////	
-	function draw2() {
-	var bufferLength2 = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
+//////////////////////////FONCTION QUI AFFICHE LE SPECTRE 2 EN BAR//////////////////	
+	/*function draw2() {
+	
+	var canvas2 = document.getElementById("BarSpectre2");
+	var canvasCtx2 = canvas2.getContext("2d");
+	var drawVisual2;
+	
+	WIDTH2 = canvas2.width;
+	HEIGHT2 = canvas2.height;
+	canvasCtx2.clearRect(0, 0, WIDTH2, HEIGHT2);
+	
+	var bufferLength2 = analyser2.frequencyBinCount; //buffer qui va contenir les données à afficher
 	var tailleMemoireTampon2 = analyser.fftSize;
 	var freqDomain2 = new Uint8Array(bufferLength2); 
       drawVisual2 = requestAnimationFrame(draw2);
-      analyser.getByteFrequencyData(freqDomain2);
+      analyser2.getByteFrequencyData(freqDomain2);
 
       canvasCtx2.fillStyle = 'rgb(200, 200, 200)';
       canvasCtx2.fillRect(0, 0, WIDTH2, HEIGHT2);
@@ -91,18 +103,22 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
         x += barWidth + 1;
       }
     };
-	draw2();
-/////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN ENTIER /////////////
+	draw2();*/
+////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN ENTIER /////////////
 	var canvasE1 = document.getElementById("spectre1");
 	var canvasCtxE1 = canvasE1.getContext("2d");
 	var drawVisualE1;
 	
 function drawEntier1() {
+	var bufferLength = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
+	var tailleMemoireTampon = analyser.fftSize;
+	var freqDomain = new Uint8Array(bufferLength); 
       drawVisualE1 = requestAnimationFrame(drawEntier1);
       analyser.getByteFrequencyData(freqDomain);
 
       canvasCtxE1.fillStyle = 'rgb(200, 200, 200)';
       canvasCtxE1.fillRect(0, 0, WIDTH, HEIGHT);
+	  
     };
 	drawEntier1();
 /////////////////FONCTION QUI AFFICHE LE SPECTRE 2 EN ENTIER /////////////
@@ -111,6 +127,9 @@ function drawEntier1() {
 	var drawVisualE2;
 	
 function drawEntier2() {
+	var bufferLength = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
+	var tailleMemoireTampon = analyser.fftSize;
+	var freqDomain = new Uint8Array(bufferLength); 
       drawVisualE2 = requestAnimationFrame(drawEntier2);
       analyser.getByteFrequencyData(freqDomain);
 
@@ -139,7 +158,7 @@ function drawEntier2() {
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , filHP, analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , filHP, distorsion, analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -297,10 +316,40 @@ function drawEntier2() {
 		this.changeChoix(i);
 	}
 	
-	//////////////////////////////////////////////////////
+	/////////////////DISTORSION/////////////////////////////////////
+	/*function makeDistortionCurve(amount) {
+	  var k = typeof amount === 'number' ? amount : 50,
+		n_samples = 44100,
+		curve = new Float32Array(n_samples),
+		deg = Math.PI / 180,
+		i = 0,
+		x;
+	  for ( ; i < n_samples; ++i ) {
+		x = i * 2 / n_samples - 1;
+		curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+	  }
+	  return curve;
+	};
+	*/
+	function makeDistortionCurve(k) {
+	  console.log("make disto amount = " + k);
+	  var n_samples = this.audioContext.sampleRate,
+		curve = new Float32Array(n_samples),
+		deg = Math.PI / 180,
+		i = 0,
+		x;
+	  for ( ; i < n_samples; ++i ) {
+		x = i * 2 / n_samples - 1;
+		curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+	  }
+	  return curve;
+	}
 	
+	this.changeDisto = function(value){
+		distortion.curve = makeDistortionCurve(value);
+		distortion.oversample = '4x';
+	}
 	/////////////////////////EQUALISER//////////////////////////
-
 	this.volumeLowEq = function(value){
 		var eqVol = parseFloat(value) / 100.0;
 		lowFil.gain.value= value;
@@ -313,9 +362,7 @@ function drawEntier2() {
 		var eqVol = parseFloat(value) / 100.0;
 		trebFil.gain.value= value;
 	}
-
 	////////////////////// Filtre LowPass ///////////////////////
-	
 	this.filterLowPass = function(value){
 		fil.frequency.value = value;
 		fil.Q.value = 5;
@@ -328,9 +375,6 @@ function drawEntier2() {
 		filHP.Q.value = 5;
 		filHP.gain.value=40;
 	}	
-
-
-
 	//////////////////////// BOUTON BASS  /////////////////////////
 	var bass = document.getElementById("bassButton");
 	var activated = 'false';

@@ -28,7 +28,6 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	analyser.smoothingTimeConstant = 0.3;
 	analyser.maxDecibels = 0;
 	
-
 	// on récupère les canvas que l'on veut animer
 
 ////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN BAR///////////////////////
@@ -119,13 +118,15 @@ function drawEntier2() {
 	trebFil.type = "highshelf";
 	trebFil.frequency.value = 3500;
 
-
+	this.taille = -1;
 	///////////////////FIN EQUALISER////////////////////////////
 		
 	this.change = function(e){
 		var file = e.currentTarget.files[0];
+		var type = file.type;
+		var size = file.size;
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , filHP, analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil, lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -133,12 +134,11 @@ function drawEntier2() {
 		}
 		/*$("#filename").text(music.name);*/
     	$("#"+audioPlayer).prop("src", objectUrl);
-		this.loadSoundUsingAjax(this.audioContext,music,firstTime);
-
- 
+		this.loadSoundUsingAjax(this.audioContext,music,firstTime,type,size,this.taille);
+		this.taille++;
 	}
 
-	this.loadSoundUsingAjax =  function(audioContext, music, fT) {
+	this.loadSoundUsingAjax =  function(audioContext, music, fT,type,size,ta) {
 		var request = new XMLHttpRequest();
   		var liste = [];
 		request.open('GET', music.url, true);
@@ -166,27 +166,43 @@ function drawEntier2() {
 
 			music.limitCharacters();
 
-			// si premiere fois 
+		// si premiere fois 
 			if(fT){
 				liste[0].draw();	
 				liste[0].buildGraph();	
-				liste[0].play();
-
 				/* enclencher le play dès la lecture auto de la musique */
+				//si premiere playlist
 				if(seekbar === "seekbar"){
+					liste[0].play();
 					pButton.className = "control1 pause";
-
 					document.getElementById("song0").className="";
 					document.getElementById("song0").className="hoverClickplay";
-				} else {
-					pButton2.className = "control2_1 pause";
-					
-					document.getElementById("song20").className="";
-				    document.getElementById("song20").className="hoverClickplay"; 
-				}				
+				} 	
 			}
-			}, function(e) {
+			ta ++;
+			if(seekbar === "seekbar"){
+				console.log("1 : " +ta);
+				if(liste[ta].paused){
+					liste[ta].buildGraph();	
+				}
+				var total = liste[ta].getDuration()+ "";
+				document.getElementById("time1_"+(ta)).innerHTML += total.toFormattedTime();	
+				document.getElementById("bpm").innerHTML += liste[ta].tempo;	
+				
+			}
+			else{
+				console.log("2 : " +ta);
+				if(liste[ta].paused){
+					liste[ta].buildGraph();	
+				}
+				var total = liste[ta].getDuration()+ "";
+				document.getElementById("time2_"+(ta)).innerHTML += total.toFormattedTime();	
+				document.getElementById("bpm2").innerHTML += liste[ta].tempo;
+				document.getElementById("form2").innerHTML += type;
+			}
+		},function(e) {
 			console.log("error");});
+
 		};
     	// send the request. When the file will be loaded,
     	// the request.onload callback will be called (above)
@@ -345,8 +361,6 @@ function drawEntier2() {
 		filHP.Q.value = 5;
 		filHP.gain.value=40;
 	}	
-
-
 
 	//////////////////////// BOUTON BASS  /////////////////////////
 	var bass = document.getElementById("bassButton");

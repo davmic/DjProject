@@ -132,7 +132,7 @@ function drawEntier2() {
 	trebFil.type = "highshelf";
 	trebFil.frequency.value = 3500;
 
-	this.taille = -1;
+	this.taille = 0;
 	///////////////////FIN EQUALISER////////////////////////////
 		
 	this.change = function(e){
@@ -188,15 +188,16 @@ function drawEntier2() {
 					document.getElementById("song0").className="hoverClickplay";
 				} 	
 			}
-			ta ++;
 			if(seekbar === "seekbar"){
 				console.log("1 : " +ta);
 				if(liste[ta].paused){
 					liste[ta].buildGraph();	
 				}
 				var total = liste[ta].getDuration()+ "";
-				document.getElementById("time1_"+(ta)).innerHTML += total.toFormattedTime();	
-				document.getElementById("bpm").innerHTML += liste[ta].tempo;	
+				document.getElementById("time1_"+(ta)).innerHTML += total.toFormattedTime().substring(0,4);	
+				document.getElementById("bpm1_"+(ta)).innerHTML += liste[ta].tempo;	
+				document.getElementById("format1_"+(ta)).innerHTML += type.replace("audio/", ".");;
+				document.getElementById("size1_"+(ta)).innerHTML += size.toString().substring(0,2) + " MB";
 				
 			}
 			else{
@@ -205,9 +206,10 @@ function drawEntier2() {
 					liste[ta].buildGraph();	
 				}
 				var total = liste[ta].getDuration()+ "";
-				document.getElementById("time2_"+(ta)).innerHTML += total.toFormattedTime();	
-				document.getElementById("bpm2").innerHTML += liste[ta].tempo;
-				document.getElementById("form2").innerHTML += type;
+				document.getElementById("time2_"+(ta)).innerHTML += total.toFormattedTime().substring(0,4);	
+				document.getElementById("bpm2_"+(ta)).innerHTML += liste[ta].tempo;	
+				document.getElementById("format2_"+(ta)).innerHTML += type.replace("audio/", ".");;
+				document.getElementById("size2_"+(ta)).innerHTML += size.toString().substring(0,2) + " MB";
 			}
 		},function(e) {
 			console.log("error");});

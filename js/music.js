@@ -48,6 +48,26 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		if($('#'+seekbar).attr("max")!=this.getDuration()){
 			$('#'+seekbar).attr("max", this.getDuration());	
 		}	
+
+
+		//recuperation du tempo
+		var peaks,
+		initialThresold = 0.9,
+		thresold = initialThresold,
+		minThresold = 0.3,
+		minPeaks = 30;
+		do {
+			peaks = getPeaksAtThreshold(this.bufferSource.buffer.getChannelData(0), thresold);
+			thresold -= 0.05;
+		} while (peaks.length < minPeaks && thresold >= minThresold);
+		var intervalCounts = countIntervalsBetweenNearbyPeaks(peaks);
+		var tempoCounts = groupNeighborsByTempo(intervalCounts, this.bufferSource.buffer.sampleRate);
+		var top = tempoCounts.sort(function(intA, intB) {
+			return intB.count - intA.count;
+		}).splice(0,5);
+		//tempo attribut a objet self
+		this.tempo = top[0].tempo;
+
 	};
 	
 	this.buildGraph2 = function (sens) {
@@ -87,25 +107,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 
 
 
-		//recuperation du tempo
-		var peaks,
-		initialThresold = 0.9,
-		thresold = initialThresold,
-		minThresold = 0.3,
-		minPeaks = 30;
-
-		do {
-			peaks = getPeaksAtThreshold(this.bufferSource.buffer.getChannelData(0), thresold);
-			thresold -= 0.05;
-		} while (peaks.length < minPeaks && thresold >= minThresold);
-
-		var intervalCounts = countIntervalsBetweenNearbyPeaks(peaks);
-		var tempoCounts = groupNeighborsByTempo(intervalCounts, this.bufferSource.buffer.sampleRate);
-		var top = tempoCounts.sort(function(intA, intB) {
-			return intB.count - intA.count;
-		}).splice(0,5);
-		//tempo attribut a objet self
-		this.tempo = top[0].tempo;
+		
     };
 	
 	this.stop = function (type) {

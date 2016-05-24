@@ -38,13 +38,9 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	
 /////////////// CREATION ANALYSEUR DE SPECTRE/////////////////
 	var analyser = this.audioContext.createAnalyser();
-	analyser.fftSize = 256;
-	analyser.smoothingTimeConstant = 0.3;
-	analyser.maxDecibels = 0;
 	
-	// on récupère les canvas que l'on veut animer
 
-////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN BAR///////////////////////
+////////////////////FONCTION QUI AFFICHE LES DIFFERENTES FREQUENCES AUDIO SOUS FORME DE BAR///////////////////////
 	function draw() {
 	
 	if (seekbar === "seekbar") {
@@ -55,6 +51,10 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	}
 	var canvasCtx = canvas.getContext("2d");
 	var drawVisual;
+	
+	analyser.fftSize = 256;
+	analyser.smoothingTimeConstant = 0.3;
+	analyser.maxDecibels = 0;
 	
 	WIDTH = canvas.width;
 	HEIGHT = canvas.height;
@@ -84,39 +84,56 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
     };
 	draw();
 
-////////////////////FONCTION QUI AFFICHE LE SPECTRE 1 EN ENTIER /////////////
-	var canvasE1 = document.getElementById("spectre1");
+////////////////////FONCTION QUI AFFICHE LE SPECTRE AUDIO SOUS FORME D'ONDE /////////////
+	
+function drawWave() {
+	
+	if (seekbar === "seekbar") {
+		canvasE1 = document.getElementById("spectre1");
+	}
+	else {
+		canvasE1 = document.getElementById("spectre2");
+	}
 	var canvasCtxE1 = canvasE1.getContext("2d");
 	var drawVisualE1;
+	analyser.fftSize =1024;
 	
-function drawEntier1() {
-	var bufferLength = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
-	var tailleMemoireTampon = analyser.fftSize;
-	var freqDomain = new Uint8Array(bufferLength); 
-      drawVisualE1 = requestAnimationFrame(drawEntier1);
-      analyser.getByteFrequencyData(freqDomain);
-
-      canvasCtxE1.fillStyle = 'rgb(200, 200, 200)';
-      canvasCtxE1.fillRect(0, 0, WIDTH, HEIGHT);
+	var bufferLength = analyser.fftSize;
+    var dataArray = new Float32Array(bufferLength);
 	  
-    };
-	drawEntier1();
-/////////////////FONCTION QUI AFFICHE LE SPECTRE 2 EN ENTIER /////////////
-	var canvasE2 = document.getElementById("spectre2");
-	var canvasCtxE2 = canvasE2.getContext("2d");
-	var drawVisualE2;
-	
-function drawEntier2() {
-	var bufferLength = analyser.frequencyBinCount; //buffer qui va contenir les données à afficher
-	var tailleMemoireTampon = analyser.fftSize;
-	var freqDomain = new Uint8Array(bufferLength); 
-      drawVisualE2 = requestAnimationFrame(drawEntier2);
-      analyser.getByteFrequencyData(freqDomain);
+	  drawVisualE1 = requestAnimationFrame(drawWave);
 
-      canvasCtxE2.fillStyle = 'rgb(200, 200, 200)';
-      canvasCtxE2.fillRect(0, 0, WIDTH, HEIGHT);
+      analyser.getFloatTimeDomainData(dataArray);
+
+      canvasCtxE1.fillStyle = 'rgb(16, 108, 135)';
+      canvasCtxE1.fillRect(0, 0, WIDTH, HEIGHT);
+
+      canvasCtxE1.lineWidth = 2;
+      canvasCtxE1.strokeStyle = 'rgb(0, 0, 0)';
+
+      canvasCtxE1.beginPath();
+
+      var sliceWidth = WIDTH * 1.0 / bufferLength;
+      var x = 0;
+
+      for(var i = 0; i < bufferLength; i++) {
+   
+        var v = dataArray[i] * 200.0;
+        var y = HEIGHT/2 + v;
+
+        if(i === 0) {
+          canvasCtxE1.moveTo(x, y);
+        } else {
+          canvasCtxE1.lineTo(x, y);
+        }
+
+        x += sliceWidth;
+      }
+
+      canvasCtxE1.lineTo(canvasE1.width, canvasE1.height/2);
+      canvasCtxE1.stroke();
     };
-	drawEntier2();
+	drawWave();
 
 /////////////// Création equaliser/////////////////
 		// BASS

@@ -140,7 +140,7 @@ function drawEntier2() {
 		var type = file.type;
 		var size = file.size;
 		objectUrl = URL.createObjectURL(file);
-		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , filHP, analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime);
+		var music = new Music(file.name.replace(".mp3",""), objectUrl, this.audioContext, this.gainNode, fil , filHP, analyser,  lowFil, medFil, trebFil, this.speedSound,seekbar,progressTime,this.platine,mousedown);
 		this.playList.push(music);
 		//deuxieme musique charge alors fistTime faux 
 		if(this.playList.length>1){
@@ -189,7 +189,6 @@ function drawEntier2() {
 				} 	
 			}
 			if(seekbar === "seekbar"){
-				console.log("1 : " +ta);
 				if(liste[ta].paused){
 					liste[ta].buildGraph();	
 				}
@@ -201,7 +200,6 @@ function drawEntier2() {
 				
 			}
 			else{
-				console.log("2 : " +ta);
 				if(liste[ta].paused){
 					liste[ta].buildGraph();	
 				}
@@ -326,7 +324,7 @@ function drawEntier2() {
 	};
 	*/
 	function makeDistortionCurve(k) {
-	  console.log("make disto amount = " + k);
+	 // console.log("make disto amount = " + k);
 	  var n_samples = this.audioContext.sampleRate,
 		curve = new Float32Array(n_samples),
 		deg = Math.PI / 180,
@@ -426,7 +424,7 @@ function drawEntier2() {
 				//console.log(da,x,y,angle,oldangle);
 				//console.log("da : "+da+",dt : "+dt+", v : "+((Math.abs(da)/dt)/0.0015));
 				this.playList[this.choix].changeSpeed((Math.abs(da)/dt)/0.0015);
-				console.log("to : "+timeOutPause);
+				//console.log("to : "+timeOutPause);
 				// Si on passe de la music a l'envers vers la music a l'endroit
 				if (da > 0 && da < 4 && this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].inverseDecodedSound) {
 					this.playList[this.choix].stop("pause");
@@ -462,7 +460,7 @@ function drawEntier2() {
 				else {
 					playlist = playList2;
 				}
-				console.log("timeout");
+				//console.log("timeout");
 				timeOutPause = true;
 				tmpLecture = false;
 				playlist.playList[playlist.choix].stop("pause");
@@ -474,10 +472,11 @@ function drawEntier2() {
 	this.mouseDown = function() {
 		tmpPause = this.playList[this.choix].paused;
 		mousedown = true;
+		this.playList[this.choix].setMouseDown(true);
 	}
 	
 	this.mouseUp = function() {
-		clearTimeout(idTimeOut);console.log("coucou");
+		clearTimeout(idTimeOut);//console.log("coucou");
 		// Si je lisais la musique a l'envers, je la remet a l'endroit
 		if (this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].inverseDecodedSound) {
 			this.playList[this.choix].stop("pause");
@@ -498,6 +497,7 @@ function drawEntier2() {
 			this.playList[this.choix].stop("pause");
 		}
 		mousedown = false;
+		this.playList[this.choix].setMouseDown(false);
 		tmpLecture = false;
 		timeOutPause = false;
 		oldangle = undefined;

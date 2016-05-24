@@ -1,4 +1,4 @@
-function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, medFil, trebFil, speed,seekbar,progressTime) {
+function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, medFil, trebFil, speed,seekbar,progressTime,platine,mousedown) {
     // the web audio context
 	this.audioContext = ctx;
     // name of the song
@@ -19,6 +19,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 	
     // song is paused ?
     this.paused = true;
+    this.mousedown = mousedown;
 
     //maj progressbar
     this.maj = 0;
@@ -29,6 +30,8 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 	var lastTime = 0;
 	var currentTime = 0;
 	var delta;
+	//mouvement platine
+	var mouv = 2;
 
 	// GRAPHE AUDIO (permet de connecter les noeuds à la source) /////
 	this.buildGraph = function () {
@@ -158,12 +161,25 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
             if (this.elapsedTimeSinceStart > this.getDuration()) {
                 this.elapsedTimeSinceStart = 0;
 
-            //fin de musique on passe a la suivante 
-                if(seekbar === "seekbar"){
-                	document.getElementsByClassName('control2 next')[0].click();
-                }
-                else document.getElementsByClassName('control2_2 next')[0].click();
+	            //fin de musique on passe a la suivante 
+	            if(seekbar === "seekbar"){
+	              	document.getElementsByClassName('control2 next')[0].click();
+	            }
+	            else {
+	            	document.getElementsByClassName('control2_2 next')[0].click();
+	            }
      		}
+
+     		if(!this.mousedown){
+     			platine.style.transform = "rotate("+mouv+"deg)";
+     			mouv += 2;
+     			if(mouv > 360){
+     				mouv= 0;
+     			}
+     		}
+
+
+
     };
 
     //fonction appelle tout au long de la duree de l'app
@@ -250,6 +266,11 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
                 .append(hiddenPart2);
         }
 	}	
+
+
+	this.setMouseDown = function (bool) {
+		this.mousedown = bool;
+	}
 
 	// Function to identify peaks
 	function getPeaksAtThreshold(data, threshold) {

@@ -49,6 +49,30 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 			$('#'+seekbar).attr("max", this.getDuration());	
 		}	
 	};
+	
+	this.buildGraph2 = function (sens) {
+		this.bufferSource = this.audioContext.createBufferSource();
+		if (sens > 0) {
+			this.bufferSource.buffer = this.decodedSound;
+		}
+		else if (sens < 0) {
+			this.bufferSource.buffer = this.inverseDecodedSound;
+		}
+			
+		this.bufferSource.connect(filter);
+		filter.connect(filHP);		
+		filHP.connect(lowFil);
+		lowFil.connect(medFil);
+		medFil.connect(trebFil);
+		trebFil.connect(gainNode);
+		gainNode.connect(analyser);
+		analyser.connect(this.audioContext.destination);		
+		
+		// Progress bar: valeur maximale = temps du morceaux 
+		if($('#'+seekbar).attr("max")!=this.getDuration()){
+			$('#'+seekbar).attr("max", this.getDuration());	
+		}
+	};
 		
 	
 	this.play = function () {
@@ -185,7 +209,12 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 
 	// Vitesse du son / speed sound
 	this.changeSpeed = function(value) {
-		this.bufferSource.playbackRate.value = value;
+		if (!this.paused) {
+			this.bufferSource.playbackRate.value = value;
+		}
+		else {
+			this.speedSound = value;
+		}
 	}
 
 	////////////////////// LIMIT CHARACTERS ///////////////////////

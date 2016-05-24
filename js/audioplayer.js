@@ -1,5 +1,6 @@
 ////////////////////////////// VARIABLE AUDIO //////////////////////////////
 var playList1;
+var playList2;
 var gainSlider;
 var gainSlider2;
 window.onload = function init() {
@@ -48,7 +49,7 @@ window.onload = function init() {
 	}; 
 
 	// input listener sur le speedSound slider
-	speedSoundlider = document.getElementById("speedSoundSlider");
+	speedSoundSlider = document.getElementById("speedSoundSlider");
 	speedSoundSlider.onchange = function(evt){
 		playList1.changeSpeed(evt.target.value);
 	};
@@ -58,7 +59,20 @@ window.onload = function init() {
 		k = parseFloat(evt.target.value);
 		playList1.changeDisto(evt.target.value);
 	};
-	
+
+	// input listener sur la platine
+	platine1 = document.getElementById("platine1");
+	playList1.platine = platine1;
+	playList1.platine.ondragstart = function() {return false};
+	playList1.platine.onmousemove = function(evt) {
+		playList1.changePlatine(evt);
+	};
+	playList1.platine.onmousedown = function() {
+		playList1.mouseDown();
+	};
+	playList1.platine.onmouseup = function() {
+		playList1.mouseUp();
+	};
 	
 	// To make it work even on browsers like Safari, that still
 	// do not recognize the non prefixed version of AudioContext
@@ -103,12 +117,24 @@ window.onload = function init() {
 	}; 
 
 	// input listener sur le speedSound slider
-	speedSoundlider2 = document.getElementById("speedSoundSlider2");
+	speedSoundSlider2 = document.getElementById("speedSoundSlider2");
 	speedSoundSlider2.onchange = function(evt){
 		playList2.changeSpeed(evt.target.value);
 	};
 	
-	
+	// input listener sur la platine
+	platine2 = document.getElementById("platine2");
+	playList2.platine = platine2;
+	playList2.platine.ondragstart = function() {return false};
+	playList2.platine.onmousemove = function(evt) {
+		playList2.changePlatine(evt);
+	};
+	playList2.platine.onmousedown = function() {
+		playList2.mouseDown();
+	};
+	playList2.platine.onmouseup = function() {
+		playList2.mouseUp();
+	};
 };
 
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
@@ -349,7 +375,7 @@ crossFader.onchange = function(evt){
 	}
 	//si equilibre alors valeur de depart remisent 
 	else {
-		if(gainSlider.value!==undefined){
+		if (gainSlider.value !== undefined) {
 			playList1.changeVolume(gainSlider.value);
 			playList2.changeVolume(gainSlider2.value);	
 		}

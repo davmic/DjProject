@@ -303,7 +303,11 @@ progress::-webkit-progress-value {
   vertical-align: center;
 }
 
-#platine {
+#platine1 {
+  width: 190px;
+}
+
+#platine2 {
   width: 190px;
 }
 

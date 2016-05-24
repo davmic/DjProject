@@ -17,6 +17,20 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	this.speedSound = 1;
 	//premiere fois 
 	var firstTime = true;
+	
+	// variables pour la platine
+	this.platine;
+	var mousedown = false;
+	var x=0;
+	var y=0;
+	var oldangle;
+	var oldDate;
+	var tmpPause;
+	var tmpLecture = false;
+	var idTimeOut;
+	var timeOutPause = false;
+
+
 ////////////////////////////DISTORSION////////////////
 	var distorsion = this.audioContext.createWaveShaper();
 ///////////////////REVERB////////////////////////
@@ -385,4 +399,115 @@ function drawEntier2() {
 		this.speedSound = value;
 		this.playList[this.choix].changeSpeed(this.speedSound);
 	}
+	
+	// Action sur la platine
+	this.changePlatine = function(evt) {
+	
+		if (mousedown) {
+			clearTimeout(idTimeOut);
+			var date = Date.now();
+			// return relative mouse position
+			x = evt.clientX - this.platine.x - this.platine.width/2 + window.pageXOffset;
+			y = (evt.clientY - this.platine.y - this.platine.height/2 + window.pageYOffset) * -1;
+
+			angle = Math.atan2(x, y);
+			var angleDegre = angle * 180/Math.PI;
+			if (x < 0) {
+				angleDegre += 360; 
+			}
+			//console.log("l'angle : " + angleDegre);
+			this.platine.style.transform = "rotate("+angleDegre+"deg)";
+			
+			if(oldangle !== undefined) {
+				var da = angle - oldangle;
+				var dt = date - oldDate;
+				//console.log(da,x,y,angle,oldangle);
+				//console.log("da : "+da+",dt : "+dt+", v : "+((Math.abs(da)/dt)/0.0015));
+				this.playList[this.choix].changeSpeed((Math.abs(da)/dt)/0.0015);
+				console.log("to : "+timeOutPause);
+				// Si on passe de la music a l'envers vers la music a l'endroit
+				if (da > 0 && da < 4 && this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].inverseDecodedSound) {
+					this.playList[this.choix].stop("pause");
+					this.playList[this.choix].elapsedTimeSinceStart = this.playList[this.choix].getDuration() - this.playList[this.choix].elapsedTimeSinceStart;
+					this.playList[this.choix].buildGraph2(1);
+					this.playList[this.choix].play();
+					tmpLecture = true;
+				}
+				// Si on passe de la music a l'endroit vers la music a l'envers 
+				else if (da < 0 && da > -4 && this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].decodedSound) {
+					this.playList[this.choix].stop("pause");
+					this.playList[this.choix].elapsedTimeSinceStart = this.playList[this.choix].getDuration() - this.playList[this.choix].elapsedTimeSinceStart;
+					this.playList[this.choix].buildGraph2(-1);
+					this.playList[this.choix].play();
+					tmpLecture = true;
+				}
+				// Si la musique etait en pause avant qu'on touche la platine ou en pause apres un timeout et si on ne l'a pas reactive auparavant
+				else if ((tmpPause || timeOutPause) && !tmpLecture) {
+					tmpLecture = true;
+					timeOutPause = false;
+					this.playList[this.choix].buildGraph2(1);
+					this.playList[this.choix].play();
+				}
+			}
+			oldangle = angle;
+			oldDate = date;
+			
+			idTimeOut = setTimeout(function() {
+				var playlist;
+				if (seekbar === "seekbar") {
+					playlist = playList1;
+				}
+				else {
+					playlist = playList2;
+				}
+				console.log("timeout");
+				timeOutPause = true;
+				tmpLecture = false;
+				playlist.playList[playlist.choix].stop("pause");
+			}, 500);
+			
+		}
+	}
+	
+	this.mouseDown = function() {
+		tmpPause = this.playList[this.choix].paused;
+		mousedown = true;
+	}
+	
+	this.mouseUp = function() {
+		clearTimeout(idTimeOut);console.log("coucou");
+		// Si je lisais la musique a l'envers, je la remet a l'endroit
+		if (this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].inverseDecodedSound) {
+			this.playList[this.choix].stop("pause");
+			this.playList[this.choix].elapsedTimeSinceStart = this.playList[this.choix].getDuration() - this.playList[this.choix].elapsedTimeSinceStart;
+			// Si il n'y avait pas la pause avant qu'on touche la platine on reprend la lecture de la musique a l'endroit
+			if (!tmpPause) {
+				this.playList[this.choix].buildGraph2(1);
+				this.playList[this.choix].play();
+			}
+		}
+		// Si il n'y avait pas la pause et qu'il y a eu un timeout apres avoir touche la platine
+		else if (!tmpPause && timeOutPause) {
+			this.playList[this.choix].buildGraph2(1);
+			this.playList[this.choix].play();
+		}
+		// Si il y avait la pause avant qu'on touche la platine 
+		if (tmpPause && tmpLecture) {
+			this.playList[this.choix].stop("pause");
+		}
+		mousedown = false;
+		tmpLecture = false;
+		timeOutPause = false;
+		oldangle = undefined;
+		oldDate = undefined;
+		var speedSlider;
+		if (seekbar === "seekbar") {
+			speedSlider = "speedSoundSlider";
+		}
+		else {
+			speedSlider = "speedSoundSlider2";
+		}
+		this.playList[this.choix].changeSpeed(document.getElementById(speedSlider).value);
+	}
+	
 }

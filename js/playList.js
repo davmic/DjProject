@@ -417,7 +417,10 @@ function drawWave() {
 	this.changeSpeed = function(value) {
 		//changer rapidite de la musique
 		this.speedSound = value;
-		this.playList[this.choix].changeSpeed(this.speedSound);
+		if(this.playList[this.choix] != undefined){
+			this.playList[this.choix].changeSpeed(this.speedSound);	
+		}
+		
 	}
 	
 	// Action sur la platine

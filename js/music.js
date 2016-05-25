@@ -116,8 +116,11 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 			this.stopProgressBar();
 		}
 		this.speedSound = this.bufferSource.playbackRate.value;
-		this.bufferSource.stop();
-		this.paused = true;
+		if(this.paused == false){
+			this.bufferSource.stop();
+			this.paused = true;	
+		}
+		
 	};
 
 	
@@ -278,7 +281,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		this.mousedown = bool;
 	}
 
-	// Function to identify peaks
+	// identifie peaks
 	function getPeaksAtThreshold(data, threshold) {
 	    var peaksArray = [];
 	    var length = data.length;
@@ -293,7 +296,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 	    return peaksArray;
 	}
 
-	// Function used to return a histogram of peak intervals
+	// retourne un histogramme des intervalles de peaks
 	function countIntervalsBetweenNearbyPeaks(peaks) {
 	    var intervalCounts = [];
 	    peaks.forEach(function(peak, index) {

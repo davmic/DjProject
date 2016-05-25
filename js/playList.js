@@ -203,6 +203,9 @@ function drawWave() {
 					pButton.className = "control1 pause";
 					document.getElementById("song0").className="";
 					document.getElementById("song0").className="hoverClickplay";
+
+					document.getElementById("barcG1").className="bar-c";	
+        			document.getElementById("barcG2").className="displayNone";
 				} 	
 			}
 			if(seekbar === "seekbar"){

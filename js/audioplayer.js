@@ -140,7 +140,6 @@ window.onload = function init() {
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
 
 function play(idPlayer, control) {
-
     
     var player = document.querySelector('#' + idPlayer);
     
@@ -152,6 +151,9 @@ function play(idPlayer, control) {
 
         document.getElementById("song"+playList1.choix).className="hoverClickplay";
 
+        document.getElementById("barcG1").className="bar-c";	
+        document.getElementById("barcG2").className="displayNone";	
+
 
     } else {
 		playList1.playList[playList1.choix].stop("pause");
@@ -159,9 +161,10 @@ function play(idPlayer, control) {
         pButton.className = "control1 play";
 
         document.getElementById("song"+playList1.choix).className="hoverClickplay"; 
+
+        document.getElementById("barcG1").className="displayNone";	
+        document.getElementById("barcG2").className="bardnone";
     }
-
-
  
 }
 
@@ -173,7 +176,10 @@ function stop(idPlayer) {
 	pButton.className = "";
     pButton.className = "control1 play";
 
-     document.getElementById("song"+playList1.choix).className="hoverClickpause"; 
+    document.getElementById("song"+playList1.choix).className="hoverClickpause"; 
+
+    document.getElementById("barcG1").className="displayNone";	
+    document.getElementById("barcG2").className="bardnone";
 }
 
 ////////////////////////////// VOLUME //////////////////////////////
@@ -197,7 +203,7 @@ function update(player) {
 $("#file").change(function(e){
     playList1.change(e,"audioPlayer");
     //action au double click
-  	$("#playList").append("<div id=song"+(playList1.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique("+(playList1.playList.length-1)+")'>"+ playList1.playList[playList1.playList.length-1].name+"</div><div id='bpm1_"+(playList1.playList.length-1)+"'>bpm: </div><div id='time1_"+(playList1.playList.length-1)+"'>temps: </div><div id='format1_"+(playList1.playList.length-1)+"'>format: </div><div id='size1_"+(playList1.playList.length-1)+"'>size: </div><br/>");
+  	$("#playList").append("<tr><td class='sizeDebTr'><div id=song"+(playList1.playList.length-1) + " class='hoverClickpause' ondblclick='choixMusique("+(playList1.playList.length-1)+")'><i class='fa fa-music' aria-hidden='true'></i><span class='paddSpanSongplaylt'>"+ playList1.playList[playList1.playList.length-1].name+"</span></div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='bpm1_"+(playList1.playList.length-1)+"'> </div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='time1_"+(playList1.playList.length-1)+"'> </div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='format1_"+(playList1.playList.length-1)+"'> </div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='size1_"+(playList1.playList.length-1)+"'> </div></td></tr>");
 
     if(playList1.playList.length===1){
     	changeCurrentSong(1);
@@ -250,12 +256,18 @@ function play2(idPlayer, control) {
 
         document.getElementById("song2"+playList2.choix).className="hoverClickplay";
 
+        document.getElementById("barcD1").className="bar-c";	
+        document.getElementById("barcD2").className="displayNone";
+
     } else {
 		playList2.playList[playList2.choix].stop("pause");
         pButton2.className = "";  
         pButton2.className = "control2_1 play";
 
         document.getElementById("song2"+playList2.choix).className="hoverClickplay";
+
+        document.getElementById("barcD1").className="displayNone";	
+        document.getElementById("barcD2").className="bardnone"; 
     }
 
 }
@@ -269,6 +281,9 @@ function stop2(idPlayer) {
     pButton2.className = "control2_1 play";
 
     document.getElementById("song2"+playList2.choix).className="hoverClickpause"; 
+
+    document.getElementById("barcD1").className="displayNone";	
+    document.getElementById("barcD2").className="bardnone"; 
 }
 
 ////////////////////////////// VOLUME /////////////////////////////
@@ -292,7 +307,7 @@ function update2(player) {
 $("#file2").change(function(e){
     playList2.change(e,audioPlayer2);
     //action au double click
-    $("#playList2").append("<div id=song2"+(playList2.playList.length-1)+" class='hoverClickpause' ondblclick='choixMusique2("+(playList2.playList.length-1)+")'>"+ playList2.playList[playList2.playList.length-1].name+"</div><div id='bpm2_"+(playList2.playList.length-1)+"''>bpm: </div><div id='time2_"+(playList2.playList.length-1)+"'>temps: </div><div id='format2_"+(playList2.playList.length-1)+"'>format: </div><div id='size2_"+(playList2.playList.length-1)+"'>size: </div><br/>");
+  	$("#playList2").append("<tr><td class='sizeDebTr'><div id=song2"+(playList2.playList.length-1) + " class='hoverClickpause' ondblclick='choixMusique2("+(playList2.playList.length-1)+")'><i class='fa fa-music' aria-hidden='true'></i><span class='paddSpanSongplaylt'>"+ playList2.playList[playList2.playList.length-1].name+"</span></div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='bpm2_"+(playList2.playList.length-1)+"'> </div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='time2_"+(playList2.playList.length-1)+"'> </div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='format2_"+(playList2.playList.length-1)+"'> </div></td><td class='textdivBlcplylt sizeDebtrTD'><div id='size2_"+(playList2.playList.length-1)+"'> </div></td></tr>");
 
     if(playList2.playList.length===1){
     	changeCurrentSong(2);

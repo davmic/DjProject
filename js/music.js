@@ -107,9 +107,6 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		this.bufferSource.playbackRate.value = this.speedSound;
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
-
-
-
 		
     };
 	
@@ -177,19 +174,28 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
      				mouv= 0;
      			}
      		}
-
-
-
     };
 
+ 
     //fonction appelle tout au long de la duree de l'app
     this.draw = function() {
-    	if(!this.paused){
+    	if(!this.paused){ // play
 			this.progressBar();  
+        	document.getElementById("Anim1").className="AnimHead1";
+        	document.getElementById("Anim2").className="AnimHead1";
+        	document.getElementById("logo").className="displayNone";
+        	document.getElementById("logo2").className="display2";
 		 } 
+		 else { // pause
+		 	document.getElementById("Anim1").className="AnimHead";
+		 	document.getElementById("Anim2").className="AnimHead";
+        	document.getElementById("logo").className="display1";
+        	document.getElementById("logo2").className="displayNone";      	
+		 }
 		//signale une animation et demande de rappeller la fonction draw
 	 	requestAnimationFrame(this.draw.bind(this));
 	};
+
 
 	//barre de progression
 	this.progressBar = function() {

@@ -16,6 +16,24 @@
   font-family: 'GOTHIC';
   src: url("../font/GOTHIC.TTF"); }
 
+
+/* ///////////////////////////////// ASTUCE //////////////////////////////// */
+
+.divCenter {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  text-align: center;
+}
+
+.displayNone {
+  display: none !important;
+}
+ 
+.displayIB {
+  display: inline-block;
+}
+
 /* /////////////////////////// STRUCTURE DE BASE /////////////////////////// */
 
 body {
@@ -24,35 +42,95 @@ body {
 
 #header {
   color:white;
-  background-color: white;  
+  background-color: white; 
   /* vis a vis de hauteur du logo */
 }
 
 #BarSpectre1 {
-/*position:absolute;
-  margin-left: -700px;
-  margin-top: -55px; */
   width:550px; 
   height:50px;
-  margin-right: 0.4em;
+  margin-right: 0.2em;
 } 
 
 #BarSpectre2 {
-/*position:absolute;
-  margin-left: 150px;
-  margin-top: -55px;*/
   width:550px; 
   height:50px;
-  margin-left: 0.4em;
+  margin-left: 0.2em;
 }
+
+.BarSpectreA, .BarSpectreB {
+  display:inline-block;
+}
+
 
 #logo {
   width: 200px;
-  height: 55px;
-  padding-top: 0.3em;
+  height: 50px;
+  padding-top: 0.2em;
   text-align: left;
   background-color: white;
 }
+
+#logo2 {
+  width: 200px;
+  height: 50px;
+  display: inline-table;
+  text-align: left;
+  background-color: white;
+  padding-top: 0.2em; 
+  background-size: 98%;
+  background-position: 10% 0%;
+  background-repeat: no-repeat;
+}
+
+.AnimHead {
+  display: inline-table;
+  width: 36px; 
+  height: 50px;
+  background-color: white;
+}
+
+.AnimHead1{
+  -webkit-animation: blink 4s infinite;
+  -moz-animation:    blink 2s infinite;
+  -ms-animation:     blink 1s infinite;
+  display: inline-table;
+  width: 36px; 
+  height: 50px;
+}
+ 
+@-webkit-keyframes blink {
+        50%  { background:red;    }
+        50%  { background:blue;   }
+        100% { background:red;    }
+        40%  { background:yellow; }
+        60%  { background:orange; }
+        80%  { background:purple; }
+        50%  { background:black;  }
+        70%  { background:pink;   }
+}
+@-moz-keyframes blink {
+        50%  { background:red;    }
+        50%  { background:blue;   }
+        100% { background:red;    }
+        40%  { background:yellow; }
+        60%  { background:orange; }
+        80%  { background:purple; }
+        50%  { background:black;  }
+        70%  { background:pink;   }
+}
+@-ms-keyframes blink {
+        50%  { background:red;    }
+        50%  { background:blue;   }
+        100% { background:red;    }
+        40%  { background:yellow; }
+        60%  { background:orange; }
+        80%  { background:purple; }
+        50%  { background:black;  }
+        70%  { background:pink;   }
+}
+
+
 #footer {
   background-color:black;
   color:white;
@@ -66,14 +144,12 @@ body {
 
 #bcqd {
   background-color: #2B2B2B;
-  /*padding-top: 0.6em;*/
   padding-bottom: 2em;
   text-align: center;
   min-width: 1500px;
 }
 
 #mainBackground {
-  /*width: 1550px;*/
   font-family: "Thunder Lord";
   background-color: #2B2B2B;
   min-width: 1500px;
@@ -101,7 +177,7 @@ body {
   vertical-align: top;
   height: 420px;
   border: 1.5px solid #1e6662; 
-  background-color: #252525;
+  background-color: #212121;
   border-radius: 2px;
   margin: 0.2em;
   padding: 7px;
@@ -109,29 +185,48 @@ body {
 }
 
 .divPlayerMdPy {
-  width: 260px;
-  vertical-align: top;
-  height: 300px;
-  border: 1.5px solid #1e6662; 
-  background-color: #252525;
-  border-radius: 2px;
-  margin: 0.2em;
+  width:260px;
   padding: 7px;
-  display: inline-block;
+  border: 1.5px solid #1e6662; 
+  height: 240px;
+  border-radius: 2px;  
+  background-color: #212121;
+  text-align:center;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .divPlayerPy {
   width: 530px;
   height: 300px;
   border: 1.5px solid #1e6662; 
-  background-color: #2B2B2B;
-  border-radius: 2px;
+  background-color: #2a818c;
+  border-radius: 2px;  
   margin: 0.2em;
   padding: 7px;
   display: inline-block;
 }
 
+.DivmaddleBttPy {
+  margin:0.2em;
+  height:300px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.divFun {
+  border-radius: 2px; 
+  border: 1.5px solid #1e6662;
+  background-color:#0a0a0a;
+  height:40px;
+  width:260px; 
+  padding:7px;
+  margin-top:0.2em;
+}
+
+
 .divPlayerMpart1 {
+  font-family: "Thunder Lord";
   margin: 0.2em;
   display: inline-table;
   width: 110px;
@@ -150,7 +245,6 @@ div.upload {
 }
 
 div.upload input {
-  /* display: block !important; */
   display: inline-block;
   width: 157px !important;
   height: 57px !important;
@@ -161,12 +255,11 @@ div.upload input {
 .topDivpl {
   height: 60px;
   background-color: #3797a3;
-  /* #1e6662 */
   margin-bottom: 0.2em;
 }
 
 .topDivpl2 {
- background-color: black;
+ background-color: #090c10;
 }
 
 .formInput {
@@ -175,9 +268,6 @@ div.upload input {
 }
 
 #currentSong, #currentSong2 {
-  /*padding: 1em;
-  background-color: red;
-  width: 70px;*/
   padding-right: 0.3em;
 }
 
@@ -189,7 +279,6 @@ div.upload input {
 
 .ggg {
   display: table-cell;
-  /*width: 50%;*/
   text-align: right;
   vertical-align: top;
   padding-top: 0.8em;
@@ -200,10 +289,6 @@ div.upload input {
    padding: 1em;
 }
 
-#spectreAudio {
-  width: 400px;
-  height: 40px;
-}
 
 #progressTime, #progressTime2, #playList2, #playList, #currentSong2, #currentSong  {  
   font-family: "GOTHIC";
@@ -218,7 +303,9 @@ div.upload input {
   width: 70px;
   font-size: 19px;
   padding: 0.5em;
-  margin-right: 1.7em;
+  margin-right: 1.2em;
+  margin-top: 0.3em;
+  margin-left: 0.5em;
 }
 
 #progressTime2 {
@@ -229,7 +316,9 @@ div.upload input {
   width: 70px;
   font-size: 19px;
   padding: 0.5em;
-  margin-left: 1.7em;
+  margin-left: 1.2em;
+  margin-top: 0.3em;
+  margin-right: 0.5em;
 }
 
 
@@ -237,7 +326,6 @@ div.upload input {
   vertical-align: top;
   display: inline-block;
 }
-
 
 /* //////////////// PROGRESS BAR //////////////// */
 progress {
@@ -274,6 +362,25 @@ progress::-webkit-progress-value {
 .ggg2 {
 }
 
+.Divgg2 { 
+  display:inline-block;
+  margin-right:0.8em; 
+}
+
+.ggg21Div {
+  display:inline-block;
+  width:450px;
+  margin-left:1.5em; 
+}
+
+.VertTopcss {
+  vertical-align: top;
+}
+
+.VertBottomcss {
+  vertical-align: bottom;
+}
+
 .middlePlat1 {
   width: 175px;
   display: inline-block;
@@ -303,13 +410,26 @@ progress::-webkit-progress-value {
   vertical-align: center;
 }
 
+.BgdPlatine1, .BgdPlatine2 {
+  width: 210px;
+  height: 210px;
+  z-index: 1000;
+  position: absolute;
+}
+ 
+
 #platine1 {
-  width: 190px;
+  width: 210px;
+  z-index: 10;
+  position: relative;
 }
 
 #platine2 {
-  width: 190px;
+  width: 210px;
+  z-index: 10;
+  position: relative;
 }
+
 
 .play{
   background-image: url("../images/Bplay.png");
@@ -355,7 +475,6 @@ progress::-webkit-progress-value {
   background-image: url("../images/Bass.png");
   background-repeat: no-repeat;
 }
-
 .bass:hover{
   background-image: url("../images/BassH.png");
   background-repeat: no-repeat;
@@ -364,31 +483,32 @@ progress::-webkit-progress-value {
 .control1, .control2, .control2_1, .control2_2 {
   border: none;
   background-repeat: no-repeat;
-  background-color: #2B2B2B;
+  background-color: #151517; 
   outline:none;
   text-align: center;
   cursor: pointer;
 }
 
 .control1, .control2_1 {
-  height: 105px; /* ancien mauvais px : 110px; */
-  width: 120px;
+  height: 90px; 
+  width: 100px;
   background-size: 100% 70%;
   background-position: center;
   vertical-align: middle;
 }
 
 .control2, .control2_2 {
-  height:60px; 
-  width: 60px;
+  height:55px; 
+  width: 55px;
   background-size: 80% 60%;
   background-position: center;
   vertical-align: middle;
 }
 
 .btnPayer {
-   
-} 
+  border: 1px solid #3797a3;
+  background-color: #151517; 
+}  
 
 .divWhiteE {
   background-color: #2B2B2B;
@@ -400,7 +520,8 @@ progress::-webkit-progress-value {
 }
 
 .divCrossF {
-  height: 60px;
+  height: 38px;
+  margin: 0.2em;
 }
 
 #equaliser {
@@ -410,7 +531,6 @@ progress::-webkit-progress-value {
 
 /* ////////////////// LIMIT CHARACTERS ///////////////////// */
 span.read-more { 
-  /*cursor: pointer; color: red; */
 }
 
 span.more { 
@@ -419,35 +539,192 @@ span.more {
 
 /* ////////////////////////////  PLAYLIST BOTTOM CSS ////////////// */
 .hoverClickplay {
-  font-weight: bold;
-  width: 450px;
   text-align: left;
-  color: white;
-  padding: 2px;
+  color: #2fc7c9;
+  padding-top: 5px;
+  padding-bottom: 5px;
   cursor: pointer;
-
   background-color: inherit;
   background-image: url("../images/iconPlay.png");
   background-repeat: no-repeat;
   background-position: right center;
-  background-size: 4% 85%;
-
+  background-size: 5% 85%;  
   font-size: 12px;
-  border-bottom: 1px solid #228d87; 
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 .hoverClickpause {
-  width: 370px;
-  padding: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   cursor: pointer;
   text-align: left;
   color: white;
   font-size: 11px;
   font-weight: 0;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
+}
+
+/* /////////////////  SYNCH BUTTON CSS ////////////////// */
+.sync-button {
+    position: relative;
+    vertical-align: top;
+    width: 70px;
+    height: 35px;
+    margin-left: 0.3em;
+    font-size: 13px;
+    color: white;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    background: #e74c3c;
+    border: 0;
+    border-bottom: 2px solid #b93225;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 -2px #b93225;
+    box-shadow: inset 0 -2px #b93225;
+    border-radius: 5px;
+}
+
+.sync-button:hover {
+    background: #3797a3;
+    border-bottom: 2px solid #22727c;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 -2px #22727c;
+    box-shadow: inset 0 -2px #22727c;
+}
+
+.sync-button:active {
+  top: 2.5px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+
+.funny-button {
+    position: relative;
+    vertical-align: top;
+    width: 40px;
+    vertical-align: bottom;
+    height: 40px;
+    padding: 0;
+    font-size: 25px;
+    text-align: center;
+    text-shadow: 0 3px 3px rgba(0, 0, 0, 0.35);
+    border: 0;
+    cursor: pointer;
+    border-radius: 5px;    
+}
+
+.funny-button:hover {
+    background: #e74c3c;
+    border-bottom: 2px solid #b93225;
+    -webkit-box-shadow: inset 0 -2px #b93225;
+    box-shadow: inset 0 -2px #b93225;
+}
+
+
+.funny-button:active {
+  top: 2.5px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.funny1-button {
+    color: white;
+    background: #3797a3;
+    border-bottom: 2px solid #22727c;
+    -webkit-box-shadow: inset 0 -3px #22727c;
+    box-shadow: inset 0 -3px #22727c;
+} 
+
+.funny2-button {
+    color: white;
+    background: #f665ff;
+    border-bottom: 2px solid #c04a92;
+    -webkit-box-shadow: inset 0 -3px #c04a92;
+    box-shadow: inset 0 -3px #c04a92;
+    margin-left: 0.8em;
+} 
+
+.funny3-button {
+    color: white;
+    background: #3ab837;
+    border-bottom: 2px solid #20851d;
+    -webkit-box-shadow: inset 0 -3px #20851d;
+    box-shadow: inset 0 -3px #20851d;
+    margin-left: 0.8em;
+}
+
+.funny4-button {
+    color: white;
+    background: #d9d71c;
+    border-bottom: 2px solid #b59606;
+    -webkit-box-shadow: inset 0 -3px #b59606;
+    box-shadow: inset 0 -3px #b59606;
+    margin-left: 0.8em;
+} 
+
+ 
+ /* ////////////////// DIV PLAYLIST ///////////////////// */
+table tr:nth-child(2n+2){
+  background-color: black;
+}
+
+.dtextPlaylist {
+  font-family: "Thunder Lord";
+  background-color: white;
+  color: #1a1a1a;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.blocTexPlaylt {
+  margin-top: 0.6em;
+  font-family: "Arial";
+  border: 1.5px solid white;
+  background-color: #272727;
+  height: 260px;
+}
+
+.textdivBlcplylt {
+  color: white;
+  font-size: 11px;
+}
+
+.thTabPlaylist {
+  border: 1.5px solid gray;
+  padding: 0.5em;
+  margin: 1em;
+  height: 8px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.importantTabtt {
+  background-color: #272727 !important;
+}
+
+.impportantCssTdtt {
+  color: #272727;
+  font-size:8px;
+}
+
+.sizeDebTr {
+  width: 350px;
+}
+
+.sizeDebtrTD {
+  width: 50px;
+}
+
+.paddSpanSongplaylt {
+  padding-left: 5px;
+}
+
+/* ///////// CSS EQUALIZER //////// */
+.bardnone {
+  height: 260px;
+  width: 47px;
+  margin: 0 auto;
+  background-color: #090c10;
 }

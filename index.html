@@ -2,12 +2,22 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="author" content="Boccara DJ">
     <title>BOCCARA DJ</title>
     
-    <!--CSS LINKS-->
+    <!-- FAVICON LINK -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+    <!-- CSS LINKS-->
     <link rel="stylesheet" type="text/css" href="css/player.css" /> 
     <link rel="stylesheet" type="text/css" href="css/sound-button.css" /> 
     <link rel="stylesheet" type="text/css" href="css/reset.css" /> 
+
+    <!-- LESS LINKS -->
+    <link rel="stylesheet/less" type="text/css" href="css/equalizer.less">
+    <script src="js/less.js" type="text/javascript"></script>
+    <script src="js/less.min.js" type="text/javascript"></script>
     
     <!--JS LINKS-->
     <script src="js/platform.js"></script><!-- SCRIPT A DL EN FIRST -->
@@ -16,45 +26,43 @@
     <script src="js/time.js"></script>
     <script src="js/playList.js"></script>
 
-    <!-- FAVICON LINK -->
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-
     <!-- WEBCOMPONENTS FOR DESIGNED BUTTONS AUDIO -->
     <link rel="import" href="webcomponents/polymer.html">
     <link rel="import" href="webcomponents/controls.html">
-    
-    <style type="text/css">
-      .btn13 {
-        font-family: Arial;
-        color: #ffffff;
-        font-size: 20px;
-        background: #d93434;
-        border: none;
-        padding: 10px 20px 10px 20px;
-        cursor: pointer;
-        text-decoration: none;
-      }
 
-      .btn13:hover {
-        text-decoration: none;
-      }
-    </style>
+    <!-- LINK FOR SYNC BUTTON -->
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
+    <!-- SYNC FUNNY AUDIO BUTTONS --><!-- ///// FONTS AWESOME  ///// -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+<style type="text/css">
+ 
+ 
+
+</style>
   </head>
 
   <body onload="Init()">
 
-    <div id="bcqd">
+<div id="bcqd">
     
     <div id="mainBackground" class="center">
 
         <div id="header">
-                 <div class="BarSpectreA" style="display:inline-block;">
+            <div class="BarSpectreA">
                 <canvas id="BarSpectre1"></canvas>
             </div> 
-            <img src="images/logo.png" id="logo"> 
-            <div class="BarSpectreB" style="display:inline-block;">
+
+            <div id="Anim1" class="AnimHead"> </div> 
+
+            <img src="images/logo.png" id="logo" class="display"> 
+            
+            <div id="logo2" class="displayNone"></div>
+
+            <div id="Anim2" class="AnimHead"></div>
+
+            <div class="BarSpectreB">
                 <canvas id="BarSpectre2"></canvas>
             </div>  
         </div>
@@ -83,33 +91,45 @@
                         <canvas id="spectre1"></canvas>
                     </div>
               </div>
-  
-              <div class="ggg2">
-                      <div class="middlePlat1"> 
-                      <webaudio-knob id="speedSoundSlider" src="img/slider_knobman.png" sprites="30" min="0" max="4" step="0.01" value="1" width="50" height="128"></webaudio-knob>
-                          <p class="textPg">Vitesse 1</p>
-                      </div>
 
-                      <div class="middlePlat2" style="vertical-align:top;">
-                          <img src="images/platine.png" id="platine1">
-                      </div>
-              </div>             
- 
-              <div class="btnPayer">
-                  <button class="control1 play" id="pButton" onclick="play('audioPlayer', this)"></button>
-                  <button class="control2 stop" id="sButton" onclick="stop('audioPlayer')"></button>
+             <div class="displayIB">
+                  <div class="displayNone" id="barcG1"> 
+                    <div id="bar-1" class="bar"></div>
+                    <div id="bar-2" class="bar"></div>
+                    <div id="bar-3" class="bar"></div>
+                    <div id="bar-4" class="bar"></div>
+                  </div>
 
-                  <button class="control2 previous" id="sButton" onclick="previous()"></button>
-                  <button class="control2 next" id="sButton" onclick="next()"></button>
-          
-                  <button class="control2 bass" id="bassButton" onclick="bassBoost()"></button>
+                  <div class="bardnone" id="barcG2"></div>
               </div>
 
-  </div>    
+              <div class="ggg21Div">
+                  <div class="ggg2">
+                          <div class="middlePlat1"> 
+                          <webaudio-knob id="speedSoundSlider" src="img/slider_knobman.png" sprites="30" min="0" max="4" step="0.01" value="1" width="50" height="128"></webaudio-knob>
+                              <p class="textPg">Vitesse 1</p>
+                          </div>
+
+                          <div class="middlePlat2">
+                             <img src="images/background-platine2.png" class="BgdPlatine1">
+                             <img src="images/platine.png" id="platine1">
+                          </div>
+                  </div>             
+                  <div class="btnPayer">
+                      <button class="control1 play" id="pButton" onclick="play('audioPlayer', this)"></button>
+                      <button class="control2 stop" id="sButton" onclick="stop('audioPlayer')"></button>
+
+                      <button class="control2 previous" id="sButton" onclick="previous()"></button>
+                      <button class="control2 next" id="sButton" onclick="next()"></button>
+              
+                      <button class="control2 bass" id="bassButton" onclick="bassBoost()"></button>
+                  </div>
+              </div>
+    </div>    
 
 
 
-  <div class="divPlayerMd">
+    <div class="divPlayerMd">
 
           <div class="divPlayerMpart1">
                 <webaudio-knob src="img/filtate_2.png" sprites="30" name="rangeInput" value="0" step="1" min="-40" max="30" id="trebEq" diameter="48"></webaudio-knob><p>Treble</p>
@@ -132,14 +152,19 @@
           </div>
 
 
-          <div class="divCrossF" style="vertical-align:bottom;">
+          <div class="divCrossF VertBottomcss">
                <webaudio-knob id="crossFader" src="img/Slider45.png" sprites="4" name="crossFader" min="0" max="4" step="0.01" value="2" width="128" height="32"><webaudio-knob>
+          </div>
 
+          <div class="divCrossF VertBottomcss">
+                <input type="button" value="SYNC" class="sync-button" id="syncbutton1" onclick="sync()">   
+
+                <input type="button" value="RESET" class="sync-button" id="syncbutton1" onclick="resetAll()">       
           </div>
 
   </div>
   
-  <div class="divPlayer" style="vertical-align:top;">
+  <div class="divPlayer">
 
                 <div class="topDivpl">
                         <form action="" method="post" enctype="multipart/form-data" class="formInput">
@@ -164,28 +189,42 @@
                         <div id="progressTime2">0:00:00</div>
                   </div>
 
-              <div class="ggg2">
-                      <div class="middlePlat3">
-                          <img src="images/platine.png" id="platine2">
-                      </div>
+              <div class="Divgg2">
+                  <div class="ggg2">
+                          <div class="middlePlat3">
+                             <img src="images/background-platine2.png" class="BgdPlatine2">
+                             <img src="images/platine.png" id="platine2">
+                          </div>
+ 
+                          <div class="middlePlat4 VertTopcss"> 
+                            <webaudio-knob id="speedSoundSlider2" src="img/slider_knobman.png" sprites="30" min="0" max="4" step="0.01" value="1" width="50" height="128"></webaudio-knob>
+                              <p class="textPd">Vitesse 2</p>
+                          </div>
+                  </div>
 
-                      <div class="middlePlat4" style="vertical-align:top;"> 
-                        <webaudio-knob id="speedSoundSlider2" src="img/slider_knobman.png" sprites="30" min="0" max="4" step="0.01" value="1" width="50" height="128"></webaudio-knob>
-                          <p class="textPd">Vitesse 2</p>
-                      </div>
+                  <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
+                  </audio>             
+     
+                  <div class="btnPayer">
+                      <button class="control2_1 play" id="pButton2" onclick="play2('audioPlayer2', this)"></button>
+                      <button class="control2_2 stop" id="sButton2" onclick="stop2('audioPlayer2')"></button>
+
+                      <button class="control2_2 previous" id="sButton2" onclick="previous2()"></button>
+                      <button class="control2_2 next" id="sButton2" onclick="next2()"></button>
+              
+                      <button class="control2 bass" id="bassButton2" onclick="bassBoost2()"></button>
+                  </div>
               </div>
 
-              <audio id="audioPlayer2" ontimeupdate="update2(this)" crossorigin="anonymous">
-              </audio>             
- 
-              <div class="btnPayer">
-                  <button class="control2_1 play" id="pButton2" onclick="play2('audioPlayer2', this)"></button>
-                  <button class="control2_2 stop" id="sButton2" onclick="stop2('audioPlayer2')"></button>
+              <div class="displayIB">
+                  <div class="displayNone" id="barcD1"> 
+                    <div id="bar-1" class="bar"></div>
+                    <div id="bar-2" class="bar"></div>
+                    <div id="bar-3" class="bar"></div>
+                    <div id="bar-4" class="bar"></div>
+                  </div>
 
-                  <button class="control2_2 previous" id="sButton2" onclick="previous2()"></button>
-                  <button class="control2_2 next" id="sButton2" onclick="next2()"></button>
-          
-                  <button class="control2 bass" id="bassButton2" onclick="bassBoost2()"></button>
+                  <div class="bardnone" id="barcD2"></div>
               </div>
 
       </div>  
@@ -193,23 +232,42 @@
     </div>
  
 
-    <div id="mainBackground" class="center">
-         <div class="divPlayerPy">
-            <p>Playlist n°1</p>
-            <span id="playList"></span>
-         </div>
+    <div id="mainBackground" class="center"> 
+        
+        <div class="divPlayerPy">
+            <div class="dtextPlaylist">Playlist  n° 1</div>
+            <div class="blocTexPlaylt divCenter">
+                  <table>
+                      <thead>
+                         <tr>
+                            <td class="thTabPlaylist sizeDebTr">Morceaux</td>
+                            <td class="thTabPlaylist sizeDebtrTD">Bpm</td>
+                            <td class="thTabPlaylist sizeDebtrTD">Time</td>
+                            <td class="thTabPlaylist sizeDebtrTD">Size</td>
+                            <td class="thTabPlaylist sizeDebtrTD">Format</td>
+                         </tr>
+                          <tr class="importantTabtt">
+                            <td class="impportantCssTdtt">tt</td>
+                            <td class="impportantCssTdtt">tt</td>
+                            <td class="impportantCssTdtt">tt</td>
+                            <td class="impportantCssTdtt">tt</td>
+                            <td class="impportantCssTdtt">tt</td>
+                         </tr>
+                      </thead>
+                      <tbody id="playList"></tbody>
+                  </table>
+            </div>
+        </div>
 
-
-         <div class="divPlayerMdPy">
+<div class="DivmaddleBttPy">
+        <div class="divPlayerMdPy">
                <div class="divPlayerMpart1">
                  <div>Effects</div> 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" min="300" max="5000" step="100" value="5000" id="filterLP" diameter="48"></webaudio-knob><p>Low/Pass</p>    
 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP" diameter="48"></webaudio-knob><p>High/Pass</p>     
 
-                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto1" diameter="48"></webaudio-knob><p>Distorsion</p>     
-
-                 <input type="button" value="Sync1" class="btn13" id="syncbutton1" onclick="sync()">        
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto1" diameter="48"></webaudio-knob><p>Distorsion</p>    
               </div>
 
               <div class="divPlayerMpart1">
@@ -218,32 +276,80 @@
 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP2" diameter="48"></webaudio-knob><p>High/Pass</p>    
 
-                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto2" diameter="48"></webaudio-knob><p>Distorsion</p>       
-
-                 <input type="button" value="Reset" class="btn13" id="syncbutton1" onclick="resetAll()">
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto2" diameter="48"></webaudio-knob><p>Distorsion</p>     
               </div>
-          </div>
+        </div>
 
-         <div class="divPlayerPy" style="vertical-align: top;">
-            <p>Playlist n°2</p>
-            <span id="playList2"></span>
-         </div>
+        <div class="divFun"> 
+             <audio id="saudio1">
+                <source src="songtones/Boccaradj.mp3" type="audio/mpeg" />
+             </audio>
+             <button type="submit" id="songtn1" class="funny-button funny1-button">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+             </button>
 
-    
-    </div>
+             <audio id="saudio2">
+                <source src="songtones/Google.mp3" type="audio/mpeg" />
+             </audio>
+             <button type="submit" id="songtn2" class="funny-button funny2-button">
+                  <i class="fa fa-google-plus" aria-hidden="true"></i>
+             </button>  
+
+             <audio id="saudio3">
+                <source src="songtones/Mouton.mp3" type="audio/mpeg" />
+             </audio>
+             <button type="submit" id="songtn3" class="funny-button funny3-button">
+                  <i class="fa fa-bug" aria-hidden="true"></i>
+             </button>
+
+             <audio id="saudio4">
+                <source src="songtones/Siren.mp3" type="audio/mpeg" />
+             </audio>
+             <button type="submit" id="songtn4" class="funny-button funny4-button">
+                  <i class="fa fa-bullhorn" aria-hidden="true"></i>  
+             </button>  
+        </div>
 </div>
 
+        <div class="divPlayerPy VertTopcss">
+                    <div class="dtextPlaylist">Playlist  n° 2</div>
+                    <div class="blocTexPlaylt divCenter">
+                          <table>
+                              <thead>
+                                 <tr>
+                                    <td class="thTabPlaylist sizeDebTr">Morceaux</td>
+                                    <td class="thTabPlaylist sizeDebtrTD">Bpm</td>
+                                    <td class="thTabPlaylist sizeDebtrTD">Time</td>
+                                    <td class="thTabPlaylist sizeDebtrTD">Size</td>
+                                    <td class="thTabPlaylist sizeDebtrTD">Format</td>
+                                 </tr>
+                                  <tr class="importantTabtt">
+                                    <td class="impportantCssTdtt">tt</td>
+                                    <td class="impportantCssTdtt">tt</td>
+                                    <td class="impportantCssTdtt">tt</td>
+                                    <td class="impportantCssTdtt">tt</td>
+                                    <td class="impportantCssTdtt">tt</td>
+                                 </tr>
+                              </thead>
+                              <tbody id="playList2"></tbody>
+                          </table>
+                    </div>
+                 </div>
+            
+            </div>
+        </div>
+
 <div id="mainBackground" class="center">
-
     <div id="footer">
-        BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien. Collection Yolo Records
+        BOCCARA DJ - DJ SOFTWARE // EDITION 2016 - Begyn Mélissa, Boccara David, Elsaesser Luc, Micallef David, Wallart Sébastien Collection Yolo Records
     </div> 
-
 </div>
 
     <script src="js/audioplayer.js"></script>  
     <!-- backup dans Dump.js -->
-
+    <script src="js/songtones.js"></script> 
+    <script src="js/anim-logo.js"></script>
+ 
 </body>
 </html>
 

@@ -364,7 +364,8 @@ progress::-webkit-progress-value {
 
 .Divgg2 { 
   display:inline-block;
-  margin-right:0.8em; 
+  width:460px;
+  padding-right: 1em;
 }
 
 .ggg21Div {
@@ -382,52 +383,44 @@ progress::-webkit-progress-value {
 }
 
 .middlePlat1 {
-  width: 175px;
+  width: 140px;
   display: inline-block;
- 
 }
 
 .middlePlat2 {
-  width: 200px;
-  margin-left: 3em;
-  text-align: center;
+  width: 290px;
   display: inline-block;
 }
 
 .middlePlat3 {
-  width: 200px;
-  margin-right: 3em;
+  width: 290px;
+  margin-right: 2em;
   text-align: center;
   display: inline-block;
 }
 
 .middlePlat4 {
-  width: 180px;
-  padding-left: 2em;
-  text-align: right; 
-  text-align: center;
+  width: 100px;
   display: inline-block;
   vertical-align: center;
 }
 
 .BgdPlatine1, .BgdPlatine2 {
-  width: 210px;
+  width: 70px;
   height: 210px;
-  z-index: 1000;
-  position: absolute;
+  display: inline-block;
+  vertical-align: top;
 }
  
 
 #platine1 {
   width: 210px;
-  z-index: 10;
-  position: relative;
+  display: inline-block;
 }
 
 #platine2 {
   width: 210px;
-  z-index: 10;
-  position: relative;
+  display: inline-block;
 }
 
 

@@ -452,7 +452,7 @@ function drawWave() {
 					vitesse = 4;
 				}
 				//console.log(da,x,y,angle,oldangle);
-				console.log("da : "+da+",dt : "+dt+", v : "+(vitesse));
+				//console.log("da : "+da+",dt : "+dt+", v : "+(vitesse));
 				//this.playList[this.choix].changeSpeed(vitesse);
 				this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(vitesse,ctx.currentTime,0.3);
 				this.playList[this.choix].speedSound = vitesse;
@@ -483,7 +483,7 @@ function drawWave() {
 			}
 			oldangle = angle;
 			oldDate = date;
-			
+			this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime+0.5);
 			this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(0,ctx.currentTime+0.5,0.3);
 			// arreter la musique si la souris ne bouge plus apres avoir utilise la platine
 			idTimeOut = setTimeout(function() {

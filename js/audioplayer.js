@@ -135,6 +135,9 @@ window.onload = function init() {
 	playList2.platine.onmouseup = function() {
 		playList2.mouseUp();
 	};
+
+	// midi init, initialise commands[]
+	midiinit();
 };
 
 ////////////////////////////// PLAY / PAUSE //////////////////////////////
@@ -415,6 +418,31 @@ function changeCurrentSong(i){
 };
 
 
+function changeCrossFader(value) {
+	if(value>2){
+		var volume1 = gainSlider.value - (value - 2);
+		var volume2 = (gainSlider2.value -  ( 2 - value  ));
+		if(volume1<0) volume1 = 0;
+		if(volume2>4) volume2 = 4;
+		playList1.changeVolume(volume1);
+		playList2.changeVolume(volume2);
+	}
+	else if(value<2){
+		var volume1 = (gainSlider.value - ( value - 2));
+		var volume2 = gainSlider2.value - (2 - value);
+		if(volume1>4) volume1 = 4;
+		if(volume2<0) volume2 = 0;
+		playList1.changeVolume(volume1);
+		playList2.changeVolume(volume2);
+	}
+	else {
+		if (gainSlider.value !== undefined) {
+			playList1.changeVolume(gainSlider.value);
+			playList2.changeVolume(gainSlider2.value);	
+		}
+	}
+}
+
 // Gestion MIDI //
 
 // On verifie que le navigateur supporte l'API WEBMIDI
@@ -439,6 +467,7 @@ function onMIDISuccess(midiData) {
 	}
 	// Quand un changement est detecte on appelle onStateChange
 	midi.onstatechange = onStateChange;
+	midiconnected = true;
 }
 
 function onStateChange(event) {
@@ -446,64 +475,389 @@ function onStateChange(event) {
         state = port.state,
         name = port.name,
         type = port.type;
-    if (type == "input") console.log("name: ", name, "port: ", port, "state: ", state);
-	if (state == "disconnected") console.warn(" MIDI disconnected");	
+    if (type == "input") {
+		console.log("name: ", name, "port: ", port, "state: ", state);
+		midiconnected = true;
+		$('#midicommand').show();
+	}
+	if (state == "disconnected"){
+		console.warn(" MIDI disconnected");
+		midiconnected = false;
+		$('#midicommand').hide();
+	}
 }
 
+
+// attribuer à une commande les données, [command][note][velocity]
+function midiCommandSwitch(midicommand, data) {
+	var val = 0;
+	switch(midicommand) {
+		case "playa":
+			//playA
+			commands[0] = data;
+			val = 0;
+			break;
+		case "playb":
+			//playB
+			commands[1] = data;
+			val = 1;
+			break;
+		case "pitcha":
+			//pitchA
+			commands[2] = data;
+			val = 2;
+			break;
+		case "pitchb":
+			//pitchB
+			commands[3] = data;
+			val = 3;
+			break;
+		case "benda":
+			//bendA
+			commands[4] = data;
+			val = 4;
+			break;
+		case "bendb":
+			//bendB
+			commands[5] = data;
+			val = 5;
+			break;
+		case "volumea":
+			//volumeA
+			commands[6] = data;
+			val = 6;
+			break;
+		case "volumeb":
+			//volumeB
+			commands[7] = data;
+			val = 7;
+			break;
+		case "stopa":
+			//stopA
+			commands[8] = data;
+			val = 8;
+			break;
+		case "stopb":
+			//stopB
+			commands[9] = data;
+			val = 9;
+			break;
+		case "synca":
+			//syncA
+			commands[10] = data;
+			val = 10;
+			break;
+		case "syncb":
+			//syncB
+			commands[11] = data;
+			val = 11;
+			break;
+		case "master":
+			//master
+			commands[12] = data;
+			val = 12;
+			break;
+		case "casque":
+			//casque
+			commands[13] = data;
+			val = 13;
+			break;
+		case "speeda":
+			//speeda
+			commands[14] = data;
+			val = 14;
+			break;
+		case "speedb":
+			//speedb
+			commands[15] = data;
+			val = 15;
+			break;
+		case "cross":
+			//cross
+			commands[16] = data;
+			val = 16;
+			break;
+		case "casquea":
+			//casquea
+			commands[17] = data;
+			val = 17;
+			break;
+		case "casqueb":
+			//casqueb
+			commands[18] = data;
+			val = 18;
+			break;
+		case "wheela":
+			//wheela
+			commands[19] = data;
+			val = 19;
+			break;
+		case "wheelb":
+			//wheelb
+			commands[20] = data;
+			val = 20;
+			break;
+		case "loada":
+			//loada
+			commands[21] = data;
+			val = 21;
+			break;
+		case "loadb":
+			//loadb
+			commands[22] = data;
+			val = 22;
+			break;
+		case "back":
+			//back
+			commands[23] = data;
+			val = 23;
+			break;
+		case "enter":
+			//enter
+			commands[24] = data;
+			val = 24;
+			break;
+		case "browse":
+			//browse
+			commands[25] = data;
+			val = 25;
+			break;
+	}
+	for(i = 0; i < commands.length; i++) {
+		// si doublon alors on enleve les data du tableau commands
+		if (data[0] == commands[i][0] && data[1] == commands[i][1]) {
+			if ( val != i) {
+				commands[i][0] = 0;
+				commands[i][1] = 0;
+			}
+		}
+	}
+}
+//flag
+var midiconnected = false;
+var midilearn = false;
+var setflag = "set1";
+// commands
+var commands = [];
+
+
+function midiinit() {
+var playA = [144, 59, 127];
+var playB = [144, 66, 127];
+var pitchA = [144, 68, 127];
+var pitchB = [144, 70, 127];
+var bendA = [144, 67, 127];
+var bendB = [144, 69, 127];
+var volumeA = [176, 8, 127];
+var volumeB = [176, 9, 127];
+var stopA = [144, 51, 127];
+var stopB = [144, 60, 127];
+var syncA = [144, 64, 127];
+var syncB = [144, 71, 127];
+var master = [176, 23, 1];
+var casque = [176, 11, 1];
+var speedA = [176, 13, 127];
+var speedB = [176, 14, 127];
+var cross = [176, 10, 127];
+var casqueA = [144, 101, 127];
+var casqueB = [144, 102, 127];
+var wheelA = [176, 25, 127];
+var wheelB = [176, 24, 127];
+var loadA = [144, 75, 127];
+var loadB = [144, 52, 127];
+var back = [144, 89, 127];
+var enter = [144, 90, 127];
+var browse = [176, 26, 1];
+
+commands[0] = playA;
+commands[1] = playB;
+commands[2] = pitchA;
+commands[3] = pitchB;
+commands[4] = bendA;
+commands[5] = bendB;
+commands[6] = volumeA;
+commands[7] = volumeB;
+commands[8] = stopA;
+commands[9] = stopB;
+commands[10] = syncA;
+commands[11] = syncB;
+commands[12] = master;
+commands[13] = casque;
+commands[14] = speedA;
+commands[15] = speedB;
+commands[16] = cross;
+commands[17] = casqueA;
+commands[18] = casqueB;
+commands[19] = wheelA;
+commands[20] = wheelB;
+commands[21] = loadA;
+commands[22] = loadB;
+commands[23] = back;
+commands[24] = enter;
+commands[25] = browse;
+}
+
+
+function updateset(){
+var flag = $('#midicommand').val();
+	switch(flag) {
+		case "set1":
+			setflag = "set1";
+			break;
+		case "set2":
+			setflag = "set2";
+			break;
+		case "set3":
+			setflag = "set3";
+			break;
+		case "set4":
+			setflag = "set4";
+			break;
+		case "set5":
+			setflag = "set5";
+			break;
+		case "set6":
+			setflag = "set6";
+			break;
+	}
+}
 function onMIDImessage(messageData) {
-	console.log(messageData.data);
 	var data = messageData.data;
+	console.log(data);
 	// channel/command du message
 	channel = data[0] & 0xf0;
 	note = data[1];
 	velocity = data[2];
-	switch(channel) {
-		case 144 :
-			//Play Button A
-			if(note == 59) {
-				console.log("Play Button A");
-				play('audioPlayer', $('#pButton'));
+	if (midilearn == true) {
+		//var midicommand à récupérer
+		var midicommand = $('#midicommand').val();
+		updateset();
+		//console.log("midicommand " + midicommand);
+		if (data [0] != 128 && (data[0] != 176 && data[1] != 26)) {
+			midiCommandSwitch(midicommand, data);
+		}
+	}
+	for(i = 0; i < commands.length; i++) {
+		if(data[0] == commands[i][0] && data[1] == commands[i][1]) {
+			switch(i) {
+				case 0:
+					//playA
+					play('audioPlayer', $('#pButton'));
+					break;
+				case 1:
+					//playB
+					play2('audioPlayer2', $('#pButton2'));
+					break;
+				case 2:
+					//pitchA
+					previous();
+					break;
+				case 3:
+					//pitchB
+					previous2();
+					break;
+				case 4:
+					//bendA
+					next();
+					break;
+				case 5:
+					//bendB
+					next2();
+					break;
+				case 6:
+					//volumeA
+					$('#gainSlider').val(velocity/25.6);
+					playList1.changeVolume(velocity/25.6);
+					break;
+				case 7:
+					//volumeB
+					$('#gainSlider').val(velocity/25.6);
+					playList2.changeVolume(velocity/25.6);
+					break;
+				case 8:
+					//stopA
+					stop('audioPlayer');
+					break;
+				case 9:
+					//stopB
+					stop2('audioPlayer2');
+					break;
+				case 10:
+					//syncA
+					sync();
+					break;
+				case 11:
+					//syncB
+					sync();
+					break;
+				case 12:
+					//master
+					if (setflag == "set1") { playList1.volumeTrebEq(velocity*0.546875 -40);}
+					else if (setflag == "set2") { playList1.volumeMedEq(velocity*0.546875 -40);}
+					else if (setflag == "set3") { playList1.volumeLowEq(velocity*0.546875 -40);}
+					else if (setflag == "set4") { playList1.filterLowPass(velocity*36.71 + 300);}
+					else if (setflag == "set5") { playList1.filterHighPass(velocity*36.71875 - 5000);}
+					else if (setflag == "set6")  { playList1.changeDisto(velocity*1.171875);}
+					break;
+				case 13:
+					//casque
+					if (setflag == "set1") { playList2.volumeTrebEq(velocity*0.546875 -40);}
+					else if (setflag == "set2") { playList2.volumeMedEq(velocity*0.546875 -40);}
+					else if (setflag == "set3") { playList2.volumeLowEq(velocity*0.546875 -40);}
+					else if (setflag == "set4") { playList2.filterLowPass(velocity*36.71 + 300);}
+					else if (setflag == "set5") { playList2.filterHighPass(velocity*36.71875 - 5000);}
+					else if (setflag == "set6")  { playList2.changeDisto(velocity*1.171875);}
+					break;
+				case 14:
+					//speedA
+					playList1.changeSpeed(velocity/25.6);
+					break;
+				case 15:
+					//speedB
+					playList2.changeSpeed(velocity/25.6);
+					break;
+				case 16:
+					//cross
+					changeCrossFader(velocity/25.6);
+					break;
+				case 17:
+					//casqueA
+					break;
+				case 18:
+					//casqueB
+					break;
+				case 19:
+					//wheelA
+					break;
+				case 20:
+					//wheelB
+					break;
+				case 21:
+					//loadA
+					break;
+				case 22:
+					//loadB
+					break;
+				case 23:
+					//back
+					resetAll();
+					break;
+				case 24:
+					//enter
+					break;
+				case 25:
+					//browse
+					if(velocity == 127) {
+						midilearn = false;
+						$('#midicommand').hide();
+						}
+					else if (velocity == 1 && midiconnected == true) {
+						midilearn = true;
+						$('#midicommand').show();
+					}
+					break;
+				}
 			}
-			//Play Button B
-			else if (note == 66) {
-				console.log("Play Button B");
-				play2('audioPlayer2', $('#pButton2'));
-			}
-			break;
-		case 176 :
-			//Wheel A
-			if(note == 25) {
-				console.log("Wheel A");
-			}
-			//Wheel B
-			else if (note == 24) {
-				console.log("Wheel B");
-			}
-			//Volume A
-			else if (note == 8) {
-				console.log("Volume A");
-				$('#gainSlider').val(velocity/32);
-				playList1.changeVolume(velocity/32);
-			}
-			//Volume B
-			else if (note == 11) {
-				console.log("Volume B");
-				$('#gainSlider2').val(velocity/32);
-				playList2.changeVolume(velocity/32);
-			}
-			//Crossfader
-			else if (note == 10) {
-				console.log("CrossFader");
-				$('#crossFader').val(velocity/32);
-			}
-			//Volume Master
-			else if (note == 23) {
-				$('#gainSlider').val(velocity/32);
-				$('#gainSlider2').val(velocity/32);
-				playList1.changeVolume(velocity/32);
-				playList2.changeVolume(velocity/32);
-			}
-			break;
 	}
 }
 
@@ -518,6 +872,8 @@ function listInputs(inputs) {
         "' manufacturer: '" + input.manufacturer + "' name: '" + input.name +
         "' version: '" + input.version + "']");
 }
+
+
 
 
 

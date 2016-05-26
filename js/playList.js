@@ -28,11 +28,13 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 	var tmpPause;
 	var tmpLecture = false;
 	var idTimeOut;
+	var idTimeOut2;
 	var timeOutPause = false;
 
 
 ////////////////////////////DISTORSION////////////////
 	var distorsion = this.audioContext.createWaveShaper();
+	var n_samples = this.audioContext.sampleRate;
 ///////////////////REVERB////////////////////////
 	var convolver = this.audioContext.createConvolver();
 	
@@ -344,22 +346,21 @@ function drawWave() {
 	};
 	*/
 	function makeDistortionCurve(k) {
-	 // console.log("make disto amount = " + k);
-	  var n_samples = this.audioContext.sampleRate,
-		curve = new Float32Array(n_samples),
-		deg = Math.PI / 180,
-		i = 0,
+		// console.log("make disto amount = " + k);
+		curve = new Float32Array(n_samples);
+		deg = Math.PI / 180;
+		i = 0;
 		x;
-	  for ( ; i < n_samples; ++i ) {
-		x = i * 2 / n_samples - 1;
-		curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
-	  }
-	  return curve;
+		for ( ; i < n_samples; ++i ) {
+			x = i * 2 / n_samples - 1;
+			curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+		}
+		return curve;
 	}
 	
 	this.changeDisto = function(value){
-		distortion.curve = makeDistortionCurve(value);
-		distortion.oversample = '4x';
+		distorsion.curve = makeDistortionCurve(value);
+		distorsion.oversample = '4x';
 	}
 	/////////////////////////EQUALISER//////////////////////////
 
@@ -427,7 +428,9 @@ function drawWave() {
 	this.changePlatine = function(evt) {
 	
 		if (mousedown) {
+			this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime);
 			clearTimeout(idTimeOut);
+			clearTimeout(idTimeOut2);
 			var date = Date.now();
 			// return relative mouse position
 			x = evt.clientX - this.platine.x - this.platine.width/2 + window.pageXOffset;
@@ -444,9 +447,15 @@ function drawWave() {
 			if(oldangle !== undefined) {
 				var da = angle - oldangle;
 				var dt = date - oldDate;
+				var vitesse = (Math.abs(da)/dt)/0.004;
+				if (vitesse > 4) {
+					vitesse = 4;
+				}
 				//console.log(da,x,y,angle,oldangle);
-				//console.log("da : "+da+",dt : "+dt+", v : "+((Math.abs(da)/dt)/0.0015));
-				this.playList[this.choix].changeSpeed((Math.abs(da)/dt)/0.0015);
+				console.log("da : "+da+",dt : "+dt+", v : "+(vitesse));
+				//this.playList[this.choix].changeSpeed(vitesse);
+				this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(vitesse,ctx.currentTime,0.3);
+				this.playList[this.choix].speedSound = vitesse;
 				//console.log("to : "+timeOutPause);
 				// Si on passe de la music a l'envers vers la music a l'endroit
 				if (da > 0 && da < 4 && this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].inverseDecodedSound) {
@@ -475,6 +484,8 @@ function drawWave() {
 			oldangle = angle;
 			oldDate = date;
 			
+			this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(0,ctx.currentTime+0.5,0.3);
+			// arreter la musique si la souris ne bouge plus apres avoir utilise la platine
 			idTimeOut = setTimeout(function() {
 				var playlist;
 				if (seekbar === "seekbar") {
@@ -487,7 +498,7 @@ function drawWave() {
 				timeOutPause = true;
 				tmpLecture = false;
 				playlist.playList[playlist.choix].stop("pause");
-			}, 500);
+			}, 1000);
 			
 		}
 	}
@@ -496,6 +507,20 @@ function drawWave() {
 		tmpPause = this.playList[this.choix].paused;
 		mousedown = true;
 		this.playList[this.choix].setMouseDown(true);
+		this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(0,ctx.currentTime,0.3);
+		// arreter la musique si la souris n'a pas ete bouger apres avoir clique sur la platine
+		idTimeOut2 = setTimeout(function() {
+			var playlist;
+			if (seekbar === "seekbar") {
+				playlist = playList1;
+			}
+			else {
+				playlist = playList2;
+			}
+			timeOutPause = true;
+			tmpLecture = false;
+			playlist.playList[playlist.choix].stop("pause");
+		}, 500);
 	}
 	
 	this.mouseUp = function() {
@@ -525,14 +550,15 @@ function drawWave() {
 		timeOutPause = false;
 		oldangle = undefined;
 		oldDate = undefined;
-		var speedSlider;
-		if (seekbar === "seekbar") {
-			speedSlider = "speedSoundSlider";
+		this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime);
+		if (this === playList1) {
+			this.playList[this.choix].bufferSource.playbackRate.setValueAtTime(document.getElementById("speedSoundSlider").value,ctx.currentTime);
+			this.playList[this.choix].changeSpeed(document.getElementById("speedSoundSlider").value);
 		}
 		else {
-			speedSlider = "speedSoundSlider2";
+			this.playList[this.choix].bufferSource.playbackRate.setValueAtTime(document.getElementById("speedSoundSlider2").value,ctx.currentTime);
+			this.playList[this.choix].changeSpeed(document.getElementById("speedSoundSlider2").value);
 		}
-		this.playList[this.choix].changeSpeed(document.getElementById(speedSlider).value);
 	}
 	
 }

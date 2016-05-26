@@ -104,7 +104,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		lastTime=0;
         // appel de la fonction pour le temps de la chanson 
 		this.animateTime();
-		this.bufferSource.playbackRate.value = this.speedSound;
+		this.bufferSource.playbackRate.setValueAtTime(this.speedSound,ctx.currentTime);
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
 		
@@ -115,7 +115,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 			this.elapsedTimeSinceStart = 0;
 			this.stopProgressBar();
 		}
-		this.speedSound = this.bufferSource.playbackRate.value;
+		//this.speedSound = this.bufferSource.playbackRate.value;
 		if(this.paused == false){
 			this.bufferSource.stop();
 			this.paused = true;	
@@ -140,7 +140,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
             
             // delta 1) le temps "courant" de la musique, moins ce qu'il reste du morceaux
             // delta 2) on multiplie le tout par la vitesse du son en reprenant sa valeur (playbackRate.value)
-            var delta = (currentTime - lastTime)*this.bufferSource.playbackRate.value;
+            var delta = (currentTime - lastTime)*this.speedSound;
                     
             //maj temps click seekBar, si sauvegarde diff de la nouvelle maj
            	if(this.sauvmaj != this.maj){
@@ -237,11 +237,9 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 	// Vitesse du son / speed sound
 	this.changeSpeed = function(value) {
 		if (!this.paused) {
-			this.bufferSource.playbackRate.value = value;
+			this.bufferSource.playbackRate.setValueAtTime(value,ctx.currentTime);
 		}
-		else {
-			this.speedSound = value;
-		}
+		this.speedSound = value;
 	}
 
 	////////////////////// LIMIT CHARACTERS ///////////////////////

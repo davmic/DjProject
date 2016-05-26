@@ -76,11 +76,9 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
       var x = 0;
 	  
 	  for(var i = 0; i < bufferLength; i++) {
-        barHeight = freqDomain[i]/2;
-
+        barHeight = freqDomain[i];
         canvasCtx.fillStyle = 'rgb(16 ,108,135)';
         canvasCtx.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight);
-
         x += barWidth + 1;
       }
     };

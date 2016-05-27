@@ -156,12 +156,6 @@
                <webaudio-knob id="crossFader" src="img/Slider45.png" sprites="4" name="crossFader" min="0" max="4" step="0.01" value="2" width="128" height="32"><webaudio-knob>
           </div>
 
-          <div class="divCrossF VertBottomcss">
-                <input type="button" value="SYNC" class="sync-button" id="syncbutton1" onclick="sync()">   
-
-                <input type="button" value="RESET" class="sync-button" id="syncbutton1" onclick="resetAll()">       
-          </div>
-
   </div>
   
   <div class="divPlayer">
@@ -265,9 +259,11 @@
                  <div>Effects</div> 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" min="300" max="5000" step="100" value="5000" id="filterLP" diameter="48"></webaudio-knob><p>Low/Pass</p>    
 
-                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP" diameter="48"></webaudio-knob><p>High/Pass</p>     
+                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP" diameter="48"></webaudio-knob><p>High/Pass</p>    
 
-                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto1" diameter="48"></webaudio-knob><p>Distorsion</p>    
+                 <input type="button" value="SYNC" class="sync-button" id="syncbutton1" onclick="sync()">    
+
+                    
               </div>
 
               <div class="divPlayerMpart1">
@@ -276,7 +272,9 @@
 
                  <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="-5000" max="-300" step="100" value="-300" id="filterHP2" diameter="48"></webaudio-knob><p>High/Pass</p>    
 
-                 <webaudio-knob src="img/knobman-lumen.png" sprites="30" name="rangeInput" min="0" max="150" step="1" value="0" id="disto2" diameter="48"></webaudio-knob><p>Distorsion</p>     
+                 <input type="button" value="RESET" class="sync-button" id="syncbutton1" onclick="resetAll()">  
+
+                
               </div>
         </div>
 

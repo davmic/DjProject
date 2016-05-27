@@ -54,11 +54,11 @@ window.onload = function init() {
 		playList1.changeSpeed(evt.target.value);
 	};
 		// input sur distorsion 1
-	disto1 = document.getElementById("disto1");
+/*	disto1 = document.getElementById("disto1");
 	disto1.onchange = function(evt){
 		k = parseFloat(evt.target.value);
 		playList1.changeDisto(evt.target.value);
-	};
+	};*/
 
 	// input listener sur la platine
 	platine1 = document.getElementById("platine1");

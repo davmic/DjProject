@@ -33,8 +33,8 @@ function PlayList(ctx, audioPlayer,seekbar,progressTime){
 
 
 ////////////////////////////DISTORSION////////////////
-	var distorsion = this.audioContext.createWaveShaper();
-	var n_samples = this.audioContext.sampleRate;
+/*	var distorsion = this.audioContext.createWaveShaper();
+	var n_samples = this.audioContext.sampleRate;*/
 ///////////////////REVERB////////////////////////
 	var convolver = this.audioContext.createConvolver();
 	
@@ -343,7 +343,7 @@ function drawWave() {
 	  return curve;
 	};
 	*/
-	function makeDistortionCurve(k) {
+	/*function makeDistortionCurve(k) {
 		// console.log("make disto amount = " + k);
 		curve = new Float32Array(n_samples);
 		deg = Math.PI / 180;
@@ -359,7 +359,7 @@ function drawWave() {
 	this.changeDisto = function(value){
 		distorsion.curve = makeDistortionCurve(value);
 		distorsion.oversample = '4x';
-	}
+	}*/
 	/////////////////////////EQUALISER//////////////////////////
 
 	this.volumeLowEq = function(value){

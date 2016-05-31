@@ -721,9 +721,10 @@ var flag = $('#midicommand').val();
 			break;
 	}
 }
+var cpt = 0;
 function onMIDImessage(messageData) {
 	var data = messageData.data;
-	console.log(data);
+	//console.log(data);
 	// channel/command du message
 	channel = data[0] & 0xf0;
 	note = data[1];
@@ -828,9 +829,11 @@ function onMIDImessage(messageData) {
 					break;
 				case 19:
 					//wheelA
+					playList1.changePlatineMIDI(velocity);
 					break;
 				case 20:
 					//wheelB
+					playList2.changePlatineMIDI(velocity);
 					break;
 				case 21:
 					//loadA

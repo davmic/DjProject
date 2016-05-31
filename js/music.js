@@ -104,7 +104,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		lastTime=0;
         // appel de la fonction pour le temps de la chanson 
 		this.animateTime();
-		this.bufferSource.playbackRate.setValueAtTime(this.speedSound,ctx.currentTime);
+		this.bufferSource.playbackRate.setValueAtTime(document.getElementById("speedSoundSlider2").value,ctx.currentTime);
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
 		
@@ -237,7 +237,7 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 	// Vitesse du son / speed sound
 	this.changeSpeed = function(value) {
 		if (!this.paused) {
-			this.bufferSource.playbackRate.setValueAtTime(value,ctx.currentTime);
+			this.bufferSource.playbackRate.setTargetAtTime(value,ctx.currentTime,0.2);
 		}
 		this.speedSound = value;
 	}

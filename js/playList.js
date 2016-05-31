@@ -506,6 +506,7 @@ function drawWave() {
 		mousedown = true;
 		this.playList[this.choix].setMouseDown(true);
 		this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(0,ctx.currentTime,0.3);
+		this.playList[this.choix].speedSound = 0;
 		// arreter la musique si la souris n'a pas ete bouger apres avoir clique sur la platine
 		idTimeOut2 = setTimeout(function() {
 			var playlist;
@@ -523,6 +524,7 @@ function drawWave() {
 	
 	this.mouseUp = function() {
 		clearTimeout(idTimeOut);
+		clearTimeout(idTimeOut2);
 		// Si je lisais la musique a l'envers, je la remet a l'endroit
 		if (this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].inverseDecodedSound) {
 			this.playList[this.choix].stop("pause");
@@ -531,7 +533,6 @@ function drawWave() {
 			if (!tmpPause) {
 				this.playList[this.choix].buildGraph2(1);
 				this.playList[this.choix].play();
-				
 			}
 		}
 		// Si il n'y avait pas la pause et qu'il y a eu un timeout apres avoir touche la platine
@@ -552,9 +553,11 @@ function drawWave() {
 		this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime);
 		if (this === playList1) {
 			this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(document.getElementById("speedSoundSlider").value,ctx.currentTime+0.5,0.2);
+			this.playList[this.choix].speedSound = document.getElementById("speedSoundSlider").value;
 		}
 		else {
 			this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(document.getElementById("speedSoundSlider2").value,ctx.currentTime+0.5,0.2);
+			this.playList[this.choix].speedSound = document.getElementById("speedSoundSlider2").value;
 		}
 	}
 	

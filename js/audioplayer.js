@@ -721,7 +721,6 @@ var flag = $('#midicommand').val();
 			break;
 	}
 }
-var cpt = 0;
 function onMIDImessage(messageData) {
 	var data = messageData.data;
 	//console.log(data);

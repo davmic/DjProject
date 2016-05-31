@@ -104,7 +104,13 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 		lastTime=0;
         // appel de la fonction pour le temps de la chanson 
 		this.animateTime();
-		this.bufferSource.playbackRate.setValueAtTime(document.getElementById("speedSoundSlider2").value,ctx.currentTime);
+		var playlist;
+			if (seekbar === "seekbar") {
+				this.bufferSource.playbackRate.setValueAtTime(document.getElementById("speedSoundSlider").value,ctx.currentTime);
+			}
+			else {
+				this.bufferSource.playbackRate.setValueAtTime(document.getElementById("speedSoundSlider2").value,ctx.currentTime);
+			}
 		this.bufferSource.start(0,this.elapsedTimeSinceStart);
 		this.paused = false;	
 		
@@ -115,7 +121,6 @@ function Music(songName, url, ctx, gainNode, filter, filHP, analyser, lowFil, me
 			this.elapsedTimeSinceStart = 0;
 			this.stopProgressBar();
 		}
-		//this.speedSound = this.bufferSource.playbackRate.value;
 		if(this.paused == false){
 			this.bufferSource.stop();
 			this.paused = true;	

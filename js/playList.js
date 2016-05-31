@@ -550,7 +550,7 @@ function drawWave() {
 		oldangle = undefined;
 		oldDate = undefined;
 		this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime);
-		if (this === playList1) {console.log("coucou");
+		if (this === playList1) {
 			this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(document.getElementById("speedSoundSlider").value,ctx.currentTime+0.5,0.2);
 		}
 		else {
@@ -567,10 +567,10 @@ function drawWave() {
 		var date = Date.now();
 		if (oldDate !== undefined) {
 			if (sens === 1) {
-				angleMIDI += 6 % 360;
+				angleMIDI = (angleMIDI + 6) % 360;
 			}
 			else {
-				angleMIDI -= 6 % 360;
+				angleMIDI = (angleMIDI - 6) % 360;
 			}
 			this.platine.style.transform = "rotate("+angleMIDI+"deg)";
 			var dt = date - oldDate;
@@ -584,7 +584,9 @@ function drawWave() {
 			// Si on passe de la music a l'envers vers la music a l'endroit
 			if (sens === 1 && this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].inverseDecodedSound) {
 				this.playList[this.choix].stop("pause");
-				this.playList[this.choix].elapsedTimeSinceStart = this.playList[this.choix].getDuration() - this.playList[this.choix].elapsedTimeSinceStart;
+				if (!timeOutPause) {
+					this.playList[this.choix].elapsedTimeSinceStart = this.playList[this.choix].getDuration() - this.playList[this.choix].elapsedTimeSinceStart;
+				}
 				this.playList[this.choix].buildGraph2(1);
 				this.playList[this.choix].play();
 				tmpLecture = true;
@@ -598,10 +600,18 @@ function drawWave() {
 				tmpLecture = true;
 			}
 			// Si la musique etait en pause avant qu'on touche la platine ou en pause apres un timeout et si on ne l'a pas reactive auparavant
-			else if ((tmpPause) && !tmpLecture) {
+			else if (tmpPause && !tmpLecture) {
 				tmpLecture = true;
 				timeOutPause = false;
-				this.playList[this.choix].buildGraph2(1);
+				if (this.playList[this.choix].bufferSource.buffer === this.playList[this.choix].decodedSound) {
+					this.playList[this.choix].buildGraph2(1);
+				}
+				else {
+					if (!timeOutPause) { 
+						this.playList[this.choix].elapsedTimeSinceStart = this.playList[this.choix].getDuration() - this.playList[this.choix].elapsedTimeSinceStart;
+					}
+					this.playList[this.choix].buildGraph2(-1);
+				}
 				this.playList[this.choix].play();
 			}
 			this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime+0.5);
@@ -620,6 +630,7 @@ function drawWave() {
 					playlist = playList2;
 				}
 				//console.log("timeout");
+				
 				// Si je lisais la musique a l'envers, je la remet a l'endroit
 				if (playlist.playList[playlist.choix].bufferSource.buffer === playlist.playList[playlist.choix].inverseDecodedSound) {
 					playlist.playList[playlist.choix].stop("pause");
@@ -629,16 +640,19 @@ function drawWave() {
 						playlist.playList[playlist.choix].buildGraph2(1);
 						playlist.playList[playlist.choix].play();
 					}
+					else {
+						timeOutPause = true;
+						tmpLecture = false;
+					}
 				}
 				else if (tmpPause) {
-					timeOutPause = true;
+					//console.log("timeoutPause");
 					tmpLecture = false;
 					playlist.playList[playlist.choix].stop("pause");
 				}
 				tmpPause = false;
 			}, 1000);
 		}
-		
 		oldDate = date;	
 	}
 	

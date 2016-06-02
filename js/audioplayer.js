@@ -716,9 +716,6 @@ var flag = $('#midicommand').val();
 		case "set5":
 			setflag = "set5";
 			break;
-		case "set6":
-			setflag = "set6";
-			break;
 	}
 }
 function onMIDImessage(messageData) {
@@ -733,7 +730,7 @@ function onMIDImessage(messageData) {
 		var midicommand = $('#midicommand').val();
 		updateset();
 		//console.log("midicommand " + midicommand);
-		if (data [0] != 128 && (data[0] != 176 && data[1] != 26)) {
+		if (data [0] != 128 && data[1] != 26) {
 			midiCommandSwitch(midicommand, data);
 		}
 	}
@@ -797,7 +794,6 @@ function onMIDImessage(messageData) {
 					else if (setflag == "set3") { playList1.volumeLowEq(velocity*0.546875 -40);}
 					else if (setflag == "set4") { playList1.filterLowPass(velocity*36.71 + 300);}
 					else if (setflag == "set5") { playList1.filterHighPass(velocity*36.71875 - 5000);}
-					else if (setflag == "set6")  { playList1.changeDisto(velocity*1.171875);}
 					break;
 				case 13:
 					//casque
@@ -806,7 +802,6 @@ function onMIDImessage(messageData) {
 					else if (setflag == "set3") { playList2.volumeLowEq(velocity*0.546875 -40);}
 					else if (setflag == "set4") { playList2.filterLowPass(velocity*36.71 + 300);}
 					else if (setflag == "set5") { playList2.filterHighPass(velocity*36.71875 - 5000);}
-					else if (setflag == "set6")  { playList2.changeDisto(velocity*1.171875);}
 					break;
 				case 14:
 					//speedA

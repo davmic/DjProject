@@ -443,6 +443,11 @@ function changeCrossFader(value) {
 	}
 }
 
+// maps a value from [istart, istop] into [ostart, ostop]
+function map(value, istart, istop, ostart, ostop) {
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+}
+
 // Gestion MIDI //
 
 // On verifie que le navigateur supporte l'API WEBMIDI
@@ -636,7 +641,7 @@ function midiCommandSwitch(midicommand, data) {
 //flag
 var midiconnected = false;
 var midilearn = false;
-var setflag = "set1";
+var flagset = 1;
 // commands
 var commands = [];
 
@@ -698,28 +703,9 @@ commands[25] = browse;
 }
 
 
-function updateset(){
-var flag = $('#midicommand').val();
-	switch(flag) {
-		case "set1":
-			setflag = "set1";
-			break;
-		case "set2":
-			setflag = "set2";
-			break;
-		case "set3":
-			setflag = "set3";
-			break;
-		case "set4":
-			setflag = "set4";
-			break;
-		case "set5":
-			setflag = "set5";
-			break;
-	}
-}
 function onMIDImessage(messageData) {
 	var data = messageData.data;
+	var value;
 	//console.log(data);
 	// channel/command du message
 	channel = data[0] & 0xf0;
@@ -728,7 +714,6 @@ function onMIDImessage(messageData) {
 	if (midilearn == true) {
 		//var midicommand à récupérer
 		var midicommand = $('#midicommand').val();
-		updateset();
 		//console.log("midicommand " + midicommand);
 		if (data [0] != 128 && data[1] != 26) {
 			midiCommandSwitch(midicommand, data);
@@ -763,13 +748,15 @@ function onMIDImessage(messageData) {
 					break;
 				case 6:
 					//volumeA
-					$('#gainSlider').val(velocity/25.6);
-					playList1.changeVolume(velocity/25.6);
+					value = map(velocity, 0 ,127 ,0 ,4);
+					document.querySelector('#gainSlider').setValue(value,true);
+					playList1.changeVolume(value);
 					break;
 				case 7:
 					//volumeB
-					$('#gainSlider').val(velocity/25.6);
-					playList2.changeVolume(velocity/25.6);
+					value = map(velocity, 0 ,127 ,0 ,4);
+					document.querySelector('#gainSlider2').setValue(value,true);
+					playList1.changeVolume(value);
 					break;
 				case 8:
 					//stopA
@@ -789,31 +776,77 @@ function onMIDImessage(messageData) {
 					break;
 				case 12:
 					//master
-					if (setflag == "set1") { playList1.volumeTrebEq(velocity*0.546875 -40);}
-					else if (setflag == "set2") { playList1.volumeMedEq(velocity*0.546875 -40);}
-					else if (setflag == "set3") { playList1.volumeLowEq(velocity*0.546875 -40);}
-					else if (setflag == "set4") { playList1.filterLowPass(velocity*36.71 + 300);}
-					else if (setflag == "set5") { playList1.filterHighPass(velocity*36.71875 - 5000);}
+					if (flagset == 1) {
+						value = map(velocity, 0 ,127 ,-40 ,30);
+						document.querySelector('#trebEq').setValue(value,true);
+						playList1.volumeTrebEq(value);
+					}
+					else if (flagset == 2) {
+						value = map(velocity, 0 ,127 ,-40 ,30);
+						document.querySelector('#medEq').setValue(value,true);
+						playList1.volumeMedEq(value);
+					}
+					else if (flagset == 3) {
+						value = map(velocity, 0 ,127 ,-40 ,30);
+						document.querySelector('#lowEq').setValue(value,true);
+						playList1.volumeLowEq(value);
+					}
+					else if (flagset == 4) {
+						value = map(velocity, 0 ,127 ,300 ,5000);
+						document.querySelector('#filterLP').setValue(value,true);
+						playList1.filterLowPass(value);
+					}
+					else if (flagset == 5) {
+						value = map(velocity, 0 ,127 ,-5000 ,-300);
+						document.querySelector('#filterHP').setValue(value,true);
+						playList1.filterHighPass(value);
+					}
 					break;
 				case 13:
 					//casque
-					if (setflag == "set1") { playList2.volumeTrebEq(velocity*0.546875 -40);}
-					else if (setflag == "set2") { playList2.volumeMedEq(velocity*0.546875 -40);}
-					else if (setflag == "set3") { playList2.volumeLowEq(velocity*0.546875 -40);}
-					else if (setflag == "set4") { playList2.filterLowPass(velocity*36.71 + 300);}
-					else if (setflag == "set5") { playList2.filterHighPass(velocity*36.71875 - 5000);}
+					if (flagset == 1) {
+						value = map(velocity, 0 ,127 ,-40 ,30);
+						document.querySelector('#trebEq2').setValue(value,true);
+						playList2.volumeTrebEq(value);
+					}
+					else if (flagset == 2) {
+						value = map(velocity, 0 ,127 ,-40 ,30);
+						document.querySelector('#medEq2').setValue(value,true);
+						playList2.volumeMedEq(value);
+					}
+					else if (flagset == 3) {
+						value = map(velocity, 0 ,127 ,-40 ,30);
+						document.querySelector('#lowEq2').setValue(value,true);
+						playList2.volumeLowEq(value);
+					}
+					else if (flagset == 4) {
+						value = map(velocity, 0 ,127 ,300 ,5000);
+						document.querySelector('#filterLP2').setValue(value,true);
+						playList2.filterLowPass(value);
+					}
+					else if (flagset == 5) {
+						value = map(velocity, 0 ,127 ,-5000 ,-300);
+						document.querySelector('#filterHP2').setValue(value,true);
+						playList2.filterHighPass(value);
+					}
 					break;
 				case 14:
 					//speedA
-					playList1.changeSpeed(velocity/25.6);
+					value = map(velocity, 0 ,127 ,0 ,4);
+					document.querySelector('#speedSoundSlider').setValue(value,true);
+					playList1.changeSpeed(value);
 					break;
 				case 15:
 					//speedB
-					playList2.changeSpeed(velocity/25.6);
+					value = map(velocity, 0 ,127 ,0 ,4);
+					document.querySelector('#speedSoundSlider2').setValue(value,true);
+					playList2.changeSpeed(value);
 					break;
 				case 16:
 					//cross
-					changeCrossFader(velocity/25.6);
+					value = map(velocity, 0 ,127 ,0 ,4);
+					document.querySelector('#crossFader').setValue(value,true);
+					changeCrossFader(value);
 					break;
 				case 17:
 					//casqueA
@@ -845,6 +878,12 @@ function onMIDImessage(messageData) {
 				case 25:
 					//browse
 					if(velocity == 127) {
+						if (flagset < 5) {
+							flagset++;
+						}
+						else {
+							flagset = 1;
+						}
 						midilearn = false;
 						$('#midicommand').hide();
 						}
@@ -1016,21 +1055,36 @@ function vitesseDiff(vitesse){
 // Peut fonctionner qu'avec chargement des deux playlists
 
 function resetAll() {
+	
 	playList1.changeVolume(1);
 	playList2.changeVolume(1);
-
+	document.querySelector('#gainSlider').setValue(1,true);
+	document.querySelector('#gainSlider2').setValue(1,true);
+	
 	playList1.changeSpeed(1);
 	playList2.changeSpeed(1);
-
+	document.querySelector('#speedSoundSlider').setValue(1,true);
+	document.querySelector('#speedSoundSlider2').setValue(1,true);
 	playList1.filterLowPass(5000);
 	playList2.filterLowPass(5000);
-
+	document.querySelector('#filterLP').setValue(5000,true);
+	document.querySelector('#filterLP2').setValue(5000,true);
+	playList1.filterHighPass(-300);
+	playList2.filterHighPass(-300);
+	document.querySelector('#filterHP').setValue(-300,true);
+	document.querySelector('#filterHP2').setValue(-300,true);
+	document.querySelector('#crossFader').setValue(2,true);
 	playList1.volumeLowEq(0);
 	playList2.volumeLowEq(0);
-
+	document.querySelector('#lowEq').setValue(0,true);
+	document.querySelector('#lowEq2').setValue(0,true);
 	playList1.volumeMedEq(0);
 	playList2.volumeMedEq(0);
-
+	document.querySelector('#medEq').setValue(0,true);
+	document.querySelector('#medEq2').setValue(0,true);
+	
 	playList1.volumeTrebEq(0);
 	playList2.volumeTrebEq(0);
+	document.querySelector('#trebEq').setValue(0,true);
+	document.querySelector('#trebEq2').setValue(0,true);
 }

@@ -562,6 +562,7 @@ function drawWave() {
 	}
 	
 	this.changePlatineMIDI = function(sens) {
+	this.playList[this.choix].setMouseDown(true);
 		clearTimeout(idTimeOut);
 		if (this.playList[this.choix].paused) {
 			tmpPause = this.playList[this.choix].paused;
@@ -617,12 +618,23 @@ function drawWave() {
 				}
 				this.playList[this.choix].play();
 			}
-			this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime+0.5);
-			if (this === playList1) {
-				this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(document.getElementById("speedSoundSlider").value,ctx.currentTime+0.5,0.2);
+			if (!tmpPause) {
+				this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime+0.5);
+				if (this === playList1) {
+					this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(document.getElementById("speedSoundSlider").value,ctx.currentTime+0.5,0.2);
+				}
+				else {
+					this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(document.getElementById("speedSoundSlider2").value,ctx.currentTime+0.5,0.2);
+				}
 			}
 			else {
-				this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(document.getElementById("speedSoundSlider2").value,ctx.currentTime+0.5,0.2);
+				this.playList[this.choix].bufferSource.playbackRate.cancelScheduledValues(ctx.currentTime+0.5);
+				if (this === playList1) {
+					this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(0,ctx.currentTime+0.5,0.2);
+				}
+				else {
+					this.playList[this.choix].bufferSource.playbackRate.setTargetAtTime(0,ctx.currentTime+0.5,0.2);
+				}
 			}
 			idTimeOut = setTimeout(function() {
 				var playlist;
@@ -654,6 +666,7 @@ function drawWave() {
 					playlist.playList[playlist.choix].stop("pause");
 				}
 				tmpPause = false;
+				playlist.playList[playlist.choix].setMouseDown(false);
 			}, 1000);
 		}
 		oldDate = date;	

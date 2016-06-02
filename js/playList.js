@@ -527,8 +527,6 @@ function drawWave() {
 	this.mouseUp = function() {
 		clearTimeout(idTimeOut);
 		clearTimeout(idTimeOut2);
-		// Si je lisais la musique a l'envers, je la remet a l'endroit
-		
 		// Si il y avait la pause avant qu'on touche la platine 
 		if (tmpPause && tmpLecture) {
 			this.playList[this.choix].stop("pause");
@@ -559,6 +557,7 @@ function drawWave() {
 				playlist = playList2;
 				speedslider = document.getElementById("speedSoundSlider2").value;
 			}
+			// Si je lisais la musique a l'envers, je la remet a l'endroit
 			if (playlist.playList[playlist.choix].bufferSource.buffer === playlist.playList[playlist.choix].inverseDecodedSound) {
 				playlist.playList[playlist.choix].stop("pause");
 				playlist.playList[playlist.choix].elapsedTimeSinceStart = playlist.playList[playlist.choix].getDuration() - playlist.playList[playlist.choix].elapsedTimeSinceStart;
